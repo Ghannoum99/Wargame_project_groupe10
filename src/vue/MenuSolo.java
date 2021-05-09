@@ -53,84 +53,85 @@ public class MenuSolo {
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panelMenu = new JPanel();
+		panelMenu.setOpaque(false);
 		//panel.setForeground(new Color(16,22,36));
-		panelMenu.setBackground(new Color(16,22,36));
+		panelMenu.setBackground(Color.WHITE);
 		panelMenu.setBounds(364, 174, 503, 441);
 		frame.getContentPane().add(panelMenu);
 		panelMenu.setLayout(null);
 		
 		JLabel labelLogo = new JLabel("");
-		labelLogo.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\wesnoth-icon.png"));
+		labelLogo.setIcon(new ImageIcon("images/wesnoth-icon.png"));
 		labelLogo.setBounds(188, 0, 128, 128);
 		panelMenu.add(labelLogo);
 		
 		JLabel coinSupDroit = new JLabel("");
-		coinSupDroit.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-topright.png"));
+		coinSupDroit.setIcon(new ImageIcon("images/strong_opaque-border-topright.png"));
 		coinSupDroit.setBounds(478, 0, 27, 26);
 		panelMenu.add(coinSupDroit);
 		
 		JLabel coinSupGauche = new JLabel("");
-		coinSupGauche.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-topleft.png"));
+		coinSupGauche.setIcon(new ImageIcon("images/strong_opaque-border-topleft.png"));
 		coinSupGauche.setBounds(0, 0, 26, 29);
 		panelMenu.add(coinSupGauche);
 		
 		JLabel coinInfGauche = new JLabel("");
-		coinInfGauche.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-botleft.png"));
+		coinInfGauche.setIcon(new ImageIcon("images/strong_opaque-border-botleft.png"));
 		coinInfGauche.setBounds(0, 412, 26, 29);
 		panelMenu.add(coinInfGauche);
 		
-		JLabel coinInfDroit = new JLabel("\r\n");
-		coinInfDroit.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-botright.png"));
+		JLabel coinInfDroit = new JLabel("");
+		coinInfDroit.setIcon(new ImageIcon("images/strong_opaque-border-botright.png"));
 		coinInfDroit.setBounds(478, 412, 27, 29);
 		panelMenu.add(coinInfDroit);
 		
 		JLabel labelGauche1 = new JLabel("");
-		labelGauche1.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-left.png"));
+		labelGauche1.setIcon(new ImageIcon("images/strong_opaque-border-left.png"));
 		labelGauche1.setBounds(0, 259, 26, 154);
 		panelMenu.add(labelGauche1);
 		
 		JLabel labelGauche2 = new JLabel("");
-		labelGauche2.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-left.png"));
+		labelGauche2.setIcon(new ImageIcon("images/strong_opaque-border-left.png"));
 		labelGauche2.setBounds(0, 105, 26, 154);
 		panelMenu.add(labelGauche2);
 		
 		JLabel labelGauche3 = new JLabel("");
-		labelGauche3.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-left.png"));
+		labelGauche3.setIcon(new ImageIcon("images/strong_opaque-border-left.png"));
 		labelGauche3.setBounds(0, 23, 26, 82);
 		panelMenu.add(labelGauche3);
 		
 		JLabel labelDroit1 = new JLabel("");
-		labelDroit1.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-right.png"));
+		labelDroit1.setIcon(new ImageIcon("images/strong_opaque-border-right.png"));
 		labelDroit1.setBounds(478, 23, 26, 154);
 		panelMenu.add(labelDroit1);
 		
 		JLabel labelDroit2 = new JLabel("");
-		labelDroit2.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-right.png"));
+		labelDroit2.setIcon(new ImageIcon("images/strong_opaque-border-right.png"));
 		labelDroit2.setBounds(478, 172, 27, 154);
 		panelMenu.add(labelDroit2);
 		
 		JLabel labelDroit3 = new JLabel("");
-		labelDroit3.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-right.png"));
+		labelDroit3.setIcon(new ImageIcon("images/strong_opaque-border-right.png"));
 		labelDroit3.setBounds(478, 325, 26, 88);
 		panelMenu.add(labelDroit3);
 		
 		JLabel topLabel1 = new JLabel("");
-		topLabel1.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-top.png"));
+		topLabel1.setIcon(new ImageIcon("images/strong_opaque-border-top.png"));
 		topLabel1.setBounds(24, 0, 274, 26);
 		panelMenu.add(topLabel1);
 		
 		JLabel topLabel2 = new JLabel("");
-		topLabel2.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border-top.png"));
+		topLabel2.setIcon(new ImageIcon("images/strong_opaque-border-top.png"));
 		topLabel2.setBounds(298, 0, 180, 26);
 		panelMenu.add(topLabel2);
 		
 		JLabel bottomLabel1 = new JLabel("");
-		bottomLabel1.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border_bottom.png"));
+		bottomLabel1.setIcon(new ImageIcon("images/strong_opaque-border_bottom.png"));
 		bottomLabel1.setBounds(24, 412, 274, 29);
 		panelMenu.add(bottomLabel1);
 		
 		JLabel bottomLabel2 = new JLabel("");
-		bottomLabel2.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\strong_opaque-border_bottom.png"));
+		bottomLabel2.setIcon(new ImageIcon("images/strong_opaque-border_bottom.png"));
 		bottomLabel2.setBounds(298, 412, 180, 29);
 		panelMenu.add(bottomLabel2);
 		
@@ -156,7 +157,7 @@ public class MenuSolo {
 		panelMenu.add(lblNewLabel_7);
 		
 		JButton boutonValider = new JButton("");
-		boutonValider.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\btnvalider.png"));
+		boutonValider.setIcon(new ImageIcon("images/btnvalider.png"));
 		boutonValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -166,7 +167,7 @@ public class MenuSolo {
 		
 		JButton boutonRetour = new JButton("");
 		boutonRetour.setBackground(new Color(0, 0, 255));
-		boutonRetour.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\arrows_ornate_left_30-active.png"));
+		boutonRetour.setIcon(new ImageIcon("images/arrows_ornate_left_30-active.png"));
 		boutonRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -182,7 +183,7 @@ public class MenuSolo {
 		
 		
 		JLabel backgroundLabel = new JLabel("");
-		backgroundLabel.setIcon(new ImageIcon("C:\\Users\\Jihad\\Desktop\\ISTY\\IATIC3\\Semestre 2\\Projets Pédagogiques\\Projet Fin d'année\\Projet_JavaPOO_G10\\Projet_JavaPOO_G10\\images\\liberty.jpg"));
+		backgroundLabel.setIcon(new ImageIcon("images/liberty.jpg"));
 		backgroundLabel.setBounds(0, 0, 1296, 772);
 		frame.getContentPane().add(backgroundLabel);
 	}
