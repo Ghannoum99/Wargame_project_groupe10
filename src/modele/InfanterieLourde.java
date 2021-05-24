@@ -1,0 +1,7 @@
+package modele;
+
+public class InfanterieLourde extends Soldat{
+	public InfanterieLourde(int abscisse, int ordonnees) {
+		super(abscisse, ordonnees, "images/personnages/infanterie_lourde.png", "infanterieLourde", 200, 80, 70, 25, 100,false);
+	}
+}
