@@ -30,6 +30,7 @@ public class MenuMultiJoueurs extends JFrame {
 	protected ArrayList<JTextField> listeChampText = new ArrayList<JTextField>();
 	protected ArrayList<JLabel> lblJoueur = new ArrayList<JLabel>();
 	protected ArrayList<JLabel> labelCheckBox = new ArrayList<JLabel>();
+	protected ArrayList<JComboBox<String>> combobox = new ArrayList<JComboBox<String>>();
 	protected PanelMenuInfos panelMenu;
 	protected JSpinner spinnerNombreJoueur;
 	protected Integer nombreJoueur;
@@ -208,12 +209,21 @@ public class MenuMultiJoueurs extends JFrame {
 	public void afficherCombobox() {
 		int i = 0;
 		int y = 201;
+		
+		for(JComboBox<String> combo : combobox) {
+			panelMenu.remove(combo);
+		}
+		
+		combobox.removeAll(combobox);
+		
 		for(i=0; i<nombreJoueur; i++) {
 			imageJoueur = new JComboBox<String>();
 			imageJoueur.setBounds(397, y, 68, 22);
 			imageJoueur.setModel(new DefaultComboBoxModel<String>(new String[] {"image2", "image3", "image4", "image5", "image6", "image7"}));
 			panelMenu.add(imageJoueur);
 			images.add((String)imageJoueur.getSelectedItem());
+			
+			combobox.add(imageJoueur);
 			
 			y += 52;
 		}
