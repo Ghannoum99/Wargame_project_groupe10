@@ -15,6 +15,7 @@ import modele.*;
 
 @SuppressWarnings("serial")
 public class MenuMultiJoueurs extends JFrame {
+	protected boolean choix; //true:multi-joueurs, false :solo
 	private JPanel contentPane;
 	private JLabel backgroundImage;
 	private boolean  checked = false;
@@ -29,8 +30,9 @@ public class MenuMultiJoueurs extends JFrame {
 	protected ArrayList<String> pseudos  = new ArrayList<String>();;
 	protected ArrayList<JTextField> listeChampText = new ArrayList<JTextField>();
 	protected ArrayList<JLabel> lblJoueur = new ArrayList<JLabel>();
+	private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
 	protected ArrayList<JLabel> labelCheckBox = new ArrayList<JLabel>();
-	protected ArrayList<JComboBox<String>> combobox = new ArrayList<JComboBox<String>>();
+	protected ArrayList<JComboBox<String>> listeCombobox = new ArrayList<JComboBox<String>>();
 	protected PanelMenuInfos panelMenu;
 	protected JSpinner spinnerNombreJoueur;
 	protected Integer nombreJoueur;
@@ -40,24 +42,37 @@ public class MenuMultiJoueurs extends JFrame {
 	
 
 	public  MenuMultiJoueurs() {
-		setTitle("WarGame");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1300, 781);
+		this.setTitle("WarGame");
+		this.setResizable(false);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBounds(100, 100, 1300, 781);
 		
+		choix = true;
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		this.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		/** CREATION D'UN PANEL DU MENU QUI CONTIENT LES CHAMPS DU TEXT, LES COMBOBOX, ET LES CHECKBUTTONS **/
 		panelMenu = new PanelMenuInfos(340, 157, 596, 480);
 		contentPane.add(panelMenu);
 		
+		/** BOUTON DE RETOUR **/
+		PanelBoutonRetour panelBouton = new PanelBoutonRetour();
+		panelMenu.add(panelBouton);
+		panelBouton.boutonRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				retourner();
+			}
+		});
+		
 		afficherLabelNombreJoueur();
 		afficherSpinnerNombreJoueur();
 		afficherBoutonNombreJoueur();
 		afficherBoutonValider();
+		
+		
+		
 		
 		/** BACKGROUND **/
 		backgroundImage = new JLabel("");
@@ -130,15 +145,18 @@ public class MenuMultiJoueurs extends JFrame {
 				if (pressed) {
 					/** RECUPERATION DES PSEUDOS **/
 					recupererPseudo();
+					recupererImage();
 					
 					for(int i=0; i<nombreJoueur; i++) {
 						String photoProfile = "images/profile/" + images.get(i) +".png";
 						Joueur joueur = new Joueur(pseudos.get(i), soldats ,0, photoProfile);
-						System.out.println(joueur.getNomJoueur());
-						System.out.println(joueur.getImage());
+						joueurs.add(joueur);
+						System.out.println(joueurs.get(i));
 					}
 					
-					MenuScenario frame = new MenuScenario();
+					// faut ajouter des conditions si le check box est selectionné, donc c'est un ordinateur
+					
+					MenuScenario frame = new MenuScenario(choix, joueurs);
 					frame.show();
 					dispose();
 				}	
@@ -210,20 +228,19 @@ public class MenuMultiJoueurs extends JFrame {
 		int i = 0;
 		int y = 201;
 		
-		for(JComboBox<String> combo : combobox) {
+		for(JComboBox<String> combo : listeCombobox) {
 			panelMenu.remove(combo);
 		}
 		
-		combobox.removeAll(combobox);
+		listeCombobox.removeAll(listeCombobox);
 		
 		for(i=0; i<nombreJoueur; i++) {
 			imageJoueur = new JComboBox<String>();
 			imageJoueur.setBounds(397, y, 68, 22);
 			imageJoueur.setModel(new DefaultComboBoxModel<String>(new String[] {"image2", "image3", "image4", "image5", "image6", "image7"}));
 			panelMenu.add(imageJoueur);
-			images.add((String)imageJoueur.getSelectedItem());
 			
-			combobox.add(imageJoueur);
+			listeCombobox.add(imageJoueur);
 			
 			y += 52;
 		}
@@ -274,5 +291,18 @@ public class MenuMultiJoueurs extends JFrame {
 		for(int i=0; i<listeChampText.size(); i++) {
 			pseudos.add((String)listeChampText.get(i).getText());
 		}
+	}
+	
+	public void recupererImage() {
+		for(int i = 0; i<listeCombobox.size(); i++) {
+			images.add((String) listeCombobox.get(i).getSelectedItem());
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void retourner() {
+		MenuPrincipal menuPrincipal = new MenuPrincipal();
+		menuPrincipal.show();
+		dispose();
 	}
 }
