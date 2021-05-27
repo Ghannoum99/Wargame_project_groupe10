@@ -1,15 +1,16 @@
 package vue;
 
-/************************************************************************************************************/
-/* 							CLASSE HERITANT DE LA CLASSE MenuMultiJoueurs             	                    */
-/* 							PAS BESOIN DE PRECISER LE NOMBRE DE JOUEURS: AUTOMATIQUEMENT 2                  */
-/* 							ON A EFFACE TOUS LES WIDGET QUI SONT INUTILES                                   */
-/************************************************************************************************************/
+/******************************************************************************************************************/                             
+/* 				CLASSE HERITANT DE LA CLASSE MenuMultiJoueurs             	                  */
+/* 				PAS BESOIN DE PRECISER LE NOMBRE DE JOUEURS: AUTOMATIQUEMENT 2                    */
+/* 				ON A EFFACE TOUS LES WIDGET QUI SONT INUTILES                                     */
+/******************************************************************************************************************/
 
 @SuppressWarnings("serial")
 public class MenuSolo extends MenuMultiJoueurs {
 	public MenuSolo() {
 		super();
+		choix = false;
 		
 		effacerNombreJoueur();
 		/** METTANT LE NOMBRE DE JOUEURS A 2 **/
