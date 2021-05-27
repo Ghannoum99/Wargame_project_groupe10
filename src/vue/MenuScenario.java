@@ -7,7 +7,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
+import modele.Joueur;
 
 
 @SuppressWarnings("serial")
@@ -19,9 +22,11 @@ public class MenuScenario extends JFrame {
 	private JButton boutonRight;
 	private JLabel backgroundimage;
 	private PanelScenario panelScroll;
+	private boolean choix;
+	private ArrayList<Joueur> joueurs;
 
 	
-	public MenuScenario() {
+	public MenuScenario(boolean choix, ArrayList<Joueur> joueurs) {
 		setTitle("WarGame");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,11 +36,23 @@ public class MenuScenario extends JFrame {
 		this.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		this.choix = choix;
+		this.joueurs = joueurs;
+		
 		afficherPanelPrincipal();
 		
-		/** Creation d'un panel Scénario qui contient tous les images des scenarios possibles **/
+		/** Creation d'un panel ScÃ©nario qui contient tous les images des scenarios possibles **/
 		panelScroll = new PanelScenario();
 		panelPrincipal.add(panelScroll);
+		
+		/** BOUTON RETOUR **/
+		PanelBoutonRetour panelBouton = new PanelBoutonRetour();
+		panelPrincipal.add(panelBouton);
+		panelBouton.boutonRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				retourner();
+			}
+		});
 		
 		afficherBoutonGoLeft();
 		afficherBoutonGoRight();
@@ -77,6 +94,7 @@ public class MenuScenario extends JFrame {
 			}
 		});
 		boutonLeft.setBounds(101, 155, 97, 381);
+		boutonLeft.setBackground(new Color(16, 22, 33));
 		panelPrincipal.add(boutonLeft);
 	}
 	
@@ -93,7 +111,45 @@ public class MenuScenario extends JFrame {
 			}
 		});
 		boutonRight.setBounds(1084, 155, 97, 381);
+		boutonRight.setBackground(new Color(16, 22, 33));
 		panelPrincipal.add(boutonRight);
 	}
+	
+	
+	/*====================================== BOUTONS POUR RETOURNER ====================================== */
+	@SuppressWarnings("deprecation")
+	public void retourner() {
+		if(choix)
+		{
+			MenuMultiJoueurs menuMulti = new MenuMultiJoueurs();
+			menuMulti.show();
+		}
+		
+		else {
+			MenuSolo menuSolo = new MenuSolo();
+			menuSolo.show();
+		}
+		dispose();
+	}
+
+	
+
+	public boolean isChoix() {
+		return choix;
+	}
+
+	public void setChoix(boolean choix) {
+		this.choix = choix;
+	}
+
+	public ArrayList<Joueur> getJoueurs() {
+		return joueurs;
+	}
+
+	public void setJoueurs(ArrayList<Joueur> joueurs) {
+		this.joueurs = joueurs;
+	}
+	
+	
 	
 }
