@@ -2,6 +2,7 @@ package modele;
 
 public class Soldat extends Piece {
 	private String typeSoldat;
+	private String imagePivotee;
 	private int attaque;
 	private int defense;
 	private int deplacement;
@@ -9,10 +10,11 @@ public class Soldat extends Piece {
 	private int pv;
 	private boolean ko;
 	
-	public Soldat(int abscisse, int ordonnees, String image, String typeSoldat, int attaque, int defense,
-			int deplacement, int vision, int pv,boolean ko) {
+	public Soldat(int abscisse, int ordonnees, String image, String typeSoldat, String imagePivotee, int attaque, int defense,
+			int deplacement, int vision, int pv, boolean ko) {
 		super(abscisse, ordonnees, image);
 		this.typeSoldat = typeSoldat;
+		this.imagePivotee = imagePivotee;
 		this.attaque = attaque;
 		this.defense = defense;
 		this.deplacement = deplacement;
@@ -27,7 +29,12 @@ public class Soldat extends Piece {
 	public void setTypeSoldat(String typeSoldat) {
 		this.typeSoldat = typeSoldat;
 	}
-
+	public String getImagePivotee() {
+		return imagePivotee;
+	}
+	public void setImagePivotee(String imagePivotee) {
+		this.imagePivotee = imagePivotee;
+	}
 	public int getAttaque() {
 		return attaque;
 	}
@@ -70,6 +77,13 @@ public class Soldat extends Piece {
 		if(pv==0)
 		{
 			s.setKo(true);
+		}
+	}
+	
+	public void deplacementPossible (int abscisseMin, int abscisseMax, int ordonneesMin, int ordonneesMax, int x, int y, int nbrHexagonesAparcourir, int bonusDeplacement) {
+		if (x >= abscisseMin && x <= abscisseMax && y >= ordonneesMin && y <= ordonneesMax && nbrHexagonesAparcourir <= this.deplacement + bonusDeplacement) {
+			super.setAbscisse(x);
+			super.setOrdonnees(y);
 		}
 	}
 
