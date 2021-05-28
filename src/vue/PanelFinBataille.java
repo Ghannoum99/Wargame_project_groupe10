@@ -182,4 +182,3 @@ public class PanelFinBataille extends JPanel {
 }		
 		
 		
-		
