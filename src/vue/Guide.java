@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -56,6 +55,8 @@ public class Guide extends JPanel {
 
 	public void afficherIndicationsDeplacement(int numJoueur) {
 		if (aValideCompetence(numJoueur, 0)) {
+			labelIcon.setBounds(520, -70, 200, 200);
+
 			labelTitre.setText("Indications");
 			labelTitre.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 			labelTitre.setForeground(new Color(200, 173, 10));
@@ -76,7 +77,7 @@ public class Guide extends JPanel {
 
 	public void afficherIndicationsDeplacement2(int numJoueur) {
 		if (aValideCompetence(numJoueur, 1)) {
-			remove(labelIcon);
+			labelIcon.setVisible(false);
 			labelIndications.setBounds(10, 20, 680, 50);	
 			labelIndications.setText("<html>ATTENTION : un soldat ne peut se déplacer que si ses points de déplacements "
 					+ "additioné au bonus de déplacement du terrain sur lequel il se trouve le permettent.</html>");
@@ -91,6 +92,8 @@ public class Guide extends JPanel {
 			boutonValider.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					labelIcon.setVisible(true);
+					labelIcon.setBounds(480, -70, 200, 200);
 					labelIndications2.setVisible(true);
 					labelIndications.setVisible(false);
 					add(labelIcon);
@@ -103,6 +106,8 @@ public class Guide extends JPanel {
 
 	public void afficherIndicationsDeplacement3(int numJoueur) {
 		if (aValideCompetence(numJoueur, 2)) {
+			labelIcon.setBounds(330, -70, 200, 200);
+			
 			labelIndications2.setText("<html>Vous trouverez toutes les informations du soldat sélectionné à droite.</html>");
 			ImageIcon imageIcon = new ImageIcon(new ImageIcon("images/fleches/fleche_droite.gif").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 			labelIcon.setIcon(imageIcon);
@@ -112,7 +117,7 @@ public class Guide extends JPanel {
 			boutonValider.setVisible(true);
 			ImageIcon imageFond = new ImageIcon("images/button_small_copper_H22-active.png");
 			boutonValider.setIcon(imageFond);
-			boutonValider.setBounds(700, 65, 50, 20);
+			boutonValider.setBounds(750, 65, 50, 20);
 			boutonValider.setFont(new Font("Times New Roman", Font.PLAIN, 11));
 			boutonValider.setText("OK");
 			boutonValider.addActionListener(new ActionListener() {
