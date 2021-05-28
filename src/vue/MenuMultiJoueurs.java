@@ -148,7 +148,7 @@ public class MenuMultiJoueurs extends JFrame {
 					recupererImage();
 					
 					for(int i=0; i<nombreJoueur; i++) {
-						String photoProfile = "images/profile/" + images.get(i) +".png";
+						String photoProfile = "images/profile/" + images.get(i) +"_copie.png";
 						Joueur joueur = new Joueur(pseudos.get(i), new ArrayList<Soldat>() ,0, photoProfile);
 						joueurs.add(joueur);
 						System.out.println(joueurs.get(i));
