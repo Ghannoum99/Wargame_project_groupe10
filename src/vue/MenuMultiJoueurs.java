@@ -19,7 +19,6 @@ public class MenuMultiJoueurs extends JFrame {
 	private JPanel contentPane;
 	private JLabel backgroundImage;
 	private boolean  checked = false;
-	private ArrayList<Soldat> soldats;
 	private JLabel labelJoueur;
 	private JButton boutonValider;
 	private JComboBox<String> imageJoueur;
@@ -134,7 +133,8 @@ public class MenuMultiJoueurs extends JFrame {
 	/** AFFICHAGE D'UN BOUTON QUI PERMET DE STOCKER LES PSEUDOS POUR CHAQUE JOUEUR ET PASSER AU MENU SUIVANT **/
 	/**********************************************************************************************************/
 	public void afficherBoutonValider() {
-		boutonValider = new JButton("");
+		boutonValider = new JButton();
+		boutonValider.setText("Valider");
 		boutonValider.setBorder(UIManager.getBorder("Button.border"));
 		boutonValider.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
 		boutonValider.addActionListener(new ActionListener() {
@@ -149,7 +149,7 @@ public class MenuMultiJoueurs extends JFrame {
 					
 					for(int i=0; i<nombreJoueur; i++) {
 						String photoProfile = "images/profile/" + images.get(i) +".png";
-						Joueur joueur = new Joueur(pseudos.get(i), soldats ,0, photoProfile);
+						Joueur joueur = new Joueur(pseudos.get(i), new ArrayList<Soldat>() ,0, photoProfile);
 						joueurs.add(joueur);
 						System.out.println(joueurs.get(i));
 					}
@@ -162,7 +162,10 @@ public class MenuMultiJoueurs extends JFrame {
 				}	
 			}
 		});
-		boutonValider.setIcon(new ImageIcon("images/menu_button_small_H18-active@2x-valider.jpg"));
+		boutonValider.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		boutonValider.setForeground(Color.white);
+		boutonValider.setHorizontalTextPosition(JButton.CENTER);
+		boutonValider.setIcon(new ImageIcon("images/menu_button_small_H18-active@2x.png"));
 		boutonValider.setBounds(443, 401, 109, 34);
 		panelMenu.add(boutonValider);
 	}
