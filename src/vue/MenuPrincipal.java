@@ -3,12 +3,13 @@ package vue;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.EventQueue;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
-
-
 
 @SuppressWarnings({ "deprecation", "serial" })
 public class MenuPrincipal extends JFrame{
@@ -26,6 +27,11 @@ public class MenuPrincipal extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 1300, 781);
 		
+		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        if (device.isFullScreenSupported()) {
+            device.setFullScreenWindow(this);
+        } 
+        
 		/** PANEL PRINCIPAL DE LA FENETRE **/
 		panelPrincipal = new JPanel();
 		panelPrincipal.setBounds(0, 0, 1296, 767);

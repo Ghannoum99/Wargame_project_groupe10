@@ -11,12 +11,14 @@ public class Joueur {
 	private int score;
 	private String image;
 	private int[] KO = new int[10];
+	private ArrayList<Joueur> adversaires = new ArrayList<Joueur>();
 	
-	public Joueur(String nomJoueur, ArrayList<Soldat> soldats, int score, String image) {
+	public Joueur(String nomJoueur, ArrayList<Soldat> soldats, int score, String image, ArrayList<Joueur> adversaires) {
 		this.nomJoueur = nomJoueur;
 		this.soldats = soldats;
 		this.score = score;
 		this.image = image;
+		this.adversaires = adversaires;
 	}
 	
 	public void initialiserKO() {
@@ -61,6 +63,14 @@ public class Joueur {
 		return soldats.size();
 	} 
 	
+	public ArrayList<Joueur> getAdversaires() {
+		return adversaires;
+	}
+
+	public void setAdversaires(ArrayList<Joueur> adversaires) {
+		this.adversaires = adversaires;
+	}
+
 	public void ajouterSoldat(Soldat soldat) {
 		this.soldats.add(soldat);
 	}
@@ -75,7 +85,17 @@ public class Joueur {
 			i += 1;
 		}
 	}
+	
+	public void ajouterSoldatTue(Soldat soldatTue) {
+		List<Joueur> chercheJoueur = this.adversaires.stream().filter(x -> x.getSoldatList().contains(soldatTue)).collect(Collectors.toList());
+		Joueur joueur = chercheJoueur.get(0);
+	}
 
+	public boolean soldatExiste(Soldat soldat) {
+		List<Soldat> chercheSoldat = this.soldats.stream().filter(x -> x.getId() == soldat.getId()).collect(Collectors.toList());
+		return chercheSoldat.size() > 0;
+	}
+	
 	public ArrayList<Soldat> getSoldats() {
 		return soldats;
 	}
@@ -92,11 +112,7 @@ public class Joueur {
 		KO = kO;
 	}
 
-	public boolean soldatExiste(Soldat soldat) {
-		List<Soldat> chercheSoldat = this.soldats.stream().filter(x -> x.getId() == soldat.getId()).collect(Collectors.toList());
-		return chercheSoldat.size() > 0;
-	}
-	
+	//faut ajouter la liste des adversaires
 	@Override
 	public String toString() {
 		return "Joueur [nomJoueur=" + nomJoueur + ", soldats=" + soldats + ", score=" + score + ", image=" + image

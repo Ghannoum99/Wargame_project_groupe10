@@ -30,15 +30,13 @@ public class MenuMultiJoueurs extends JFrame {
 	protected ArrayList<JTextField> listeChampText = new ArrayList<JTextField>();
 	protected ArrayList<JLabel> lblJoueur = new ArrayList<JLabel>();
 	private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+	private ArrayList<Joueur> adversaires;
 	protected ArrayList<JLabel> labelCheckBox = new ArrayList<JLabel>();
 	protected ArrayList<JComboBox<String>> listeCombobox = new ArrayList<JComboBox<String>>();
 	protected PanelMenuInfos panelMenu;
 	protected JSpinner spinnerNombreJoueur;
 	protected Integer nombreJoueur;
 	protected JTextField champText;
-	
-	
-	
 
 	public  MenuMultiJoueurs() {
 		this.setTitle("WarGame");
@@ -74,8 +72,6 @@ public class MenuMultiJoueurs extends JFrame {
 		afficherSpinnerNombreJoueur();
 		afficherBoutonNombreJoueur();
 		afficherBoutonValider();
-		
-		
 		
 		
 		/** BACKGROUND **/
@@ -148,15 +144,21 @@ public class MenuMultiJoueurs extends JFrame {
 				
 				/** SI L'UTILISATEUR A CHOISI LE NOMBRE DE JOUEUR, DONC IL PEUT PASSER AU MENU SUIVANT **/
 				if (pressed) {
+					
 					/** RECUPERATION DES PSEUDOS **/
 					recupererPseudo();
 					recupererImage();
 					
 					for(int i=0; i<nombreJoueur; i++) {
+						//adversaires = new ArrayList<Joueur>();
 						String photoProfile = "images/profile/" + images.get(i) +"_copie.png";
-						Joueur joueur = new Joueur(pseudos.get(i), new ArrayList<Soldat>() ,0, photoProfile);
+						Joueur joueur = new Joueur(pseudos.get(i), new ArrayList<Soldat>(),0, photoProfile, adversaires);
 						joueurs.add(joueur);
-						System.out.println(joueurs.get(i));
+					}
+					
+					/** RECUPERATION DES ADVERSAIRES **/
+					for(int i = 0; i < joueurs.size(); i++) {
+						recupererAdversaires(joueurs.get(i));
 					}
 					
 					// faut ajouter des conditions si le check box est selectionné, donc c'est un ordinateur
@@ -301,9 +303,25 @@ public class MenuMultiJoueurs extends JFrame {
 		}
 	}
 	
+	/************************************************************************/
+	/** RECUPERATION DES IMAGES : STOCKER L'IMAGE CHOISI PAR CHAQUE JOUEUR **/
+	/************************************************************************/
 	public void recupererImage() {
 		for(int i = 0; i<listeCombobox.size(); i++) {
 			images.add((String) listeCombobox.get(i).getSelectedItem());
+		}
+	}
+	
+	/**************************************************************************************/
+	/** RECUPERATION DES ADVERSAIRES : STOCKER LA LISTE DES ADVERSIARES DE CHAQUE JOUEUR **/
+	/**************************************************************************************/
+	public void recupererAdversaires(Joueur joueur) {
+		adversaires = new ArrayList<Joueur>();
+		for(int i = 0; i < joueurs.size(); i++) {
+			if(joueurs.get(i) != joueur) {
+				adversaires.add(joueurs.get(i));
+			}
+			joueur.setAdversaires(adversaires);
 		}
 	}
 	
