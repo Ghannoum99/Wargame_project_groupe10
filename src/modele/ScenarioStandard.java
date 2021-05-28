@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import modele.Joueur;
 
 public class ScenarioStandard {
 	private String nom;

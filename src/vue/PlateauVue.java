@@ -17,7 +17,7 @@ import modele.*;
  */
 
 @SuppressWarnings("serial")
-public class PlateauVue extends JFrame implements KeyListener {
+public class PlateauVue extends JFrame {
 
 	private JLayeredPane plateau;
 	private PanelTerrains panelTerrains;
@@ -37,7 +37,6 @@ public class PlateauVue extends JFrame implements KeyListener {
 		this.getContentPane().setBackground(Color.white);	
 		getContentPane().setLayout(null);
 		this.setVisible(true);
-		this.addKeyListener(this);
 		this.setResizable(false);
 		this.setBackground(Color.black);
 		this.setTitle("WarGame");
@@ -101,20 +100,33 @@ public class PlateauVue extends JFrame implements KeyListener {
 		this.plateau.add(this.minimap, JLayeredPane.DEFAULT_LAYER);
 
 		// Tutoriel du jeu
-		this.guide = new Guide(this.joueurs.size());
+		this.guide = new Guide();
 		this.plateau.add(this.guide, JLayeredPane.DEFAULT_LAYER);
-		this.guide.afficherIndicationsSelection(ind);
-
-		// Image du personnage expliquant les règles
-		ImageIcon imageInterlo = new ImageIcon(new ImageIcon("images/profile/image7.png").getImage().getScaledInstance(250, 250, Image.SCALE_DEFAULT));
-		JLabel labelImageInterlo = new JLabel(imageInterlo);
-		labelImageInterlo.setBounds(0, 400, 300, 400);
-		this.plateau.add(labelImageInterlo, JLayeredPane.DRAG_LAYER);
-
+		this.guide.afficherQuestion();
+		
 		// Création du panel permettant d'afficher les terrains et de positionner les soldats
 		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.guide);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 
+		JButton bouton = new JButton();
+		bouton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Pour l'instant il faut appuyer sur la touche espace pour changer de joueur (juste pour les tests)
+				System.out.println("Changement de joueur");
+					int ind = 0;
+					Joueur ancienJoueur, nouveauJoueur;
+					ancienJoueur = panelTerrains.getTourJoueur();
+					nouveauJoueur = ancienJoueur;
+					while (nouveauJoueur == ancienJoueur) {
+						ind = (int) (Math.random() * (joueurs.size() - 0));
+						nouveauJoueur = joueurs.get(ind);
+					}
+					setTourJoueur(nouveauJoueur, ind);
+			}
+		});
+		bouton.setBounds(1150, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		this.plateau.add(bouton, JLayeredPane.DEFAULT_LAYER);
+		
 		setTourJoueur(tourJoueur, ind);
 
 		/** Panel Fin Baitaille **/
@@ -124,31 +136,6 @@ public class PlateauVue extends JFrame implements KeyListener {
 		//this.plateau.add(panelMenu, JLayeredPane.DRAG_LAYER);
 
 		SwingUtilities.updateComponentTreeUI(this.plateau);
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// Pour l'instant il faut appuyer sur la touche espace pour changer de joueur (juste pour les tests)
-		if(e.getKeyCode()==KeyEvent.VK_SPACE){
-			System.out.println("Changement de joueur");
-			int ind = 0;
-			Joueur ancienJoueur, nouveauJoueur;
-			ancienJoueur = this.panelTerrains.getTourJoueur();
-			nouveauJoueur = ancienJoueur;
-			while (nouveauJoueur == ancienJoueur) {
-				ind = (int) (Math.random() * (joueurs.size() - 0));
-				nouveauJoueur = joueurs.get(ind);
-			}
-			setTourJoueur(nouveauJoueur, ind);
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
 	}
 
 	public Joueur getTourJoueur() {

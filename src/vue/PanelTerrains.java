@@ -184,8 +184,8 @@ public class PanelTerrains extends JLayeredPane {
 					if (tourJoueur.soldatExiste(soldat)) {
 						panelInfosSoldat.afficherInfosSoldats(soldat);
 
-						if (!guide.aValideCompetence(indTourJoueur, 1)) {
-							guide.afficherIndicationsDeplacement(indTourJoueur);
+						if (guide.isGuideActive() && !guide.aValideCompetence(1)) {
+							guide.afficherIndicationsDeplacement();
 						}
 						SwingUtilities.updateComponentTreeUI(guide);
 
@@ -349,8 +349,8 @@ public class PanelTerrains extends JLayeredPane {
 				labelBordure.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseEntered(MouseEvent e) {
-						if (!guide.aValideCompetence(indTourJoueur, 3)) {
-							guide.afficherIndicationsDeplacement3(indTourJoueur);
+						if (guide.isGuideActive() && !guide.aValideCompetence(3)) {
+							guide.afficherIndicationsDeplacement3();
 						}
 						afficherImageSelec(false, labelBordure.getX(), labelBordure.getY());
 						Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
@@ -371,8 +371,8 @@ public class PanelTerrains extends JLayeredPane {
 
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						if (!guide.aValideCompetence(indTourJoueur, 2)) {
-							guide.afficherIndicationsDeplacement2(indTourJoueur);
+						if (guide.isGuideActive() && !guide.aValideCompetence(2)) {
+							guide.afficherIndicationsDeplacement2();
 						}
 						remove(labelText);
 						Hexagone hexagone = getHexagone(labelBordure.getX(), labelBordure.getY());
