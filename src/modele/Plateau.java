@@ -18,7 +18,7 @@ public class Plateau {
 	    }
 	
 	public void InitPlateau() {
-		PlateauJeu = new Hexagone[HauteurPlateau][LargeurPlateau];
+		/*PlateauJeu = new Hexagone[HauteurPlateau][LargeurPlateau];
 		for (int i = 0;i < HauteurPlateau;i++) {
 			for (int j = 0;j < LargeurPlateau;j++) {
 				
@@ -29,7 +29,7 @@ public class Plateau {
 				
 				PlateauJeu[i][j] = h;
 			}
-		}
+		}*/
 	}
 	
 	
