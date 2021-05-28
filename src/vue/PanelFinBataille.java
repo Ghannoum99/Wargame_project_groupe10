@@ -44,7 +44,7 @@ public class PanelFinBataille extends JPanel {
 		labelTitre.setBounds(168, 10, 209, 41);
 		this.add(labelTitre);
 		
-		/** AFFICHAGE DU PANEL QUI CONTIENT LES INFORMATIONS (NumÃ©ro du joueur, Nom du Joueur et son score) **/
+		/** AFFICHAGE DU PANEL QUI CONTIENT LES INFORMATIONS (Numéro du joueur, Nom du Joueur et son score) **/
 		//afficherPanelInfo();
 		afficherLabelInfo();
 		afficherNumJoueur();
@@ -180,5 +180,6 @@ public class PanelFinBataille extends JPanel {
 	
 	
 }		
+		
 		
 		

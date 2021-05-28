@@ -5,10 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JButton;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
@@ -16,8 +13,9 @@ public class PanelScenario extends JPanel {
 
 	private JPanel panelPrincipal;
 	public JScrollPane scrollPane;
-	
-	
+	private JButton boutonImage;
+	public ArrayList<JButton> listeBoutons = new ArrayList<JButton>();
+
 	public PanelScenario() {
 		this.setBounds(289, 155, 699, 381);
 		this.setOpaque(true);
@@ -52,22 +50,18 @@ public class PanelScenario extends JPanel {
 	/********************************************************************/
 	/** AFFICHAGE DE 5 BOUTONS, CHAQUE BOUTON CORRESPOND A UN SCENRAIO **/
 	/************************************** *****************************/	
-	@SuppressWarnings("deprecation")
 	public void afficherBoutonScenario() {
 		int i = 0;
 		//String[] numbers= {"1", "2", "3", "4", "5"};
 		String[] images = {"images/scenarios/infrantries-lourdes.jpg", "images/scenarios/match-de-4-mins.jpg", "images/scenarios/tuez-5-soldats-et-gagnez.jpg",  "images/scenarios/jeu-standard.jpg", "images/scenarios/gardez-un-soldat.jpg"};
 		for(i=0; i<5; i++) {
-			JButton boutonImage = new JButton("");
+			boutonImage = new JButton("");
 			boutonImage.setIcon(new ImageIcon(images[i]));
-			boutonImage.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					PlateauVue plateau = new PlateauVue();
-					plateau.show();
-				}
-			});
 			panelPrincipal.add(boutonImage);
+			
+			listeBoutons.add(boutonImage);
 		}
 	}
-		
+	
+	
 }

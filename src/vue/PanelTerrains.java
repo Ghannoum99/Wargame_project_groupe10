@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
@@ -32,7 +33,7 @@ import modele.Soldat;
 import modele.Terrain;
 
 /*
- * La classe PanelTerrains permet d'afficher toutes les piÃ¨ces du plateau : les terrains et les soldats
+ * La classe PanelTerrains permet d'afficher toutes les pièces du plateau : les terrains et les soldats
  */
 
 @SuppressWarnings("serial")
@@ -49,83 +50,88 @@ public class PanelTerrains extends JLayeredPane {
 	private Joueur tourJoueur;
 	private PanelInfosSoldat panelInfosSoldat;
 	private JLabel labelText;
+	private Guide guide;
+	private int indTourJoueur;
 
-	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat) {
+	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, Guide guide) {
 		super();
-		// DÃ©finition des donnÃ©es du panel
+		// Définition des données du panel
 		this.setLayout(null);
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(0, 0));
 
-		// RÃ©cupÃ©ration du joueur commencant la partie
+		// Guide
+		this.guide = guide;
+
+		// Récupération du joueur commencant la partie
 		this.tourJoueur = tourJoueur;
 
-		// CrÃ©ation du HashMap qui contiendra les couples identifiant des hexagones et le label correspondant
+		// Création du HashMap qui contiendra les couples identifiant des hexagones et le label correspondant
 		this.labelsHexagones = new HashMap<Integer, JLabel>();
 
-		// CrÃ©ation d'une liste de terrains
+		// Création d'une liste de terrains
 		this.terrains = new ArrayList<Terrain>();
 
-		// CrÃ©ation d'un terrain forÃªt
+		// Création d'un terrain forêt
 		int xImage = 0, yImage = 0, x = 0, y = 0;
 		Foret terrainForet = new Foret(x, y);
 		this.terrains.add(terrainForet);
 
-		// CrÃ©ation des hexagones du terrain forÃªt
+		// Création des hexagones du terrain forêt
 		ArrayList<Hexagone> hexagonesForet;
 		hexagonesForet = ajouterTerrain(12, 9, xImage, yImage, terrainForet, 0);
 		terrainForet.ajouterHexagones(hexagonesForet);
 
-		// CrÃ©ation d'un terrain glacier
+		// Création d'un terrain glacier
 		x = 624; y = 0;
 		Glacier terrainGlacier = new Glacier(x, y);
 		this.terrains.add(terrainGlacier);
 
-		// CrÃ©ation des hexagones du terrain glacier
+		// Création des hexagones du terrain glacier
 		ArrayList<Hexagone> hexagonesGlacier;
 		hexagonesGlacier = ajouterTerrain(12, 9, xImage, yImage, terrainGlacier, 0);
 		terrainGlacier.ajouterHexagones(hexagonesGlacier);
 
-		// CrÃ©ation d'un terrain colline
+		// Création d'un terrain colline
 		x = 0; y = 648;
 		Colline terrainColline = new Colline(x, y);
 		this.terrains.add(terrainColline);
 
-		// CrÃ©ation des hexagones du colline
+		// Création des hexagones du colline
 		ArrayList<Hexagone> hexagonesColline;
 		hexagonesColline = ajouterTerrain(12, 9, xImage, yImage, terrainColline, 0);
 		terrainColline.ajouterHexagones(hexagonesColline);
 
-		// CrÃ©ation d'un terrain montagne
+		// Création d'un terrain montagne
 		x = 624; y = 648;
 		Forteresse terrainMontagne = new Forteresse(x, y);
 		this.terrains.add(terrainMontagne);	
 
-		// CrÃ©ation des hexagones du terrain montagne
+		// Création des hexagones du terrain montagne
 		ArrayList<Hexagone> hexagonesMontagne;
 		hexagonesMontagne = ajouterTerrain(12, 9, xImage, yImage, terrainMontagne, 0);
 		terrainMontagne.ajouterHexagones(hexagonesMontagne);
 
-		// CrÃ©ation d'un terrain eau profonde
+		// Création d'un terrain eau profonde
 		x = 0; y = 1294;
 		EauProfonde terrainEauProfonde = new EauProfonde(x, y);
 		this.terrains.add(terrainEauProfonde);	
 
-		// CrÃ©ation des hexagones du terrain eau profonde
+		// Création des hexagones du terrain eau profonde
 		ArrayList<Hexagone> hexagonesEauProfonde;
 		hexagonesEauProfonde = ajouterTerrain(24, 5, xImage, yImage, terrainEauProfonde, 0);
 		terrainEauProfonde.ajouterHexagones(hexagonesEauProfonde);
 
-		// RÃ©cupÃ©ration de la liste des soldats crÃ©Ã©s
+		// Récupération de la liste des soldats créés
 		this.soldats = soldatVue.getSoldats();
 
-		// RÃ©cupÃ©ration de la liste des labels correspondant aux soldats crÃ©Ã©s
+		// Récupération de la liste des labels correspondant aux soldats créés
 		this.labelsSoldats = soldatVue.getLabelsSoldats();
 
-		// RÃ©cupÃ©ration du panel permettant d'afficher les informations des soldats
+		// Récupération du panel permettant d'afficher les informations des soldats
 		this.panelInfosSoldat = panelInfosSoldat;
 
-		// Initialisation des soldats sÃ©lectionnÃ©s
+		// Initialisation des soldats sélectionnés
 		this.labelSoldatSelec = null;
 		this.soldatSelec = null;
 
@@ -138,7 +144,7 @@ public class PanelTerrains extends JLayeredPane {
 			hexagone.addInHexagone(soldat);
 		}
 
-		// CrÃ©ation du scroll pane contenant le panel
+		// Création du scroll pane contenant le panel
 		this.scrollPane = new JScrollPane(this);
 		this.scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
 		this.scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0,0));
@@ -147,18 +153,18 @@ public class PanelTerrains extends JLayeredPane {
 		this.scrollPane.getHorizontalScrollBar().setValue(1);
 		this.scrollPane.getVerticalScrollBar().setValue(1);
 
-		// CrÃ©ation d'une camÃ©ra
+		// Création d'une caméra
 		this.camera = new Camera(0,0);
 
-		// Centrer la camÃ©ra sur la position actuelle sur le joueur
+		// Centrer la caméra sur la position actuelle sur le joueur
 		modifierCameraJoueur();
 
-		// Mettre Ã  jour l'image des hexagones sous chaque label des soldats
+		// Mettre à jour l'image des hexagones sous chaque label des soldats
 		mettreAjourHexagonesSoldats();
 	}
 
 	/*
-	 * Cette fonction permet de mettre Ã  jour l'affichage des soldats
+	 * Cette fonction permet de mettre à jour l'affichage des soldats
 	 * sur le plateau, en fonction du joueur donc c'est le tour
 	 */
 
@@ -178,6 +184,11 @@ public class PanelTerrains extends JLayeredPane {
 					if (tourJoueur.soldatExiste(soldat)) {
 						panelInfosSoldat.afficherInfosSoldats(soldat);
 
+						if (!guide.aValideCompetence(indTourJoueur, 1)) {
+							guide.afficherIndicationsDeplacement(indTourJoueur);
+						}
+						SwingUtilities.updateComponentTreeUI(guide);
+
 						if (soldat != soldatSelec) {
 							ancienSoldatSelec = soldatSelec;
 						}
@@ -192,8 +203,8 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet de retourner l'image "alliÃ©" ou "ennemi"
-	 * en fonction du joueur dont c'est le tour et du soldat en paramÃ¨tres
+	 * Cette fonction permet de retourner l'image "allié" ou "ennemi"
+	 * en fonction du joueur dont c'est le tour et du soldat en paramètres
 	 */
 
 	public String imageAafficher(Soldat soldat) {
@@ -208,8 +219,8 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet de mettre Ã  jour le soldat
-	 * sÃ©lectionnÃ© par le joueur
+	 * Cette fonction permet de mettre à jour le soldat
+	 * sélectionné par le joueur
 	 */
 
 	public void mettreAjourSoldatSelec() {
@@ -224,7 +235,7 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet d'afficher l'hexagone "sÃ©lection" sur un hexagone
+	 * Cette fonction permet d'afficher l'hexagone "sélection" sur un hexagone
 	 */
 
 	public void afficherImageSelec(boolean deplacement, int x, int y) {
@@ -242,7 +253,7 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet d'effacer l'hexagone "sÃ©lection" sur un hexagone
+	 * Cette fonction permet d'effacer l'hexagone "sélection" sur un hexagone
 	 */
 
 	public void effacerImageSelec(int x, int y) {
@@ -263,8 +274,8 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet de mettre Ã  jour l'image des hexagones
-	 * sur lesquelles les soldats se dÃ©placent (on remet leur image initiale)
+	 * Cette fonction permet de mettre à jour l'image des hexagones
+	 * sur lesquelles les soldats se déplacent (on remet leur image initiale)
 	 */
 
 	public void updateSoldatHexagone() {
@@ -286,7 +297,7 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet d'ajouter des hexagones Ã  un terrain
+	 * Cette fonction permet d'ajouter des hexagones à un terrain
 	 */
 
 	public ArrayList<Hexagone> ajouterTerrain(int nbrHexagoneX, int nbrHexagoneY, int xImage, int yImage, Terrain terrain, int ordre) {
@@ -326,10 +337,10 @@ public class PanelTerrains extends JLayeredPane {
 				JLabel labelBordure = new JLabel(imageBordure);
 				labelBordure.setBounds(xBordure, yBordure, imageBordure.getIconWidth(), imageBordure.getIconHeight());
 
-				// On ajoute un tooltip Ã  l'hexagone
+				// On ajoute un tooltip à l'hexagone
 				ImageIcon imageToolTip = new ImageIcon("images/button.png");
 				Border matteborder = BorderFactory.createMatteBorder(1, 1, 3, 1, imageToolTip);
-				String titre = "Type terrain : " + terrain.getTypeTerrain() + "\n Bonus dÃ©fense : " + terrain.getBonusDefense() + "\n Point dÃ©placement : " + terrain.getPointDeplacement();
+				String titre = "Type terrain : " + terrain.getTypeTerrain() + "\n Bonus défense : " + terrain.getBonusDefense() + "\n Point déplacement : " + terrain.getPointDeplacement();
 				UIManager.put("ToolTip.background", Color.decode("#0B2161"));
 				UIManager.put("ToolTip.border", new BorderUIResource(matteborder));
 				UIManager.put("ToolTip.foreground", Color.decode("#B18904"));
@@ -338,6 +349,9 @@ public class PanelTerrains extends JLayeredPane {
 				labelBordure.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseEntered(MouseEvent e) {
+						if (!guide.aValideCompetence(indTourJoueur, 3)) {
+							guide.afficherIndicationsDeplacement3(indTourJoueur);
+						}
 						afficherImageSelec(false, labelBordure.getX(), labelBordure.getY());
 						Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
 						int bonusDefense = getBonusDef(hexagoneClique.getTypeTerrain());
@@ -357,6 +371,9 @@ public class PanelTerrains extends JLayeredPane {
 
 					@Override
 					public void mouseClicked(MouseEvent e) {
+						if (!guide.aValideCompetence(indTourJoueur, 2)) {
+							guide.afficherIndicationsDeplacement2(indTourJoueur);
+						}
 						remove(labelText);
 						Hexagone hexagone = getHexagone(labelBordure.getX(), labelBordure.getY());
 						if (soldatSelec != null && !hexagone.contientEnnemi(tourJoueur)) {
@@ -410,10 +427,10 @@ public class PanelTerrains extends JLayeredPane {
 							}
 
 							nbrHexagones += 1;
-				
+
 							Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
 							int bonusDeplacement = getBonusDep(hexagoneClique.getTypeTerrain());
-							
+
 							soldatSelec.deplacementPossible(0, getWidth() - 50, 0, getHeight() - 70, nouveauX, nouveauY, nbrHexagones, bonusDeplacement);
 							labelSoldatSelec.setLocation(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees());
 							camera.update(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees(), scrollPane);
@@ -440,7 +457,7 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet de rÃ©cupÃ©rer un hexagone Ã  partir de cordoonnÃ©es 
+	 * Cette fonction permet de récupérer un hexagone à partir de cordoonnées 
 	 */
 
 	public Hexagone getHexagone(int x, int y) {
@@ -454,7 +471,7 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet de rÃ©cupÃ©rer un hexagone Ã  partir d'un soldat
+	 * Cette fonction permet de récupérer un hexagone à partir d'un soldat
 	 */
 
 	public Hexagone getHexagone(Soldat soldat) {
@@ -468,8 +485,8 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet de rÃ©cupÃ©rer un label correspondant Ã  un hexagone
-	 * Ã  partir de son identifiant
+	 * Cette fonction permet de récupérer un label correspondant à un hexagone
+	 * à partir de son identifiant
 	 */
 
 	public JLabel getLabel(int id) {
@@ -478,7 +495,7 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet de modifier les cordoonnÃ©es du scrollPane qui correspond Ã  la camÃ©ra
+	 * Cette fonction permet de modifier les cordoonnées du scrollPane qui correspond à la caméra
 	 */
 
 	public void modifierCoordonneesCamera() {
@@ -487,7 +504,7 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Replacer la camÃ©ra sur le joueur actif
+	 * Replacer la caméra sur le joueur actif
 	 */
 
 	public void modifierCameraJoueur() {
@@ -508,25 +525,25 @@ public class PanelTerrains extends JLayeredPane {
 		this.soldatSelec = null;
 		this.labelSoldatSelec = null;
 	}
-	
+
 	/*
-	 * RÃ©cupÃ©rer les points de dÃ©placement d'un terrain Ã  partir de son nom 
+	 * Récupérer les points de déplacement d'un terrain à partir de son nom 
 	 */
 
 	public int getBonusDep(String nomTerrain) {
 		List<Terrain> terrainsNom = this.terrains.stream().filter(x -> x.getTypeTerrain().equals(nomTerrain)).collect(Collectors.toList());
 		return terrainsNom.get(0).getPointDeplacement();
 	}
-	
+
 	/*
-	 * RÃ©cupÃ©rer les bonus de dÃ©fense d'un terrain Ã  partir de son nom 
+	 * Récupérer les bonus de défense d'un terrain à partir de son nom 
 	 */
 
 	public int getBonusDef(String nomTerrain) {
 		List<Terrain> terrainsNom = this.terrains.stream().filter(x -> x.getTypeTerrain().equals(nomTerrain)).collect(Collectors.toList());
-		return (int) terrainsNom.get(0).getBonusDefense();
+		return terrainsNom.get(0).getBonusDefense();
 	}
-	
+
 	public Joueur getTourJoueur() {
 		return tourJoueur;
 	}
@@ -579,4 +596,49 @@ public class PanelTerrains extends JLayeredPane {
 		this.soldats = soldats;
 	}
 
+	public int getIndTourJoueur() {
+		return indTourJoueur;
+	}
+
+	public void setIndTourJoueur(int indTourJoueur) {
+		this.indTourJoueur = indTourJoueur;
+	}
+	
+	/*
+	 * Cette fonction permet d'afficher le Brouillard sur un hexagone
+	 */
+	public void afficherImageFog(int x, int y) {
+		Hexagone hexagone = getHexagone(x, y);
+		if (hexagone != null) {
+			ImageIcon fog = new ImageIcon("images/hexagones/Brouillard.png");  
+			JLabel fogOfWar = getLabel(hexagone.getId());
+			fogOfWar.setBounds(x, y, 50, 50);
+			fogOfWar.setIcon(fog);
+			this.add(fogOfWar, JLayeredPane.PALETTE_LAYER);
+			
+		}
+	}
+	
+	/*
+	 * Cette fonction permet d'afficher le Brouillard sur tout le terrain
+	 */
+	//forêt x=0 y=0       montagne x=624 y=648
+	//eau profond x=0 y=1294
+	//glacier X=624 Y=0   colline x=0 y=648
+	
+	
+	public void afficherBrouillard()
+	{ 
+		int i, j;
+		for(i=0;i<terrains.size();i++)
+		{
+			for (j=0; j<terrains.get(i).getHexagones().size(); j++) {
+				Hexagone hexagone = terrains.get(i).getHexagones().get(j);
+				afficherImageFog(hexagone.getAbscisse(), hexagone.getOrdonnees());
+			}
+		}
+		
+		return;
+	}
+	
 }

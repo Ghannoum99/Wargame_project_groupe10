@@ -1,5 +1,6 @@
 package vue;
 
+import java.awt.Container;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -10,15 +11,17 @@ import modele.Soldat;
 @SuppressWarnings("serial")
 public class MiniMap extends JLayeredPane {
 	
-	private ArrayList<Joueur> joueurs;
+	private ArrayList<Soldat> ListeSoldats;
+	private ArrayList<JLabel> labelminiSoldats;
 	private Joueur tourJoueur;
+	private Soldat SoldatSelec;
 	
-	public MiniMap(ArrayList<Joueur> joueurs, Joueur tourJoueur) {
+	public MiniMap(ArrayList<Joueur> joueurs, Joueur tourJoueur, SoldatVue soldatVue, PlateauVue vue) {
 		super();
 		// Définition des données du panel
 		this.setLayout(null);
 		this.setVisible(true);
-		this.setBounds(863, 35, 124, 165);
+		this.setBounds(872, 35, 124, 165);
 		this.setOpaque(true);
 		
 		ImageIcon imageIconTerrain;
@@ -54,34 +57,66 @@ public class MiniMap extends JLayeredPane {
 		label.setBounds(0, 130, imageIconTerrain.getIconWidth(), imageIconTerrain.getIconHeight());
 		this.add(label, JLayeredPane.DEFAULT_LAYER);
 		
-		//Récupération de la liste des joueurs
-		this.joueurs = joueurs;
+		//Initialistion de Soldat séléctioné
+		this.SoldatSelec = null;
 		
 		//Récupération de tour de joueur
 		this.tourJoueur = tourJoueur;
-
+		
+		////Récupération de la liste des soldats
+		this.ListeSoldats = soldatVue.getSoldats();
+		
+		//Init de des jlabel soldat
+		this.labelminiSoldats = new ArrayList<JLabel>() ;
+		AfficherMiniSoldat();
+		
 	}
-	//initialisation des jlabel soldat...on a besoin d'un arraylist des jlabel soldat pour redifinir leur coordonnees et ainsi faire le rafraichissement des position des soldats dans le minimap
+	
+
 	public void AfficherMiniSoldat() {
-		for(int i = 0; i < this.joueurs.size(); i++ ) {
-			for(Soldat s : this.joueurs.get(i).getSoldatList()) {
+		this.labelminiSoldats.clear();
+		
+			for(Soldat s : this.ListeSoldats) {
 				ImageIcon imageIconSoldat = new ImageIcon(ImageAafficher(s,this.tourJoueur));
 				JLabel labelSoldat = new JLabel(imageIconSoldat);
 				labelSoldat.setBounds(GetMiniX(s), GetMiniY(s), imageIconSoldat.getIconWidth(), imageIconSoldat.getIconHeight());
-				this.add(labelSoldat, JLayeredPane.MODAL_LAYER);
-				 
+				this.labelminiSoldats.add(labelSoldat);
+				
+				this.add(labelSoldat, JLayeredPane.MODAL_LAYER);	
 			}
+		
+	}
+	
+	public void SupprimerMiniSoldat() {
+		for (JLabel minisoldat : this.labelminiSoldats) {
+			Container parent = minisoldat.getParent();
+			parent.remove(minisoldat);
+			parent.validate();
+			parent.repaint();
 		}
 	}
+	
+	public void rafraichirMiniSoldats() {
+		SupprimerMiniSoldat();
+		AfficherMiniSoldat();
+	}
+	
 
 	
-	//Cette fonction permet de changer la couleur de pointeur de soldat sur le minimap selon le tour de joueur  
+	//Cette fonction permet de changer la couleur de pointeur de soldat sur le minimap selon le tour de joueur et le soldat selectionné  
 	public String ImageAafficher(Soldat soldat, Joueur tourJoueur) {
 		String image;
+		
 		image = "images/minimap/position/enemy.png";
 		
 		if (tourJoueur.soldatExiste(soldat)) {
-			image = "images/minimap/position/ally.png";
+			if (soldat == this.SoldatSelec){	
+				
+				image = "images/minimap/position/selected.png";
+			}
+			else{
+				image = "images/minimap/position/ally.png";
+			}
 		}
 		
 		return image;
@@ -99,7 +134,18 @@ public class MiniMap extends JLayeredPane {
 		return (y/10);
 	}
 
+	public void setSoldatSelec(Soldat soldatSelec) {
+		SoldatSelec = soldatSelec;
+	}
+	public void setTourJoueur(Joueur tourJoueur) {
+		this.tourJoueur = tourJoueur;
+	}
 
+	public void setListeSoldats(ArrayList<Soldat> listeSoldats) {
+		ListeSoldats = listeSoldats;
+	}
+
+	
 }
 
 

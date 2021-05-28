@@ -154,7 +154,7 @@ public class MenuMultiJoueurs extends JFrame {
 						System.out.println(joueurs.get(i));
 					}
 					
-					// faut ajouter des conditions si le check box est selectionnÃ©, donc c'est un ordinateur
+					// faut ajouter des conditions si le check box est selectionné, donc c'est un ordinateur
 					
 					MenuScenario frame = new MenuScenario(choix, joueurs);
 					frame.show();

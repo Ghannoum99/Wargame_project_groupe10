@@ -3,6 +3,7 @@ package modele;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Hexagone {
 	private static final AtomicInteger count = new AtomicInteger(0); 
@@ -52,12 +53,17 @@ public class Hexagone {
 		this.ordonnees = ordonnees;
 	}
 
-	public List<Soldat> getUnits() {
+	public ArrayList<Soldat> getUnits() {
 		return units;
 	}
 
 	public void setUnits(ArrayList<Soldat> units) {
 		this.units = units;
+	}
+	
+	public boolean contientEnnemi(Joueur joueur) {
+		List<Soldat> soldatsEnnemis = this.units.stream().filter(x -> !joueur.soldatExiste(x)).collect(Collectors.toList());
+		return soldatsEnnemis.size() > 0;
 	}
 
 	public int getId() {

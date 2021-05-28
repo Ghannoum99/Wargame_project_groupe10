@@ -41,7 +41,7 @@ public class MenuScenario extends JFrame {
 		
 		afficherPanelPrincipal();
 		
-		/** Creation d'un panel ScÃ©nario qui contient tous les images des scenarios possibles **/
+		/** Creation d'un panel Scénario qui contient tous les images des scenarios possibles **/
 		panelScroll = new PanelScenario();
 		panelPrincipal.add(panelScroll);
 		

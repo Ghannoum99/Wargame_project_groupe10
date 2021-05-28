@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 public class Terrain extends Piece {
 	private String typeTerrain;
 	private int pointDeplacement;
-	private float bonusDefense;
+	private int bonusDefense;
 	private ArrayList<Hexagone> hexagones = new ArrayList<Hexagone>();
 
-	public Terrain (int abscisse, int ordonnees, String image, String typeTerrain, int pointDeplacement, float bonusDefense) {
+	public Terrain (int abscisse, int ordonnees, String image, String typeTerrain, int pointDeplacement, int bonusDefense) {
 		super(abscisse, ordonnees, image);
 		this.typeTerrain = typeTerrain;
 		this.pointDeplacement = pointDeplacement;
@@ -33,11 +33,11 @@ public class Terrain extends Piece {
 		this.pointDeplacement = pointDeplacement;
 	}
 	
-	public float getBonusDefense() {
+	public int getBonusDefense() {
 		return bonusDefense;
 	}
 	
-	public void setBonusDefense(float bonusDefense) {
+	public void setBonusDefense(int bonusDefense) {
 		this.bonusDefense = bonusDefense;
 	}
 	
