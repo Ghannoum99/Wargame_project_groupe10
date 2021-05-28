@@ -23,9 +23,8 @@ public class PanelBoutonRetour extends JPanel {
 	public void afficherBoutonRetour() {
 		boutonRetour = new JButton("");
 		boutonRetour.setOpaque(false);
-		boutonRetour.setBorderPainted(false);
 		boutonRetour.setIcon(new ImageIcon("images/arrows_ornate_left_30-active.png"));
-		boutonRetour.setBounds(0, 0, 50, 28);
+		boutonRetour.setBounds(0, 0, 21, 28);
 		boutonRetour.setBackground(new Color(16, 22, 33));
 		boutonRetour.setBorder(null);
 		this.add(boutonRetour);
