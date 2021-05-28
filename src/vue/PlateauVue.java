@@ -28,7 +28,6 @@ public class PlateauVue extends JFrame {
 	private Guide guide;
 
 	public PlateauVue(ArrayList<Joueur> joueurs) {  
-		System.out.println("ok");
 		
 		// Définition des données de la fenêtre principale
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
