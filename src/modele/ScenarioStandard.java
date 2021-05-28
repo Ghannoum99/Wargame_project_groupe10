@@ -1,14 +1,17 @@
 package modele;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ScenarioStandard {
 	private String nom;
 	private String description;
+	private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
 	
-	public ScenarioStandard(String nom, String description) {
+	public ScenarioStandard(String nom, String description, ArrayList<Joueur> joueurs) {
 		this.nom = nom;
 		this.description = description;
+		
+		this.joueurs = joueurs;
 	}
 	
 	public String getNom() {
@@ -27,7 +30,8 @@ public class ScenarioStandard {
 		this.description = description;
 	}
 	
-	protected void appliquerScenarioStandard(List<Joueur> joueurs) {
+	/** Scenario standard **/
+	public void appliquerScenario1() {
 		while (joueurs.size() > 1) {
 			for (Joueur joueur : joueurs) {
 				if (joueur.getNombreSoldat() == 0) {
@@ -38,4 +42,21 @@ public class ScenarioStandard {
 		System.out.println("Fin du jeu");
 		System.out.println("Félicitations, " + joueurs.get(0).getNomJoueur() + " a gagné");
 	}
+	
+	public void appliquerScenario5() {
+		for(int i = 0; i < joueurs.size(); i++) {
+			for(int j = 0; j <joueurs.get(i).getAdversaires.)
+		}
+		
+	}
+
+	public ArrayList<Joueur> getJoueurs() {
+		return joueurs;
+	}
+
+	public void setJoueurs(ArrayList<Joueur> joueurs) {
+		this.joueurs = joueurs;
+	}
+	
+	
 }
