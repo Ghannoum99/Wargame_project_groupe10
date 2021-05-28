@@ -76,6 +76,22 @@ public class Joueur {
 		}
 	}
 
+	public ArrayList<Soldat> getSoldats() {
+		return soldats;
+	}
+
+	public void setSoldats(ArrayList<Soldat> soldats) {
+		this.soldats = soldats;
+	}
+
+	public int[] getKO() {
+		return KO;
+	}
+
+	public void setKO(int[] kO) {
+		KO = kO;
+	}
+
 	public boolean soldatExiste(Soldat soldat) {
 		List<Soldat> chercheSoldat = this.soldats.stream().filter(x -> x.getId() == soldat.getId()).collect(Collectors.toList());
 		return chercheSoldat.size() > 0;
