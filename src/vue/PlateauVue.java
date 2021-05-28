@@ -81,7 +81,7 @@ public class PlateauVue extends JFrame implements KeyListener {
 
 		/** Panel Pause **/
 		PanelPause MenuPause = new PanelPause(this.joueurs);
-		this.add(MenuPause);
+		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
 
 		//Affichage de bouton pause
 		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
@@ -91,8 +91,8 @@ public class PlateauVue extends JFrame implements KeyListener {
 				MenuPause.setVisible(true);
 			}
 		});
-		BoutonPause.setBounds(977, 710, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
-		this.plateau.add(BoutonPause, JLayeredPane.DRAG_LAYER);
+		BoutonPause.setBounds(977, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		this.plateau.add(BoutonPause, JLayeredPane.DEFAULT_LAYER);
 
 		// Création de minimap
 		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this);
