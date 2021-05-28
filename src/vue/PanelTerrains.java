@@ -50,7 +50,7 @@ public class PanelTerrains extends JLayeredPane {
 	private Joueur tourJoueur;
 	private PanelInfosSoldat panelInfosSoldat;
 	private PanelInfosJoueur panelInfosJoueur;
-	private JLabel labelText;
+	private JLabel labelBonusDef;
 	private Guide guide;
 	private int indTourJoueur;
 
@@ -358,18 +358,18 @@ public class PanelTerrains extends JLayeredPane {
 						afficherImageSelec(false, labelBordure.getX(), labelBordure.getY());
 						Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
 						int bonusDefense = getBonusDef(hexagoneClique.getTypeTerrain());
-						labelText = new JLabel(Integer.toString(bonusDefense) + "%");
-						labelText.setFont(new Font("Arial", Font.BOLD, 20));
-						labelText.setForeground(new Color(231, 206, 54));
-						labelText.setHorizontalAlignment(SwingConstants.CENTER);
-						labelText.setBounds(labelBordure.getBounds());
-						add(labelText, JLayeredPane.PALETTE_LAYER);
+						labelBonusDef = new JLabel(Integer.toString(bonusDefense) + "%");
+						labelBonusDef.setFont(new Font("Arial", Font.BOLD, 20));
+						labelBonusDef.setForeground(new Color(231, 206, 54));
+						labelBonusDef.setHorizontalAlignment(SwingConstants.CENTER);
+						labelBonusDef.setBounds(labelBordure.getBounds());
+						add(labelBonusDef, JLayeredPane.PALETTE_LAYER);
 					}
 
 					@Override
 					public void mouseExited(MouseEvent e) {
 						effacerImageSelec(labelBordure.getX(), labelBordure.getY());
-						remove(labelText);
+						remove(labelBonusDef);
 					}
 
 					@Override
@@ -377,7 +377,7 @@ public class PanelTerrains extends JLayeredPane {
 						if (guide.isGuideActive() && !guide.aValideCompetence(2)) {
 							guide.afficherIndicationsDeplacement2();
 						}
-						remove(labelText);
+						remove(labelBonusDef);
 						Hexagone hexagone = getHexagone(labelBordure.getX(), labelBordure.getY());
 						if (soldatSelec != null && !hexagone.contientEnnemi(tourJoueur)) {
 							int nbrHexagones, nouveauX, nouveauY, xClic, yClic;
