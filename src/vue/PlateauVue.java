@@ -28,7 +28,6 @@ public class PlateauVue extends JFrame {
 	private Guide guide;
 
 	public PlateauVue(ArrayList<Joueur> joueurs) {  
-		
 		// Définition des données de la fenêtre principale
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setBounds(0,0,1267,680);
@@ -123,6 +122,7 @@ public class PlateauVue extends JFrame {
 			}
 		});
 		bouton.setBounds(1150, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+
 		this.plateau.add(bouton, JLayeredPane.DEFAULT_LAYER);
 
 		setTourJoueur(tourJoueur, ind);
