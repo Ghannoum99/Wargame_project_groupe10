@@ -1,6 +1,9 @@
 package controleur;
 
 import java.awt.EventQueue;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 import vue.*;
 
 public class Application {
@@ -10,6 +13,10 @@ public class Application {
 			public void run() {
 				try {
 					MenuPrincipal frame = new MenuPrincipal();
+					GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+			        if (device.isFullScreenSupported()) {
+			            device.setFullScreenWindow(frame);
+			        } 
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

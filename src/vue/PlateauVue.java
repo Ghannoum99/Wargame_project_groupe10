@@ -38,7 +38,13 @@ public class PlateauVue extends JFrame implements KeyListener {
 		this.setVisible(true);
 		this.addKeyListener(this);
 		this.setResizable(false);
+		this.setBackground(Color.black);
 		this.setTitle("WarGame");
+		
+		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        if (device.isFullScreenSupported()) {
+            device.setFullScreenWindow(this);
+        } 
 
 		// Image de fond
 		JPanel panTmp = new JPanel();
