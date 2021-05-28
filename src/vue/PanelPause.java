@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import controleur.JsonController;
 import modele.Joueur;
 
 @SuppressWarnings("serial")
@@ -27,7 +28,7 @@ public class PanelPause extends JPanel {
 		this.setVisible(false);
 		
 		//Création d'un jsonController pour l'enregistrement de la partie en cours
-		this.json = new controleur.JsonController();
+		this.json = new JsonController();
 		
 		//Récupération de la liste des joueurs
 		this.joueurs = joueurs;
