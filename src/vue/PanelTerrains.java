@@ -49,12 +49,12 @@ public class PanelTerrains extends JLayeredPane {
 	private Map<Integer, JLabel> labelsHexagones;
 	private Joueur tourJoueur;
 	private PanelInfosSoldat panelInfosSoldat;
+	private PanelInfosJoueur panelInfosJoueur;
 	private JLabel labelText;
 	private Guide guide;
 	private int indTourJoueur;
 
-	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, Guide guide) {
-		super();
+	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, PanelInfosJoueur panelInfosJoueur, Guide guide) {
 		// Définition des données du panel
 		this.setLayout(null);
 		this.setVisible(true);
@@ -131,6 +131,9 @@ public class PanelTerrains extends JLayeredPane {
 		// Récupération du panel permettant d'afficher les informations des soldats
 		this.panelInfosSoldat = panelInfosSoldat;
 
+		// Récupération du panel permettant d'afficher les informations du joueur
+		this.panelInfosJoueur = panelInfosJoueur;
+		
 		// Initialisation des soldats sélectionnés
 		this.labelSoldatSelec = null;
 		this.soldatSelec = null;
@@ -524,6 +527,9 @@ public class PanelTerrains extends JLayeredPane {
 		mettreAjourHexagonesSoldats();
 		this.soldatSelec = null;
 		this.labelSoldatSelec = null;
+		this.panelInfosJoueur.NomJoueur.setText(this.tourJoueur.getNomJoueur());
+		this.panelInfosJoueur.score.setText(String.valueOf((Integer)this.tourJoueur.getScore()));
+		this.panelInfosJoueur.nombreSoldat.setText(String.valueOf((Integer)this.tourJoueur.getSoldatList().size()));
 	}
 
 	/*

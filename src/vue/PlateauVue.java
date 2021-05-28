@@ -63,12 +63,10 @@ public class PlateauVue extends JFrame {
 		this.panelInfosSoldat = new PanelInfosSoldat();
 		this.plateau.add(this.panelInfosSoldat, JLayeredPane.DEFAULT_LAYER);
 
+		// Création du panel permettant d'afficher les infos du joueur
 		this.infosJoueur = new PanelInfosJoueur(joueurs);
 		this.plateau.add(this.infosJoueur, JLayeredPane.DEFAULT_LAYER);
-		this.infosJoueur.NomJoueur.setText(joueurs.get(0).getNomJoueur());
-		this.infosJoueur.score.setText(String.valueOf((Integer)joueurs.get(0).getScore()));
-		this.infosJoueur.nombreSoldat.setText(String.valueOf((Integer)joueurs.get(0).getSoldatList().size()));
-
+	
 		// Création des joueurs 
 		this.joueurs = joueurs;
 
@@ -103,30 +101,31 @@ public class PlateauVue extends JFrame {
 		this.guide = new Guide();
 		this.plateau.add(this.guide, JLayeredPane.DEFAULT_LAYER);
 		this.guide.afficherQuestion();
-		
+
 		// Création du panel permettant d'afficher les terrains et de positionner les soldats
-		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.guide);
+		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.infosJoueur, this.guide);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 
+		// Finir le tour
 		JButton bouton = new JButton();
 		bouton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Pour l'instant il faut appuyer sur la touche espace pour changer de joueur (juste pour les tests)
 				System.out.println("Changement de joueur");
-					int ind = 0;
-					Joueur ancienJoueur, nouveauJoueur;
-					ancienJoueur = panelTerrains.getTourJoueur();
-					nouveauJoueur = ancienJoueur;
-					while (nouveauJoueur == ancienJoueur) {
-						ind = (int) (Math.random() * (joueurs.size() - 0));
-						nouveauJoueur = joueurs.get(ind);
-					}
-					setTourJoueur(nouveauJoueur, ind);
+				int ind = 0;
+				Joueur ancienJoueur, nouveauJoueur;
+				ancienJoueur = panelTerrains.getTourJoueur();
+				nouveauJoueur = ancienJoueur;
+				while (nouveauJoueur == ancienJoueur) {
+					ind = (int) (Math.random() * (joueurs.size() - 0));
+					nouveauJoueur = joueurs.get(ind);
+				}
+				setTourJoueur(nouveauJoueur, ind);
 			}
 		});
 		bouton.setBounds(1150, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
 		this.plateau.add(bouton, JLayeredPane.DEFAULT_LAYER);
-		
+
 		setTourJoueur(tourJoueur, ind);
 
 		/** Panel Fin Baitaille **/
