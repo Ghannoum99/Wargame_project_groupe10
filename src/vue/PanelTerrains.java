@@ -148,7 +148,7 @@ public class PanelTerrains extends JLayeredPane {
 		this.scrollPane = new JScrollPane(this);
 		this.scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
 		this.scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0,0));
-		this.scrollPane.setBounds(10,34,835,570);
+		this.scrollPane.setBounds(10,13,1080,545);
 		this.scrollPane.setPreferredSize(this.getPreferredSize());
 		this.scrollPane.getHorizontalScrollBar().setValue(1);
 		this.scrollPane.getVerticalScrollBar().setValue(1);

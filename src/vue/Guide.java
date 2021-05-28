@@ -27,7 +27,7 @@ public class Guide extends JPanel {
 	public Guide(int nbrJoueurs) {
 		this.setLayout(null);
 		this.setVisible(true);
-		this.setBounds(250, 610, 840, 80);
+		this.setBounds(250, 570, 840, 120);
 		this.setOpaque(false);	
 
 		competencesAcquisesJoueurs = new boolean[nbrJoueurs][4];
@@ -45,7 +45,7 @@ public class Guide extends JPanel {
 
 		ImageIcon imageIcon = new ImageIcon(new ImageIcon("images/fleches/fleche_haut.gif").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		labelIcon = new JLabel(imageIcon);
-		labelIcon.setBounds(400, -70, 200, 200);
+		labelIcon.setBounds(600, -70, 200, 200);
 
 		this.add(labelTitre);
 		this.add(labelIndications);
@@ -56,10 +56,6 @@ public class Guide extends JPanel {
 
 	public void afficherIndicationsDeplacement(int numJoueur) {
 		if (aValideCompetence(numJoueur, 0)) {
-			if (Arrays.stream(this.getComponents()).anyMatch(this.labelIcon::equals)) {
-				this.remove(labelIcon);
-			}
-
 			labelTitre.setText("Indications");
 			labelTitre.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 			labelTitre.setForeground(new Color(200, 173, 10));
@@ -68,7 +64,7 @@ public class Guide extends JPanel {
 			labelIndications2.setVisible(false);
 			labelIndications.setVisible(true);
 			labelIndications.setText("<html>Pour pouvoir déplacer un soldat, vous devez cliquer "
-					+ "sur l'hexagone sur lequel <br>vous voulez qu'il se rende.</html>");
+					+ "sur l'hexagone sur lequel vous voulez qu'il se rende.</html>");
 			labelIndications.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 			labelIndications.setForeground(Color.white);
 			labelIndications.setBounds(10, 20, 700, 50);
@@ -80,7 +76,9 @@ public class Guide extends JPanel {
 
 	public void afficherIndicationsDeplacement2(int numJoueur) {
 		if (aValideCompetence(numJoueur, 1)) {
-			labelIndications.setText("<html>ATTENTION : un soldat ne peut se déplacer que si ses points de déplacements <br>"
+			remove(labelIcon);
+			labelIndications.setBounds(10, 20, 680, 50);	
+			labelIndications.setText("<html>ATTENTION : un soldat ne peut se déplacer que si ses points de déplacements "
 					+ "additioné au bonus de déplacement du terrain sur lequel il se trouve le permettent.</html>");
 	
 			boutonValider.setVisible(true);
@@ -88,7 +86,7 @@ public class Guide extends JPanel {
 				boutonValider.removeActionListener(actionL);
 			}
 	
-			labelIndications2.setText("<html>Pour avoir des informations sur un terrain, il suffit de passer la souris sur <br>l'un de ses hexagones.</html>");
+			labelIndications2.setText("<html>Pour avoir des informations sur un terrain, il suffit de passer la souris sur l'un de ses hexagones.</html>");
 			
 			boutonValider.addActionListener(new ActionListener() {
 				@Override
@@ -114,7 +112,7 @@ public class Guide extends JPanel {
 			boutonValider.setVisible(true);
 			ImageIcon imageFond = new ImageIcon("images/button_small_copper_H22-active.png");
 			boutonValider.setIcon(imageFond);
-			boutonValider.setBounds(410, 65, 50, 20);
+			boutonValider.setBounds(700, 65, 50, 20);
 			boutonValider.setFont(new Font("Times New Roman", Font.PLAIN, 11));
 			boutonValider.setText("OK");
 			boutonValider.addActionListener(new ActionListener() {
@@ -136,16 +134,16 @@ public class Guide extends JPanel {
 		labelTitre.setForeground(new Color(200, 173, 10));
 		labelTitre.setBounds(10, -10, 700, 50);
 
-		labelIndications.setText("<html>Le jeu est composé de cinq terrains distincts et des soldats des différents joueurs.<br>"
-				+ "Tous les joueurs disposent de 10 soldats au lancement du jeu. </html>");
+		labelIndications.setText("<html>Le jeu est composé de cinq terrains distincts et des soldats des différents joueurs."
+				+ " Tous les joueurs disposent de 10 soldats au lancement du jeu. </html>");
 		labelIndications.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		labelIndications.setForeground(Color.white);
-		labelIndications.setBounds(10, 20, 500, 50);	
+		labelIndications.setBounds(10, 20, 690, 50);	
 
-		labelIndications2.setText("<html>Pour gagner la partie, il suffit de répondre aux critères du scénario que vous <br>venez de choisir, avant les autres joueurs.</html>");
+		labelIndications2.setText("<html>Pour gagner la partie, il suffit de répondre aux critères du scénario que vous venez de choisir, avant les autres joueurs.</html>");
 		labelIndications2.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		labelIndications2.setForeground(Color.white);
-		labelIndications2.setBounds(10, 20, 500, 50);
+		labelIndications2.setBounds(10, 20, 690, 50);
 		labelIndications2.setVisible(false);
 
 		boutonValider.setText("Suivant");
@@ -153,7 +151,7 @@ public class Guide extends JPanel {
 		boutonValider.setIcon(new ImageIcon("images/large-button-active.png"));
 		boutonValider.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		boutonValider.setForeground(Color.white);
-		boutonValider.setBounds(470,65, 100, 22);
+		boutonValider.setBounds(700,65, 100, 22);
 		boutonValider.setHorizontalTextPosition(JButton.CENTER);
 		boutonValider.addActionListener(new ActionListener() {
 			@Override
@@ -164,7 +162,7 @@ public class Guide extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						labelIndications2.setText("<html>Pour pouvoir réaliser une action avec l'un de vos soldats, vous devez tout "
-								+ "d'abord <br>le sélectionner en cliquant dessus.</html>");
+								+ "d'abord le sélectionner en cliquant dessus.</html>");
 						boutonValider.setVisible(false);
 						add(labelIcon);
 						validerCompetence(numJoueur, 0);

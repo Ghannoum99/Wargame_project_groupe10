@@ -21,7 +21,7 @@ public class MiniMap extends JLayeredPane {
 		// Définition des données du panel
 		this.setLayout(null);
 		this.setVisible(true);
-		this.setBounds(872, 35, 124, 165);
+		this.setBounds(1110, 35, 124, 165);
 		this.setOpaque(true);
 		
 		ImageIcon imageIconTerrain;

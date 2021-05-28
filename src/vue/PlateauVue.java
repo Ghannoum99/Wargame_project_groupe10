@@ -32,7 +32,8 @@ public class PlateauVue extends JFrame implements KeyListener {
 	public PlateauVue(ArrayList<Joueur> joueurs) {  
 		// Définition des données de la fenêtre principale
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		this.setBounds(0,0,1038, 790);
+		this.setBounds(0,0,1267,680);
+		this.setSize(new Dimension(1267, 680));
 		this.getContentPane().setBackground(Color.white);	
 		getContentPane().setLayout(null);
 		this.setVisible(true);
@@ -40,29 +41,24 @@ public class PlateauVue extends JFrame implements KeyListener {
 		this.setResizable(false);
 		this.setBackground(Color.black);
 		this.setTitle("WarGame");
-		
-		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        if (device.isFullScreenSupported()) {
-            device.setFullScreenWindow(this);
-        } 
 
-		// Image de fond
-		JPanel panTmp = new JPanel();
-		panTmp.setBounds(0, 0, 1030, 765);
-		panTmp.setOpaque(false);
-		JLabel contentPane = new JLabel();
-		contentPane.setIcon( new ImageIcon("images/plateau.png"));
-		contentPane.setBounds(0, 50, 1024, 770);
-		this.setContentPane(contentPane);
-		this.getContentPane().add(panTmp);
-		panTmp.setLayout(null);
+		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		if (device.isFullScreenSupported()) {
+			device.setFullScreenWindow(this);
+		} 
 
 		this.plateau = new JLayeredPane();
 		this.plateau.setLayout(null);
-		this.plateau.setBounds(0,0,1038, 790);
+		this.plateau.setBounds(0,0,1267, 680);
 		this.plateau.setVisible(true);
 		this.plateau.setOpaque(false);
 		this.add(this.plateau);
+
+		// Image de fond
+		JLabel backgroundimage = new JLabel("");
+		backgroundimage.setBounds(0, 0, 1267, 680);
+		backgroundimage.setIcon(new ImageIcon("images/plateau.png"));
+		this.add(backgroundimage);
 
 		// Création du panel permettant d'afficher les infos du soldat
 		this.panelInfosSoldat = new PanelInfosSoldat();
@@ -97,7 +93,7 @@ public class PlateauVue extends JFrame implements KeyListener {
 				MenuPause.setVisible(true);
 			}
 		});
-		BoutonPause.setBounds(977, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		BoutonPause.setBounds(1110, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
 		this.plateau.add(BoutonPause, JLayeredPane.DEFAULT_LAYER);
 
 		// Création de minimap

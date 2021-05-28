@@ -15,7 +15,7 @@ public class PanelInfosSoldat extends JPanel {
 	
 	public PanelInfosSoldat() {
 		this.setLayout(null);
-		this.setBounds(860, 200, 150, 400);
+		this.setBounds(1110, 350, 150, 400);
 		this.setOpaque(false);
 		
 		this.labelImage = new JLabel("");

@@ -20,19 +20,6 @@ public class MenuPrincipal extends JFrame{
 	private JLabel backgroundimage;
 	private PanelMenuInfos panelMenu;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuPrincipal frame = new MenuPrincipal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
 	public MenuPrincipal() {
 		this.setTitle("WarGame");
 		this.setResizable(false);
