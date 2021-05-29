@@ -344,7 +344,8 @@ public class Guide extends JPanel {
 				labelIndications.setVisible(false);
 				labelTitre.setVisible(false);
 				labelImageInterlo.setVisible(false);
-				boutonValider.setText("?");
+				boutonValider.setIcon(new ImageIcon("images/help_30.png"));
+				System.out.println(boutonvalider.getIcon());
 			}
 		});
 
