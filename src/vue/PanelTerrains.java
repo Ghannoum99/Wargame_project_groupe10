@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
@@ -624,9 +626,6 @@ public class PanelTerrains extends JLayeredPane {
 		
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			if (guide.isGuideActive() && !guide.aValideCompetence(3)) {
-				guide.afficherIndicationsDeplacement3();
-			}
 			afficherImageSelec(false, labelBordure.getX(), labelBordure.getY());
 			Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
 			int bonusDefense = getBonusDef(hexagoneClique.getTypeTerrain());
@@ -640,6 +639,16 @@ public class PanelTerrains extends JLayeredPane {
 
 		@Override
 		public void mouseExited(MouseEvent e) {
+			TimerTask task = new TimerTask() {
+		        public void run() {
+		        	if (guide.isGuideActive() && !guide.aValideCompetence(3)) {
+						guide.afficherIndicationsDeplacement3();
+					}
+		        }
+		    };
+		    Timer timer = new Timer("Timer");
+		    long delay = 1000L;
+		    timer.schedule(task, delay);
 			effacerImageSelec(labelBordure.getX(), labelBordure.getY());
 			remove(labelBonusDef);
 		}

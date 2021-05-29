@@ -28,7 +28,6 @@ public class MenuScenario extends JFrame {
 	private PanelScenario panelScroll;
 	private boolean choix;
 	private ArrayList<Joueur> joueurs;
-
 	
 	public MenuScenario(boolean choix, ArrayList<Joueur> joueurs) {
 		setTitle("WarGame");
