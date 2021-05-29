@@ -216,7 +216,7 @@ public class Guide extends JPanel {
 
 			labelIndications2.setText("<html>Information supplémentaire : la petite carte en haut à droite vous permet d'avoir une vue d'ensemble sur le plateau et sur les différents terrains.</html>");
 
-			labelIndications.setText("<html>Vous êtes arrivé à l'issue de ce tutoriel.</html>");
+			labelIndications.setText("<html>Vous êtes arrivé à la fin de ce tutoriel.</html>");
 
 			for (ActionListener actionL : boutonValider.getActionListeners()) {
 				boutonValider.removeActionListener(actionL);
