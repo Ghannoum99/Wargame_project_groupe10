@@ -166,7 +166,7 @@ public class PanelTerrains extends JLayeredPane {
 		// Mettre à jour l'image des hexagones sous chaque label des soldats
 		mettreAjourHexagonesSoldats();
 		
-		afficherBrouillard();
+		//afficherBrouillard();
 	}
 
 	/*
@@ -203,7 +203,13 @@ public class PanelTerrains extends JLayeredPane {
 						soldatSelec = soldat;
 						mettreAjourSoldatSelec();
 					}
+					else {
+						if (guide.isGuideActive() && !guide.aValideCompetence(5)) {
+							guide.afficherFinTuto();
+						}
+					}
 				}
+				
 			});
 		}
 	}
@@ -642,6 +648,7 @@ public class PanelTerrains extends JLayeredPane {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			// On affiche la partie 2 du tutoriel
 			if (guide.isGuideActive() && !guide.aValideCompetence(2)) {
 				guide.afficherIndicationsDeplacement2();
 			}
@@ -702,6 +709,24 @@ public class PanelTerrains extends JLayeredPane {
 				Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
 				int bonusDeplacement = getBonusDep(hexagoneClique.getTypeTerrain());
 
+				// On vérifie si en se déplacant le soldat se retrouve à proximité d'un ennemi
+				List<Hexagone> listeHex = new ArrayList<Hexagone>();
+				for (int ind=0; ind<terrains.size(); ind++) {
+					Terrain terrain = terrains.get(ind);
+					for (int ind2=0; ind2<terrain.getHexagones().size(); ind2++) {
+						Hexagone hex = terrain.getHexagones().get(ind2);
+						if (hex.getUnits().size() > 0 && !(tourJoueur.soldatExiste(hex.getUnits().get(0))) && (hex.getAbscisse()-hexagoneClique.getAbscisse()) <= 54 && (hex.getAbscisse()-hexagoneClique.getAbscisse()) >= -54 && (hex.getOrdonnees()-hexagoneClique.getOrdonnees()) <= 72 && (hex.getOrdonnees()-hexagoneClique.getOrdonnees()) >= -72) {
+							listeHex.add(hex);
+						}
+						
+					}
+				}
+				if (!listeHex.isEmpty()) {
+					if (guide.isGuideActive() && !guide.aValideCompetence(4)) {
+						guide.afficherIndicationsCombat();
+					}
+				}
+				
 				soldatSelec.deplacementPossible(0, getWidth() - 50, 0, getHeight() - 70, nouveauX, nouveauY, nbrHexagones, bonusDeplacement);
 				labelSoldatSelec.setLocation(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees());
 				camera.update(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees(), scrollPane);

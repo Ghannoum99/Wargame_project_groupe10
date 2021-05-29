@@ -121,7 +121,7 @@ public class PlateauVue extends JFrame {
 		PanelPause MenuPause = new PanelPause(this.joueurs);
 		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
 
-		//Affichage de bouton pause
+		// Affichage de bouton pause
 		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
 		JButton BoutonPause = new JButton(imageIconPause);
 		BoutonPause.addActionListener(new ActionListener() {
@@ -145,6 +145,7 @@ public class PlateauVue extends JFrame {
 		//this.plateau.add(fin, JLayeredPane.DRAG_LAYER);
 		//PanelMenuInfos panelMenu = new PanelMenuInfos(155, 98, 544, 440);
 		//this.plateau.add(panelMenu, JLayeredPane.DRAG_LAYER);
+		//this.panelTerrains.retirerMouseListenerHexagones();
 
 		SwingUtilities.updateComponentTreeUI(this.plateau);
 	}

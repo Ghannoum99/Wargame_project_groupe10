@@ -33,11 +33,8 @@ public class Guide extends JPanel {
 		this.setOpaque(false);	
 
 		this.guideActive = false;
-		
-		competencesAcquises = new boolean[4];
-		for (int i=0; i<4; i++) {
-			competencesAcquises[i] = false;
-		}
+
+		competencesAcquises = new boolean[6];
 
 		this.labelTitre = new JLabel();
 		this.labelIndications = new JLabel();
@@ -54,7 +51,7 @@ public class Guide extends JPanel {
 		ImageIcon imageInterlo = new ImageIcon(new ImageIcon("images/profile/image7.png").getImage().getScaledInstance(250, 250, Image.SCALE_DEFAULT));
 		labelImageInterlo = new JLabel(imageInterlo);
 		labelImageInterlo.setBounds(0, 0, 300, 250);
-		
+
 		this.add(labelTitre);
 		this.add(labelIndications);
 		this.add(labelIndications2);
@@ -67,14 +64,14 @@ public class Guide extends JPanel {
 	public void afficherIndicationsDeplacement() {
 		if (aValideCompetence(0)) {
 			labelIcon.setBounds(810, 30, 200, 200);
-			
+
 			labelTitre.setText("Indications");
-			
+
 			labelIndications2.setVisible(false);
 			labelIndications.setVisible(true);
 			labelIndications.setText("<html>Pour pouvoir déplacer un soldat, vous devez cliquer "
 					+ "sur l'hexagone sur lequel vous voulez qu'il se rende.</html>");
-			
+
 			boutonValider.setVisible(false);
 			validerCompetence(1);
 		}
@@ -91,14 +88,14 @@ public class Guide extends JPanel {
 			for (ActionListener actionL : boutonValider.getActionListeners()) {
 				boutonValider.removeActionListener(actionL);
 			}
-	
-			labelIndications2.setText("<html>Pour avoir des informations sur un terrain, il suffit de passer la souris sur l'un de ses hexagones.</html>");
-			
+
+			labelIndications2.setText("<html>Pour avoir des informations sur un terrain, il suffit de passer la souris quelque temps sur l'un de ses hexagones.</html>");
+
 			boutonValider.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					labelIcon.setVisible(true);
-					labelIcon.setBounds(770, 30, 200, 200);
+					labelIcon.setBounds(840, 30, 200, 200);
 					labelIndications2.setVisible(true);
 					labelIndications.setVisible(false);
 					add(labelIcon);
@@ -111,8 +108,8 @@ public class Guide extends JPanel {
 
 	public void afficherIndicationsDeplacement3() {
 		if (aValideCompetence(2)) {
-			labelIcon.setBounds(630, 30, 200, 200);
-			
+			labelIcon.setBounds(630, 50, 200, 200);
+
 			labelIndications2.setText("<html>Vous trouverez toutes les informations du soldat sélectionné à droite.</html>");
 			ImageIcon imageIcon = new ImageIcon(new ImageIcon("images/fleches/fleche_droite.gif").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 			labelIcon.setIcon(imageIcon);
@@ -129,10 +126,8 @@ public class Guide extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					labelIndications.setVisible(false);
-					labelIndications2.setVisible(false);
+					labelIndications2.setText("<html>Cherchez dans les alentours, des soldats arborant un hexagone de couleur rouge autour d'eux.</html>");
 					labelIcon.setVisible(false);
-					labelTitre.setVisible(false);
-					labelImageInterlo.setVisible(false);
 					validerCompetence(3);
 					boutonValider.setVisible(false);
 				}
@@ -140,6 +135,116 @@ public class Guide extends JPanel {
 		}
 	}
 
+	public void afficherIndicationsCombat() {
+		if (aValideCompetence(3)) {
+			labelIcon.setBounds(620, 50, 200, 200);
+
+			labelIndications2.setText("<html>Vous vous trouvez à proximité d'un ennemi !</html>");
+
+			labelIndications.setText("<html>Pour pouvoir attaquer un soldat, il ne doit y avoir aucun hexagone vous séparant l'un de l'autre. Une fois ce critère rempli, il vous suffit de cliquer sur l'ennemi pour l'attaquer. </html>");
+			labelIndications.setBounds(300, 130, 660, 50);	
+
+			for (ActionListener actionL : boutonValider.getActionListeners()) {
+				boutonValider.removeActionListener(actionL);
+			}
+			boutonValider.setVisible(true);
+			boutonValider.setIcon(new ImageIcon("images/large-button-active.png"));
+			boutonValider.setBounds(950,165, 100, 22);
+			boutonValider.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+			boutonValider.setText("Suivant");
+			boutonValider.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					labelIndications.setVisible(true);
+					labelIndications2.setVisible(false);
+
+					boutonValider.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							labelIndications.setText("<html>En fonction des points d'attaque du soldat avec lequel vous êtes actuellement "
+									+ "en train de jouer, et en fonction des points de défense du soldat que vous comptez attaquer, la victime perdra ou non des points de vies.</html>");
+							
+							for (ActionListener actionL : boutonValider.getActionListeners()) {
+								boutonValider.removeActionListener(actionL);
+							}
+							boutonValider.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									labelIndications.setText("<html>Lorsqu'un soldat perd tous ses points de vies. Il est KO et le nombre de soldats du joueur auquel il est rattaché diminue. Le joueur ne peut par conséquent plus utiliser ce soldat pour la suite de la partie.</html>");
+									labelIndications2.setText("<html>Vous pouvez retrouver toutes les informations du joueur à droite.</html>");
+									
+									boutonValider.addActionListener(new ActionListener() {
+										@Override
+										public void actionPerformed(ActionEvent e) {
+											labelIndications.setVisible(false);
+											labelIndications2.setVisible(true);
+											labelIcon.setVisible(true);
+											
+											for (ActionListener actionL : boutonValider.getActionListeners()) {
+												boutonValider.removeActionListener(actionL);
+											}
+											boutonValider.addActionListener(new ActionListener() {
+												@Override
+												public void actionPerformed(ActionEvent e) {
+													labelIndications2.setText("<html>Attaquez un soldat adverse.</html>");
+													boutonValider.setVisible(false);
+													labelIcon.setVisible(false);
+													validerCompetence(4);
+												}
+											});
+										}
+									});
+								}
+							});	
+						}
+					});
+				}
+			});
+		}
+	}
+
+	public void afficherFinTuto() {
+		if (aValideCompetence(4)) {
+			labelIcon.setVisible(true);
+			labelIcon.setBounds(870, 30, 200, 200);
+
+			labelIndications2.setText("<html>La petite carte en haut à droite vous permet d'avoir une vue d'ensemble sur le plateau et sur les différents terrains.</html>");
+			
+			labelIndications.setText("<html>Vous êtes arrivé à l'issue de ce tutoriel.</html>");
+
+			for (ActionListener actionL : boutonValider.getActionListeners()) {
+				boutonValider.removeActionListener(actionL);
+			}
+			
+			boutonValider.setVisible(true);
+			boutonValider.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					labelIcon.setVisible(false);
+					labelIndications2.setVisible(false);
+					labelIndications.setVisible(true);
+					boutonValider.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							labelIndications.setText("<html>En cas de besoin, vous pourrez le relancer à tout moment à l'aide du bouton 'Aide'.</html>");
+							boutonValider.setText("Fin");
+							for (ActionListener actionL : boutonValider.getActionListeners()) {
+								boutonValider.removeActionListener(actionL);
+							}
+							boutonValider.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									validerCompetence(5);
+									afficherQuestion();
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	}
+	
 	public void afficherIndicationsSelection() {
 		for (ActionListener actionL : boutonValider.getActionListeners()) {
 			boutonValider.removeActionListener(actionL);
@@ -147,7 +252,7 @@ public class Guide extends JPanel {
 		boutonAnnuler.setVisible(false);
 		labelIndications.setText("<html>Le jeu est composé de cinq terrains distincts et des soldats des différents joueurs."
 				+ " Tous les joueurs disposent de 10 soldats au lancement du jeu. </html>");
-			
+
 		labelIndications2.setText("<html>Pour gagner la partie, il suffit de répondre aux critères du scénario que vous venez de choisir, avant les autres joueurs.</html>");
 		labelIndications2.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		labelIndications2.setForeground(Color.white);
@@ -174,18 +279,21 @@ public class Guide extends JPanel {
 		});
 
 	}
-	
+
 	public void afficherQuestion() {
+		labelTitre.setVisible(true);
 		labelTitre.setText("Bienvenue sur WarGame !");
 		labelTitre.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		labelTitre.setForeground(new Color(200, 173, 10));
 		labelTitre.setBounds(300, 100, 700, 50);
 
+		labelIndications.setVisible(true);
 		labelIndications.setText("<html>Voulez-vous lancer le tutoriel ?</html>");
 		labelIndications.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		labelIndications.setForeground(Color.white);
 		labelIndications.setBounds(300, 130, 660, 50);	
 
+		boutonValider.setVisible(true);
 		boutonValider.setText("Oui");
 		boutonValider.setBorder(UIManager.getBorder("Button.border"));
 		boutonValider.setIcon(new ImageIcon("images/large-button-active.png"));
@@ -196,6 +304,9 @@ public class Guide extends JPanel {
 		boutonValider.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				for (int i=0; i<6; i++) {
+					competencesAcquises[i] = false;
+				}
 				guideActive = true;
 				labelIndications.setVisible(true);
 				labelTitre.setVisible(true);
@@ -203,7 +314,8 @@ public class Guide extends JPanel {
 				afficherIndicationsSelection();
 			}
 		});
-		
+
+		boutonAnnuler.setVisible(true);
 		boutonAnnuler.setText("Non");
 		boutonAnnuler.setBorder(UIManager.getBorder("Button.border"));
 		boutonAnnuler.setIcon(new ImageIcon("images/large-button-active.png"));
@@ -222,7 +334,7 @@ public class Guide extends JPanel {
 				boutonValider.setText("Aide");
 			}
 		});
-		
+
 	}
 
 	public void validerCompetence(int numCompetence) {
@@ -240,5 +352,5 @@ public class Guide extends JPanel {
 	public void setGuideActive(boolean guideActive) {
 		this.guideActive = guideActive;
 	}
-	
+
 }
