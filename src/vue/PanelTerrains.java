@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -56,7 +57,7 @@ public class PanelTerrains extends JLayeredPane {
 	private JLabel labelBonusDef;
 	private Guide guide;
 	private int indTourJoueur;
-
+	private Hexagone hexagoneSelected;
 	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, PanelInfosJoueur panelInfosJoueur, Guide guide) {
 		// Définition des données du panel
 		this.setLayout(null);
@@ -189,6 +190,7 @@ public class PanelTerrains extends JLayeredPane {
 			labelSoldat.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
+					System.out.println("Click");
 					if (tourJoueur.soldatExiste(soldat)) {
 						panelInfosSoldat.afficherInfosSoldats(soldat);
 
@@ -209,13 +211,76 @@ public class PanelTerrains extends JLayeredPane {
 						if (guide.isGuideActive() && !guide.aValideCompetence(5)) {
 							guide.afficherFinTuto();
 						}
+						boolean attaque = possibiliteAttaque(hexagoneSelected, hexagone);
+						System.out.println(attaque);
+						System.out.println(hexagone);
+						if(attaque)  {
+							tirer(hexagoneSelected, hexagone);
+							diminuerpointdeviesoldat(hexagoneSelected, hexagone);
+							System.out.println(hexagone);
+						}
 					}
 				}
 				
 			});
 		}
 	}
+	
+	/*
+	 * Fonction pour vérfier les possiblités d'attaquer
+	 * on peut attaquer seulement les 6 hexagones autour du soldat
+	 */
+	public boolean possibiliteAttaque(Hexagone amis, Hexagone ennemi) {
+		boolean result = false;
+		int intervalleAbscisse = 52;
+		int intervalleOrdonnee1 = 36;
+		int intervalleOrdonnee2 = 34;
+		int abscisseAmis = amis.getAbscisse();
+		int abscisseEnnemi = ennemi.getAbscisse();
+		int ordonneeAmis = amis.getOrdonnees();
+		int ordonneeEnnemi = ennemi.getOrdonnees();
+		if(
+				//Haut gauche
+				(abscisseAmis - abscisseEnnemi == intervalleAbscisse && (ordonneeAmis - ordonneeEnnemi == intervalleOrdonnee1 || ordonneeAmis - ordonneeEnnemi == intervalleOrdonnee2))
+				||
+				//Bas gauche
+				(abscisseAmis - abscisseEnnemi == intervalleAbscisse && (ordonneeAmis + intervalleOrdonnee1 == ordonneeEnnemi || ordonneeAmis + intervalleOrdonnee2 == ordonneeEnnemi))
+				||
+				//Haut
+				(abscisseAmis == abscisseEnnemi && (ordonneeAmis - ordonneeEnnemi == intervalleOrdonnee1 + intervalleOrdonnee1 || ordonneeAmis - ordonneeEnnemi == intervalleOrdonnee2 + intervalleOrdonnee2 || ordonneeAmis - ordonneeEnnemi == intervalleOrdonnee1 + intervalleOrdonnee2))
+				||
+				//Bas
+				(abscisseAmis == abscisseEnnemi && (ordonneeAmis + intervalleOrdonnee1 + intervalleOrdonnee1 == ordonneeEnnemi || ordonneeAmis + intervalleOrdonnee2 + intervalleOrdonnee2 == ordonneeEnnemi || ordonneeAmis + intervalleOrdonnee1 + intervalleOrdonnee2 == ordonneeEnnemi))
+				||
+				//Haut droite
+				(abscisseAmis + intervalleAbscisse == abscisseEnnemi && (ordonneeAmis - ordonneeEnnemi == intervalleOrdonnee1 || ordonneeAmis - ordonneeEnnemi == intervalleOrdonnee2))
+				||
+				//Bas droite
+				(abscisseAmis + intervalleAbscisse == abscisseEnnemi && (ordonneeAmis + intervalleOrdonnee1 == ordonneeEnnemi || ordonneeAmis + intervalleOrdonnee2 == ordonneeEnnemi))
+		) {
+			result = true;
+		}
+		return result;
+	}
+	
+	/*
+	 * Fonction pour montrer le gif du soldat attaqué
+	 */
+	public void tirer(Hexagone amis, Hexagone ennemi) {
+		
+	}
 
+	/*
+	 * Cette fonction permet de diminuer les points de vie d'un soldat attaqué
+	 */
+	
+	public void diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
+		Random random = new Random();
+		int max = selected.getUnits().get(0).getAttaque() - ennemi.getUnits().get(0).getDefense();
+		int value = ennemi.getUnits().get(0).getPv() - (max - (random.nextInt(max + 1) + 1));
+		ennemi.getUnits().get(0).setPv(value);
+	}
+	
 	/*
 	 * Cette fonction permet de retourner l'image "allié" ou "ennemi"
 	 * en fonction du joueur dont c'est le tour et du soldat en paramètres
@@ -739,6 +804,7 @@ public class PanelTerrains extends JLayeredPane {
 				camera.update(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees(), scrollPane);
 				modifierCoordonneesCamera();
 				updateSoldatHexagone();
+				hexagoneSelected = hexagoneClique;
 			}
 		}
 	}
