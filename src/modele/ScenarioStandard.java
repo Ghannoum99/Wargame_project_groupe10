@@ -17,7 +17,10 @@ public class ScenarioStandard {
 	
 	public boolean appliquerScenario1(Joueur joueur) {
 		//Joueur gagnant = new Joueur(" ", new ArrayList<Soldat>(), 0, " ", new ArrayList<Joueur>());
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 		boolean termine = false;
 		for(Joueur j : joueurs) {
 			if(joueur == j && joueur.getNombreSoldat() == 0)
@@ -40,9 +43,13 @@ public class ScenarioStandard {
                 }
             }
         }
+<<<<<<< HEAD
         // gagnant est le gagnant
         // fin de partie
         //gagnant = joueursGagnant.get(0);
+=======
+       
+>>>>>>> master
         return termine;
     }
 	
