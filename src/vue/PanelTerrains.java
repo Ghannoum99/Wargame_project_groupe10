@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -164,6 +165,8 @@ public class PanelTerrains extends JLayeredPane {
 
 		// Mettre à jour l'image des hexagones sous chaque label des soldats
 		mettreAjourHexagonesSoldats();
+		
+		afficherBrouillard();
 	}
 
 	/*
@@ -349,99 +352,7 @@ public class PanelTerrains extends JLayeredPane {
 				UIManager.put("ToolTip.foreground", Color.decode("#B18904"));
 				labelBordure.setToolTipText(titre);
 
-				labelBordure.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						if (guide.isGuideActive() && !guide.aValideCompetence(3)) {
-							guide.afficherIndicationsDeplacement3();
-						}
-						afficherImageSelec(false, labelBordure.getX(), labelBordure.getY());
-						Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
-						int bonusDefense = getBonusDef(hexagoneClique.getTypeTerrain());
-						labelBonusDef = new JLabel(Integer.toString(bonusDefense) + "%");
-						labelBonusDef.setFont(new Font("Arial", Font.BOLD, 20));
-						labelBonusDef.setForeground(new Color(231, 206, 54));
-						labelBonusDef.setHorizontalAlignment(SwingConstants.CENTER);
-						labelBonusDef.setBounds(labelBordure.getBounds());
-						add(labelBonusDef, JLayeredPane.PALETTE_LAYER);
-					}
-
-					@Override
-					public void mouseExited(MouseEvent e) {
-						effacerImageSelec(labelBordure.getX(), labelBordure.getY());
-						remove(labelBonusDef);
-					}
-
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						if (guide.isGuideActive() && !guide.aValideCompetence(2)) {
-							guide.afficherIndicationsDeplacement2();
-						}
-						remove(labelBonusDef);
-						Hexagone hexagone = getHexagone(labelBordure.getX(), labelBordure.getY());
-						if (soldatSelec != null && !hexagone.contientEnnemi(tourJoueur)) {
-							int nbrHexagones, nouveauX, nouveauY, xClic, yClic;
-							nouveauX = soldatSelec.getAbscisse();
-							nouveauY = soldatSelec.getOrdonnees();
-
-							nbrHexagones = 0;
-							xClic = labelBordure.getX();
-							yClic = labelBordure.getY();
-
-							if (xClic  > soldatSelec.getAbscisse() && yClic > soldatSelec.getOrdonnees()) {
-								String imageDroite = soldatSelec.getImage();
-								ImageIcon image = new ImageIcon(imageDroite);
-								labelSoldatSelec.setIcon(image);
-								nouveauX = soldatSelec.deplacementDroit(xClic - soldatSelec.getAbscisse());
-								nouveauY = soldatSelec.deplacementBas(yClic - soldatSelec.getOrdonnees());
-								nbrHexagones = (nouveauX-soldatSelec.getAbscisse()) / labelBordure.getWidth();
-							}
-							else if (xClic  < soldatSelec.getAbscisse() && yClic > soldatSelec.getOrdonnees()) {
-								String imageGauche= soldatSelec.getImagePivotee();
-								ImageIcon image = new ImageIcon(imageGauche);
-								labelSoldatSelec.setIcon(image);
-								nouveauX = soldatSelec.deplacementGauche(soldatSelec.getAbscisse() - xClic);
-								nouveauY = soldatSelec.deplacementBas(yClic - soldatSelec.getOrdonnees());
-								nbrHexagones = (soldatSelec.getAbscisse()-nouveauX) / labelBordure.getWidth();
-							}
-							else if (xClic  > soldatSelec.getAbscisse() && yClic < soldatSelec.getOrdonnees()) {
-								String imageDroite = soldatSelec.getImage();
-								ImageIcon image = new ImageIcon(imageDroite);
-								labelSoldatSelec.setIcon(image);
-								nouveauX = soldatSelec.deplacementDroit(xClic - soldatSelec.getAbscisse());
-								nouveauY = soldatSelec.deplacementHaut(soldatSelec.getOrdonnees() - yClic);
-								nbrHexagones = (nouveauX-soldatSelec.getAbscisse()) / labelBordure.getWidth();
-							}
-							else if (xClic  < soldatSelec.getAbscisse() && yClic < soldatSelec.getOrdonnees()) {
-								String imageGauche= soldatSelec.getImagePivotee();
-								ImageIcon image = new ImageIcon(imageGauche);
-								labelSoldatSelec.setIcon(image);
-								nouveauX = soldatSelec.deplacementGauche(soldatSelec.getAbscisse() - xClic);
-								nouveauY = soldatSelec.deplacementHaut(soldatSelec.getOrdonnees() - yClic);
-								nbrHexagones = (soldatSelec.getAbscisse()-nouveauX) / labelBordure.getWidth();
-							}
-							else if (yClic < soldatSelec.getOrdonnees()) {
-								nouveauY = soldatSelec.deplacementHaut(soldatSelec.getOrdonnees() - yClic);
-								nbrHexagones = (soldatSelec.getOrdonnees()-nouveauY) / labelBordure.getHeight();
-							}
-							else if (yClic > soldatSelec.getOrdonnees()) {
-								nouveauY = soldatSelec.deplacementBas(yClic - soldatSelec.getOrdonnees());
-								nbrHexagones = (nouveauY-soldatSelec.getOrdonnees()) / labelBordure.getHeight();
-							}
-
-							nbrHexagones += 1;
-
-							Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
-							int bonusDeplacement = getBonusDep(hexagoneClique.getTypeTerrain());
-
-							soldatSelec.deplacementPossible(0, getWidth() - 50, 0, getHeight() - 70, nouveauX, nouveauY, nbrHexagones, bonusDeplacement);
-							labelSoldatSelec.setLocation(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees());
-							camera.update(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees(), scrollPane);
-							modifierCoordonneesCamera();
-							updateSoldatHexagone();
-						}
-					}
-				});
+				labelBordure.addMouseListener(new MouseHexagone(labelBordure));
 
 				this.add(labelBordure, JLayeredPane.PALETTE_LAYER);
 
@@ -616,23 +527,19 @@ public class PanelTerrains extends JLayeredPane {
 	public void afficherImageFog(int x, int y) {
 		Hexagone hexagone = getHexagone(x, y);
 		if (hexagone != null) {
-			ImageIcon fog = new ImageIcon("images/hexagones/Brouillard.png");  
+			ImageIcon fog = new ImageIcon("images/hexagones/hexagone1.png");  
 			JLabel fogOfWar = getLabel(hexagone.getId());
-			fogOfWar.setBounds(x, y, 50, 50);
 			fogOfWar.setIcon(fog);
-			this.add(fogOfWar, JLayeredPane.PALETTE_LAYER);
+			retirerMouseListenerHexagone(fogOfWar);
+			this.add(fogOfWar, JLayeredPane.MODAL_LAYER);
 			
 		}
 	}
 	
 	/*
-	 * Cette fonction permet d'afficher le Brouillard sur tout le terrain
+	 * Cette fonction permet d'afficher le brouillard sur tout le terrain
 	 */
-	//forêt x=0 y=0       montagne x=624 y=648
-	//eau profond x=0 y=1294
-	//glacier X=624 Y=0   colline x=0 y=648
-	
-	
+
 	public void afficherBrouillard()
 	{ 
 		int i, j;
@@ -640,11 +547,167 @@ public class PanelTerrains extends JLayeredPane {
 		{
 			for (j=0; j<terrains.get(i).getHexagones().size(); j++) {
 				Hexagone hexagone = terrains.get(i).getHexagones().get(j);
-				afficherImageFog(hexagone.getAbscisse(), hexagone.getOrdonnees());
+				if(hexagone.getUnits().isEmpty())
+                {
+					afficherImageFog(hexagone.getAbscisse(), hexagone.getOrdonnees());
+                }
 			}
 		}
 		
 		return;
 	}
+
+	/*
+	 * Cette fonction permet de retirer tous les mouse listener des labels hexagones
+	 */
 	
+	public void retirerMouseListenerHexagones() {
+		int i, j;
+		for(i=0;i<terrains.size();i++)
+		{
+			for (j=0; j<terrains.get(i).getHexagones().size(); j++) {
+				Hexagone hexagone = terrains.get(i).getHexagones().get(j);
+				JLabel label = getLabel(hexagone.getId());
+				retirerMouseListenerHexagone(label);
+			}
+		}
+		for (i=0; i<this.labelsSoldats.size(); i++) {
+			retirerMouseListenerHexagone(this.labelsSoldats.get(i));
+		}
+	}
+	
+	/*
+	 * Cette fonction permet de retirer tous les mouse listener d'un label hexagone
+	 */
+	
+	public void retirerMouseListenerHexagone(JLabel labelHexagone) {
+		for (MouseListener mouseL : labelHexagone.getMouseListeners()) {
+			labelHexagone.removeMouseListener(mouseL);
+		}
+	}
+	
+	/*
+	 * Cette fonction permet d'ajouter tous les mouse listener des labels hexagones
+	 */
+	
+	public void ajouterMouseListenerHexagones() {
+		int i, j;
+		for(i=0;i<terrains.size();i++)
+		{
+			for (j=0; j<terrains.get(i).getHexagones().size(); j++) {
+				Hexagone hexagone = terrains.get(i).getHexagones().get(j);
+				JLabel label = getLabel(hexagone.getId());
+				ajouterMouseListenerHexagone(label);
+			}
+		}
+	}
+	
+	/*
+	 * Cette fonction permet d'ajouter tous les mouse listener d'un label hexagone
+	 */
+	
+	public void ajouterMouseListenerHexagone(JLabel labelHexagone) {
+		labelHexagone.addMouseListener(new MouseHexagone(labelHexagone));
+	}
+	
+	public class MouseHexagone extends MouseAdapter {
+		
+		private JLabel labelBordure;
+		
+		public MouseHexagone(JLabel label) {
+			this.labelBordure = label;
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			if (guide.isGuideActive() && !guide.aValideCompetence(3)) {
+				guide.afficherIndicationsDeplacement3();
+			}
+			afficherImageSelec(false, labelBordure.getX(), labelBordure.getY());
+			Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
+			int bonusDefense = getBonusDef(hexagoneClique.getTypeTerrain());
+			labelBonusDef = new JLabel(Integer.toString(bonusDefense) + "%");
+			labelBonusDef.setFont(new Font("Arial", Font.BOLD, 20));
+			labelBonusDef.setForeground(new Color(231, 206, 54));
+			labelBonusDef.setHorizontalAlignment(SwingConstants.CENTER);
+			labelBonusDef.setBounds(labelBordure.getBounds());
+			add(labelBonusDef, JLayeredPane.PALETTE_LAYER);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			effacerImageSelec(labelBordure.getX(), labelBordure.getY());
+			remove(labelBonusDef);
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (guide.isGuideActive() && !guide.aValideCompetence(2)) {
+				guide.afficherIndicationsDeplacement2();
+			}
+			remove(labelBonusDef);
+			Hexagone hexagone = getHexagone(labelBordure.getX(), labelBordure.getY());
+			if (soldatSelec != null && !hexagone.contientEnnemi(tourJoueur)) {
+				int nbrHexagones, nouveauX, nouveauY, xClic, yClic;
+				nouveauX = soldatSelec.getAbscisse();
+				nouveauY = soldatSelec.getOrdonnees();
+
+				nbrHexagones = 0;
+				xClic = labelBordure.getX();
+				yClic = labelBordure.getY();
+
+				if (xClic  > soldatSelec.getAbscisse() && yClic > soldatSelec.getOrdonnees()) {
+					String imageDroite = soldatSelec.getImage();
+					ImageIcon image = new ImageIcon(imageDroite);
+					labelSoldatSelec.setIcon(image);
+					nouveauX = soldatSelec.deplacementDroit(xClic - soldatSelec.getAbscisse());
+					nouveauY = soldatSelec.deplacementBas(yClic - soldatSelec.getOrdonnees());
+					nbrHexagones = (nouveauX-soldatSelec.getAbscisse()) / labelBordure.getWidth();
+				}
+				else if (xClic  < soldatSelec.getAbscisse() && yClic > soldatSelec.getOrdonnees()) {
+					String imageGauche= soldatSelec.getImagePivotee();
+					ImageIcon image = new ImageIcon(imageGauche);
+					labelSoldatSelec.setIcon(image);
+					nouveauX = soldatSelec.deplacementGauche(soldatSelec.getAbscisse() - xClic);
+					nouveauY = soldatSelec.deplacementBas(yClic - soldatSelec.getOrdonnees());
+					nbrHexagones = (soldatSelec.getAbscisse()-nouveauX) / labelBordure.getWidth();
+				}
+				else if (xClic  > soldatSelec.getAbscisse() && yClic < soldatSelec.getOrdonnees()) {
+					String imageDroite = soldatSelec.getImage();
+					ImageIcon image = new ImageIcon(imageDroite);
+					labelSoldatSelec.setIcon(image);
+					nouveauX = soldatSelec.deplacementDroit(xClic - soldatSelec.getAbscisse());
+					nouveauY = soldatSelec.deplacementHaut(soldatSelec.getOrdonnees() - yClic);
+					nbrHexagones = (nouveauX-soldatSelec.getAbscisse()) / labelBordure.getWidth();
+				}
+				else if (xClic  < soldatSelec.getAbscisse() && yClic < soldatSelec.getOrdonnees()) {
+					String imageGauche= soldatSelec.getImagePivotee();
+					ImageIcon image = new ImageIcon(imageGauche);
+					labelSoldatSelec.setIcon(image);
+					nouveauX = soldatSelec.deplacementGauche(soldatSelec.getAbscisse() - xClic);
+					nouveauY = soldatSelec.deplacementHaut(soldatSelec.getOrdonnees() - yClic);
+					nbrHexagones = (soldatSelec.getAbscisse()-nouveauX) / labelBordure.getWidth();
+				}
+				else if (yClic < soldatSelec.getOrdonnees()) {
+					nouveauY = soldatSelec.deplacementHaut(soldatSelec.getOrdonnees() - yClic);
+					nbrHexagones = (soldatSelec.getOrdonnees()-nouveauY) / labelBordure.getHeight();
+				}
+				else if (yClic > soldatSelec.getOrdonnees()) {
+					nouveauY = soldatSelec.deplacementBas(yClic - soldatSelec.getOrdonnees());
+					nbrHexagones = (nouveauY-soldatSelec.getOrdonnees()) / labelBordure.getHeight();
+				}
+
+				nbrHexagones += 1;
+
+				Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
+				int bonusDeplacement = getBonusDep(hexagoneClique.getTypeTerrain());
+
+				soldatSelec.deplacementPossible(0, getWidth() - 50, 0, getHeight() - 70, nouveauX, nouveauY, nbrHexagones, bonusDeplacement);
+				labelSoldatSelec.setLocation(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees());
+				camera.update(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees(), scrollPane);
+				modifierCoordonneesCamera();
+				updateSoldatHexagone();
+			}
+		}
+	}
 }

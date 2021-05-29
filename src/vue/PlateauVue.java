@@ -16,7 +16,6 @@ import modele.*;
 
 @SuppressWarnings("serial")
 public class PlateauVue extends JFrame {
-
 	private JLayeredPane plateau;
 	private PanelTerrains panelTerrains;
 	private SoldatVue soldatVue;
@@ -26,6 +25,7 @@ public class PlateauVue extends JFrame {
 	private Joueur tourJoueur;
 	private ArrayList<Joueur> joueurs;
 	private Guide guide;
+	private boolean visible;
 
 	public PlateauVue(ArrayList<Joueur> joueurs) {  
 		// Définition des données de la fenêtre principale
@@ -76,21 +76,8 @@ public class PlateauVue extends JFrame {
 		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
 		this.tourJoueur = this.joueurs.get(ind);
 
-		/** Panel Pause **/
-		PanelPause MenuPause = new PanelPause(this.joueurs);
-		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
-
-		//Affichage de bouton pause
-		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
-		JButton BoutonPause = new JButton(imageIconPause);
-		BoutonPause.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MenuPause.setVisible(true);
-			}
-		});
-		BoutonPause.setBounds(1110, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
-		this.plateau.add(BoutonPause, JLayeredPane.DEFAULT_LAYER);
-
+		this.visible = true;
+		
 		// Création de minimap
 		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this);
 		this.plateau.add(this.minimap, JLayeredPane.DEFAULT_LAYER);
@@ -105,11 +92,14 @@ public class PlateauVue extends JFrame {
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 
 		// Finir le tour
-		JButton bouton = new JButton();
+		JButton bouton = new JButton("Finir tour");
+		bouton.setBorder(UIManager.getBorder("Button.border"));
+		bouton.setIcon(new ImageIcon("images/large-button-active.png"));
+		bouton.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		bouton.setForeground(Color.white);
+		bouton.setHorizontalTextPosition(JButton.CENTER);
 		bouton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Pour l'instant il faut appuyer sur la touche espace pour changer de joueur (juste pour les tests)
-				System.out.println("Changement de joueur");
 				int ind = 0;
 				Joueur ancienJoueur, nouveauJoueur;
 				ancienJoueur = panelTerrains.getTourJoueur();
@@ -121,11 +111,34 @@ public class PlateauVue extends JFrame {
 				setTourJoueur(nouveauJoueur, ind);
 			}
 		});
-		bouton.setBounds(1150, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		bouton.setBounds(1150, 610, 100, 22);
 
 		this.plateau.add(bouton, JLayeredPane.DEFAULT_LAYER);
 
 		setTourJoueur(tourJoueur, ind);
+
+		/** Panel Pause **/
+		PanelPause MenuPause = new PanelPause(this.joueurs);
+		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
+
+		//Affichage de bouton pause
+		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
+		JButton BoutonPause = new JButton(imageIconPause);
+		BoutonPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuPause.setVisible(visible);
+				if (visible) {
+					panelTerrains.retirerMouseListenerHexagones();
+					visible = false;
+				}
+				else {
+					panelTerrains.ajouterMouseListenerHexagones();
+					visible = true;
+				}
+			}
+		});
+		BoutonPause.setBounds(1110, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		this.plateau.add(BoutonPause, JLayeredPane.DEFAULT_LAYER);
 
 		/** Panel Fin Baitaille **/
 		//PanelFinBataille fin = new PanelFinBataille(joueurs);
