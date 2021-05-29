@@ -50,11 +50,11 @@ public class PanelTerrains extends JLayeredPane {
 	private ArrayList<Terrain> terrains;
 	private ArrayList<Soldat> soldats;
 	private Map<Integer, JLabel> labelsHexagones;
-	private Joueur tourJoueur;
 	private PanelInfosSoldat panelInfosSoldat;
 	private PanelInfosJoueur panelInfosJoueur;
 	private JLabel labelBonusDef;
 	private Guide guide;
+	private Joueur tourJoueur;
 	private int indTourJoueur;
 
 	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, PanelInfosJoueur panelInfosJoueur, Guide guide) {
