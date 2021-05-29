@@ -85,11 +85,31 @@ public class Joueur {
 			i += 1;
 		}
 	}
-	
 	public void ajouterSoldatTue(Soldat soldatTue) {
-		List<Joueur> chercheJoueur = this.adversaires.stream().filter(x -> x.getSoldatList().contains(soldatTue)).collect(Collectors.toList());
-		Joueur joueur = chercheJoueur.get(0);
-	}
+        Joueur joueur = rechercherJoueur(soldatTue);
+        joueur.retirerSoldat();
+    }
+
+    public int nombreInfanterieLourde(Joueur joueur) {
+        int c = 0;
+        for (Soldat soldat : joueur.getSoldatList()) {
+            if (soldat.getTypeSoldat() == "infanterieLourde") {
+                c ++;
+            }
+        }
+        return c;
+    }
+    
+    public boolean aTueUnSoldat(Soldat soldat) {
+    	//Joueur joueur = rechercherJoueur(soldatTue);
+        //joueur.retirerSoldat();
+        return (soldat.getPv() == 0);
+    }
+    
+    public Joueur rechercherJoueur(Soldat soldatTue) {
+        List<Joueur> chercheJoueur = this.adversaires.stream().filter(x -> x.getSoldatList().contains(soldatTue)).collect(Collectors.toList());
+        return chercheJoueur.get(0);
+    }
 
 	public boolean soldatExiste(Soldat soldat) {
 		List<Soldat> chercheSoldat = this.soldats.stream().filter(x -> x.getId() == soldat.getId()).collect(Collectors.toList());
@@ -120,4 +140,3 @@ public class Joueur {
 	}
 	
 }
-

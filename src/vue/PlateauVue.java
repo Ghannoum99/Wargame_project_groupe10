@@ -21,13 +21,15 @@ public class PlateauVue extends JFrame {
 	private SoldatVue soldatVue;
 	private PanelInfosJoueur infosJoueur;
 	private PanelInfosSoldat panelInfosSoldat;
+	private ScenarioStandard scenario;
+	private Joueur joueurGagne;
 	private MiniMap minimap;
 	private Joueur tourJoueur;
 	private ArrayList<Joueur> joueurs;
 	private Guide guide;
 	private boolean visible;
 
-	public PlateauVue(ArrayList<Joueur> joueurs) {  
+	public PlateauVue(ArrayList<Joueur> joueurs, ScenarioStandard scenario) {  
 		// Définition des données de la fenêtre principale
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setBounds(0,0,1267,720);
@@ -68,6 +70,9 @@ public class PlateauVue extends JFrame {
 	
 		// Création des joueurs 
 		this.joueurs = joueurs;
+		
+		
+		this.scenario = scenario;
 
 		// Création des labels représentant les soldats
 		this.soldatVue = new SoldatVue();
@@ -91,7 +96,9 @@ public class PlateauVue extends JFrame {
 		// Création du panel permettant d'afficher les terrains et de positionner les soldats
 		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.infosJoueur, this.guide);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
-
+		
+		//scenario.appliquerScenario(this.panelTerrains.getTourJoueur());
+		
 		// Finir le tour
 		JButton bouton = new JButton("Finir tour");
 		bouton.setBorder(UIManager.getBorder("Button.border"));
@@ -124,8 +131,8 @@ public class PlateauVue extends JFrame {
 
 		// Affichage de bouton pause
 		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
-		JButton BoutonPause = new JButton(imageIconPause);
-		BoutonPause.addActionListener(new ActionListener() {
+		JButton boutonPause = new JButton(imageIconPause);
+		boutonPause.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MenuPause.setVisible(visible);
 				if (visible) {
@@ -138,11 +145,12 @@ public class PlateauVue extends JFrame {
 				}
 			}
 		});
-		BoutonPause.setBounds(1110, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
-		this.plateau.add(BoutonPause, JLayeredPane.DEFAULT_LAYER);
+		boutonPause.setBackground(new Color(16, 22, 33));
+		boutonPause.setBounds(1110, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		this.plateau.add(boutonPause, JLayeredPane.DEFAULT_LAYER);
 
 		/** Panel Fin Baitaille **/
-		//PanelFinBataille fin = new PanelFinBataille(joueurs);
+		//PanelFinBataille fin = new PanelFinBataille(joueurs, joueurGagne);
 		//this.plateau.add(fin, JLayeredPane.DRAG_LAYER);
 		//PanelMenuInfos panelMenu = new PanelMenuInfos(155, 98, 544, 440);
 		//this.plateau.add(panelMenu, JLayeredPane.DRAG_LAYER);
@@ -154,7 +162,7 @@ public class PlateauVue extends JFrame {
 	public Joueur getTourJoueur() {
 		return tourJoueur;
 	}
-
+	
 	public void setTourJoueur(Joueur tourJoueur, int ind) {
 		this.tourJoueur = tourJoueur;
 		this.panelTerrains.setTourJoueur(this.tourJoueur);
@@ -169,4 +177,11 @@ public class PlateauVue extends JFrame {
 		this.guide = guide;
 	}
 
+	public ScenarioStandard getScenario() {
+		return scenario;
+	}
+
+	public void setScenario(ScenarioStandard scenario) {
+		this.scenario = scenario;
+	}
 }

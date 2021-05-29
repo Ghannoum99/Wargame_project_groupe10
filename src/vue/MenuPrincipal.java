@@ -3,7 +3,6 @@ package vue;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;

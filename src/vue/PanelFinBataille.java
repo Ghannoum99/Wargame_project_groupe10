@@ -1,4 +1,3 @@
-
 package vue;
 
 import java.awt.event.ActionEvent;
@@ -22,6 +21,7 @@ public class PanelFinBataille extends JPanel {
 	private JButton boutonQuitter;
 	private JButton boutonReJouer;
 	private ArrayList<Joueur> joueurs;
+	private Joueur joueurGagne;
 	public JLabel labelInfo;
 	private JPanel panelInfo;		
 	private JLabel labelTitre;
@@ -29,16 +29,19 @@ public class PanelFinBataille extends JPanel {
 	private JLabel labelNumJoueur;
 	private JLabel labelNomJoueur;
 
-	public PanelFinBataille(ArrayList<Joueur> joueurs) {
+	public PanelFinBataille(ArrayList<Joueur> joueurs, Joueur joueurGagne) {
 		this.setBounds(155, 98, 544, 440);
-		this.setBackground(new Color(16, 22, 33));
+		this.setBackground(new Color(0,0,0,125));
 		this.setOpaque(true);
 		this.setLayout(null);
 		
 		this.joueurs = joueurs;
+		this.joueurGagne = joueurGagne;
+		
 		
 		/** TITRE DU PANEL **/
-		labelTitre = new JLabel("F\u00E9licitations (Player)");
+		String felicitation = "Félicitations" + joueurGagne;
+		labelTitre = new JLabel(felicitation);
 		labelTitre.setForeground(new Color(200, 173, 10));
 		labelTitre.setFont(new Font("Times new Roman", Font.BOLD, 20));
 		labelTitre.setBounds(168, 10, 209, 41);
@@ -176,10 +179,15 @@ public class PanelFinBataille extends JPanel {
 	public void setJoueurs(ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
 	}
+
+	public Joueur getJoueurGagne() {
+		return joueurGagne;
+	}
+
+	public void setJoueurGagne(Joueur joueurGagne) {
+		this.joueurGagne = joueurGagne;
+	}
 	
 	
 	
-}		
-		
-		
-		
+}	
