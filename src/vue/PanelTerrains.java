@@ -58,6 +58,7 @@ public class PanelTerrains extends JLayeredPane {
 	private Joueur tourJoueur;
 	private int indTourJoueur;
 	private Hexagone hexagoneSelected;
+	
 	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, PanelInfosJoueur panelInfosJoueur, Guide guide) {
 		// Définition des données du panel
 		this.setLayout(null);

@@ -39,10 +39,11 @@ public class MenuScenario extends JFrame {
 		this.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		Dimension size = Toolkit. getDefaultToolkit().getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        if (device.isFullScreenSupported()) {
-            device.setFullScreenWindow(this);
-        } 
+		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
+			device.setFullScreenWindow(this);
+		} 
         
 		this.choix = choix;
 		this.joueurs = joueurs;
