@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 @SuppressWarnings("serial")
@@ -318,11 +317,10 @@ public class Guide extends JPanel {
 				for (int i=0; i<6; i++) {
 					competencesAcquises[i] = false;
 				}
-				System.out.println("ok");
 				guideActive = true;
-				labelIndications.setVisible(true);
-				labelTitre.setVisible(true);
-				labelImageInterlo.setVisible(true);
+				//labelIndications.setVisible(true);
+				//labelTitre.setVisible(true);
+				//labelImageInterlo.setVisible(true);
 				afficherIndicationsSelection();
 			}
 		});
