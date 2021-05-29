@@ -232,7 +232,7 @@ public class Guide extends JPanel {
 					boutonValider.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							labelIndications.setText("<html>En cas de besoin, vous pourrez le relancer à tout moment à l'aide du bouton 'Aide'.</html>");
+							labelIndications.setText("<html>En cas de besoin, vous pourrez le relancer à tout moment à l'aide du bouton '?'.</html>");
 							boutonValider.setText("Fin");
 							for (ActionListener actionL : boutonValider.getActionListeners()) {
 								boutonValider.removeActionListener(actionL);
@@ -344,7 +344,7 @@ public class Guide extends JPanel {
 				labelIndications.setVisible(false);
 				labelTitre.setVisible(false);
 				labelImageInterlo.setVisible(false);
-				boutonValider.setText("Aide");
+				boutonValider.setText("?");
 			}
 		});
 

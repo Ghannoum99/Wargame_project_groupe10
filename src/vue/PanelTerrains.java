@@ -537,8 +537,6 @@ public class PanelTerrains extends JLayeredPane {
 			JLabel fogOfWar = getLabel(hexagone.getId());
 			fogOfWar.setIcon(fog);
 			retirerMouseListenerHexagone(fogOfWar);
-			this.add(fogOfWar, JLayeredPane.MODAL_LAYER);
-			
 		}
 	}
 	
