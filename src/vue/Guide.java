@@ -241,6 +241,9 @@ public class Guide extends JPanel {
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									validerCompetence(5);
+									for (ActionListener actionL : boutonValider.getActionListeners()) {
+										boutonValider.removeActionListener(actionL);
+									}
 									afficherQuestion();
 								}
 							});
@@ -318,9 +321,9 @@ public class Guide extends JPanel {
 					competencesAcquises[i] = false;
 				}
 				guideActive = true;
-				//labelIndications.setVisible(true);
-				//labelTitre.setVisible(true);
-				//labelImageInterlo.setVisible(true);
+				labelIndications.setVisible(true);
+				labelTitre.setVisible(true);
+				labelImageInterlo.setVisible(true);
 				afficherIndicationsSelection();
 			}
 		});
