@@ -2,16 +2,15 @@ package vue;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
-<<<<<<< HEAD
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-=======
+
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
->>>>>>> master
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

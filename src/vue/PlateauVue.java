@@ -97,12 +97,10 @@ public class PlateauVue extends JFrame {
 		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.infosJoueur, this.guide);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 		
-<<<<<<< HEAD
 		scenario.appliquerScenario(this.panelTerrains.getTourJoueur());
-=======
+
 		//scenario.appliquerScenario(this.panelTerrains.getTourJoueur());
->>>>>>> master
-		
+	
 		// Finir le tour
 		JButton bouton = new JButton("Finir tour");
 		bouton.setBorder(UIManager.getBorder("Button.border"));
