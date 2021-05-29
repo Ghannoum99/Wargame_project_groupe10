@@ -9,12 +9,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import modele.Joueur;
+import modele.ScenarioStandard;
 
 
 @SuppressWarnings("serial")
@@ -28,6 +27,7 @@ public class MenuScenario extends JFrame {
 	private PanelScenario panelScroll;
 	private boolean choix;
 	private ArrayList<Joueur> joueurs;
+
 	
 	public MenuScenario(boolean choix, ArrayList<Joueur> joueurs) {
 		setTitle("WarGame");
@@ -39,11 +39,10 @@ public class MenuScenario extends JFrame {
 		this.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Dimension size = Toolkit. getDefaultToolkit().getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
-			device.setFullScreenWindow(this);
-		} 
+        if (device.isFullScreenSupported()) {
+            device.setFullScreenWindow(this);
+        } 
         
 		this.choix = choix;
 		this.joueurs = joueurs;
@@ -58,7 +57,8 @@ public class MenuScenario extends JFrame {
 			panelScroll.listeBoutons.get(i).addActionListener(new ActionListener() {
 				@SuppressWarnings("deprecation")
 				public void actionPerformed(ActionEvent e) {
-					PlateauVue plateau = new PlateauVue(joueurs);
+					ScenarioStandard scenarioStandard = new ScenarioStandard(joueurs);
+					PlateauVue plateau = new PlateauVue(joueurs, scenarioStandard);
 					plateau.show();
 					dispose();
 				}
