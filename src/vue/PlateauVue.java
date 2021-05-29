@@ -39,8 +39,9 @@ public class PlateauVue extends JFrame {
 		this.setBackground(Color.black);
 		this.setTitle("WarGame");
 
+		Dimension size = Toolkit. getDefaultToolkit(). getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		if (device.isFullScreenSupported()) {
+		if (device.isFullScreenSupported() && size.getHeight() <= 680) {
 			device.setFullScreenWindow(this);
 		} 
 

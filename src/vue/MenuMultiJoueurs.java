@@ -44,10 +44,11 @@ public class MenuMultiJoueurs extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 1300, 781);
 		
+		Dimension size = Toolkit. getDefaultToolkit(). getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        if (device.isFullScreenSupported()) {
-            device.setFullScreenWindow(this);
-        } 
+		if (device.isFullScreenSupported() && size.getHeight() <= 680) {
+			device.setFullScreenWindow(this);
+		} 
         
 		choix = true;
 		contentPane = new JPanel();

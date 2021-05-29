@@ -2,9 +2,11 @@ package vue;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -27,10 +29,11 @@ public class MenuPrincipal extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 1300, 781);
 		
+		Dimension size = Toolkit. getDefaultToolkit(). getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        if (device.isFullScreenSupported()) {
-            device.setFullScreenWindow(this);
-        } 
+		if (device.isFullScreenSupported() && size.getHeight() <= 680) {
+			device.setFullScreenWindow(this);
+		} 
         
 		/** PANEL PRINCIPAL DE LA FENETRE **/
 		panelPrincipal = new JPanel();
