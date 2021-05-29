@@ -2,16 +2,16 @@ package vue;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
+import java.awt.Font;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
+
+
 
 @SuppressWarnings({ "deprecation", "serial" })
 public class MenuPrincipal extends JFrame{
@@ -23,18 +23,25 @@ public class MenuPrincipal extends JFrame{
 	private JLabel backgroundimage;
 	private PanelMenuInfos panelMenu;
 
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MenuPrincipal frame = new MenuPrincipal();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 	public MenuPrincipal() {
 		this.setTitle("WarGame");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 1300, 781);
 		
-		Dimension size = Toolkit. getDefaultToolkit().getScreenSize();
-		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
-			device.setFullScreenWindow(this);
-		} 
-        
 		/** PANEL PRINCIPAL DE LA FENETRE **/
 		panelPrincipal = new JPanel();
 		panelPrincipal.setBounds(0, 0, 1296, 767);
@@ -53,6 +60,7 @@ public class MenuPrincipal extends JFrame{
 		backgroundimage.setBounds(0, 0, 1296, 767);
 		backgroundimage.setIcon(new ImageIcon("images/thumb-1920-646077.jpg"));
 		panelPrincipal.add(backgroundimage);
+		
 		
 		
 	}
@@ -76,7 +84,8 @@ public class MenuPrincipal extends JFrame{
 	/** AFFICHAGE DU BOUTON MULTI-JOUEURS : QUI VA AFFICHER LE MenuMultiJoueurs **/
 	/*****************************************************************************/
 	public void afficherBoutonMultiJoueurs() {
-		boutonMultiJoueurs = new JButton("");
+		boutonMultiJoueurs = new JButton();
+		boutonMultiJoueurs.setText("Multi-Joueurs");
 		boutonMultiJoueurs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				playAudio("c:\\Windows\\media\\ding.wav");
@@ -85,7 +94,10 @@ public class MenuPrincipal extends JFrame{
 				dispose();
 			}
 		});
-		boutonMultiJoueurs.setIcon(new ImageIcon("images/large-button-active-multi-joueurs.jpg"));
+		boutonMultiJoueurs.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonMultiJoueurs.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		boutonMultiJoueurs.setForeground(Color.white);
+		boutonMultiJoueurs.setHorizontalTextPosition(JButton.CENTER);
 		boutonMultiJoueurs.setBounds(60, 173, 172, 48);
 		panelMenu.add(boutonMultiJoueurs);
 	}
@@ -94,7 +106,8 @@ public class MenuPrincipal extends JFrame{
 	/** AFFICHAGE DU BOUTON SOLO : QUI VA AFFICHER LE MenuSolo **/
 	/************************************************************/
 	public void afficherBoutonSolo() {
-		boutonSolo = new JButton("");
+		boutonSolo = new JButton();
+		boutonSolo.setText("Solo");
 		boutonSolo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				playAudio("c:\\Windows\\media\\ding.wav");
@@ -104,7 +117,10 @@ public class MenuPrincipal extends JFrame{
 			}
 		});
 		boutonSolo.setBorder(UIManager.getBorder("Button.border"));
-		boutonSolo.setIcon(new ImageIcon("images/large-button-active-solo.jpg"));
+		boutonSolo.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonSolo.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		boutonSolo.setForeground(Color.white);
+		boutonSolo.setHorizontalTextPosition(JButton.CENTER);
 		panelMenu.setLayout(null);
 		boutonSolo.setBounds(60, 231, 172, 48);
 		panelMenu.add(boutonSolo);
@@ -117,10 +133,13 @@ public class MenuPrincipal extends JFrame{
 	/** AFFICHAGE DU BOUTON CONTINUER : QUI PERMET AUX JOUEURS DE CONTINUER UNE BATAILLE STOCKEE DANS LA BDD **/
 	/**********************************************************************************************************/
 	public void afficherBoutonContinuer() {
-		boutonContinuer = new JButton("");
+		boutonContinuer = new JButton();
 		boutonContinuer.setBorder(UIManager.getBorder("Button.border"));
-		boutonContinuer.setIcon(new ImageIcon("images/large-button-active-continuer.jpg"));
-		panelMenu.setLayout(null);
+		boutonContinuer.setText("Continuer");
+		boutonContinuer.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonContinuer.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		boutonContinuer.setForeground(Color.white);
+		boutonContinuer.setHorizontalTextPosition(JButton.CENTER);
 		boutonContinuer.setBounds(60, 295, 172, 44);
 		panelMenu.add(boutonContinuer);
 	}
@@ -132,7 +151,8 @@ public class MenuPrincipal extends JFrame{
 	/** AFFICHAGE DU BOUTON QUITTER : PERMET AUX JOUEURS DE QUITTER LE JEU **/
 	/************************************************************************/
 	public void afficherBoutonQuitter() {
-		boutonQuitter = new JButton("");
+		boutonQuitter = new JButton();
+		boutonQuitter.setText("Quitter");
 		boutonQuitter.setBorder(UIManager.getBorder("Button.border"));
 		boutonQuitter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -140,7 +160,10 @@ public class MenuPrincipal extends JFrame{
 				System.exit(0);
 			}
 		});
-		boutonQuitter.setIcon(new ImageIcon("images/large-button-active-quitter.jpg"));
+		boutonQuitter.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonQuitter.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		boutonQuitter.setForeground(Color.white);
+		boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
 		panelMenu.setLayout(null);
 		boutonQuitter.setBounds(60, 358, 172, 44);
 		panelMenu.add(boutonQuitter);
@@ -161,5 +184,4 @@ public class MenuPrincipal extends JFrame{
 			  e1.printStackTrace();
 		  }
 	}
-	
 }
