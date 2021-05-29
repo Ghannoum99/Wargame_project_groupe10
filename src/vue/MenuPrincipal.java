@@ -28,25 +28,18 @@ public class MenuPrincipal extends JFrame{
 	private JButton boutonSolo;
 	private JLabel backgroundimage;
 	private PanelMenuInfos panelMenu;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuPrincipal frame = new MenuPrincipal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	
 	public MenuPrincipal() {
 		this.setTitle("WarGame");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 1300, 781);
+		
+		Dimension size = Toolkit. getDefaultToolkit().getScreenSize();
+		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
+			device.setFullScreenWindow(this);
+		} 
 		
 		/** PANEL PRINCIPAL DE LA FENETRE **/
 		panelPrincipal = new JPanel();
