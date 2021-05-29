@@ -30,8 +30,8 @@ public class PlateauVue extends JFrame {
 	public PlateauVue(ArrayList<Joueur> joueurs) {  
 		// Définition des données de la fenêtre principale
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		this.setBounds(0,0,1267,680);
-		this.setSize(new Dimension(1267, 680));
+		this.setBounds(0,0,1267,720);
+		this.setSize(new Dimension(1267, 720));
 		this.getContentPane().setBackground(Color.white);	
 		getContentPane().setLayout(null);
 		this.setVisible(true);
@@ -85,7 +85,7 @@ public class PlateauVue extends JFrame {
 
 		// Tutoriel du jeu
 		this.guide = new Guide();
-		this.plateau.add(this.guide, JLayeredPane.DEFAULT_LAYER);
+		this.plateau.add(this.guide, JLayeredPane.DRAG_LAYER);
 		this.guide.afficherQuestion();
 
 		// Création du panel permettant d'afficher les terrains et de positionner les soldats
