@@ -32,7 +32,7 @@ public class PlateauVue extends JFrame {
 	public PlateauVue(ArrayList<Joueur> joueurs, ScenarioStandard scenario) {  
 		// Définition des données de la fenêtre principale
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		this.setBounds(0,0, 1300, 781);
+		this.setBounds(0,0, 1310, 820);
 		this.getContentPane().setBackground(Color.white);	
 		getContentPane().setLayout(null);
 		this.setVisible(true);
@@ -64,11 +64,12 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
 		}
 		
-		int widthPlateau, heightPlateau, xPanelsInfos, yGuide;
+		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide;
 		widthPlateau = backgroundimage.getWidth()-187;
 		heightPlateau = backgroundimage.getHeight()-135;
 		xPanelsInfos = backgroundimage.getWidth()-157;
 		yGuide = backgroundimage.getHeight()-210;
+		widthGuide = backgroundimage.getWidth()-173;
 		
 		PanelCompteur cmpt = new PanelCompteur();
 		this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
@@ -101,7 +102,7 @@ public class PlateauVue extends JFrame {
 		this.plateau.add(this.minimap, JLayeredPane.DEFAULT_LAYER);
 
 		// Tutoriel du jeu
-		this.guide = new Guide(yGuide);
+		this.guide = new Guide(yGuide, widthGuide);
 		this.plateau.add(this.guide, JLayeredPane.DRAG_LAYER);
 		this.guide.afficherQuestion();
 
@@ -114,13 +115,13 @@ public class PlateauVue extends JFrame {
 		//scenario.appliquerScenario(this.panelTerrains.getTourJoueur());
 	
 		// Finir le tour
-		JButton bouton = new JButton("Finir tour");
-		bouton.setBorder(UIManager.getBorder("Button.border"));
-		bouton.setIcon(new ImageIcon("images/large-button-active.png"));
-		bouton.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		bouton.setForeground(Color.white);
-		bouton.setHorizontalTextPosition(JButton.CENTER);
-		bouton.addActionListener(new ActionListener() {
+		JButton boutonFinirTour = new JButton("Finir tour");
+		boutonFinirTour.setBorder(UIManager.getBorder("Button.border"));
+		boutonFinirTour.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonFinirTour.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		boutonFinirTour.setForeground(Color.white);
+		boutonFinirTour.setHorizontalTextPosition(JButton.CENTER);
+		boutonFinirTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int ind = 0;
 				Joueur ancienJoueur, nouveauJoueur;
@@ -133,22 +134,38 @@ public class PlateauVue extends JFrame {
 				setTourJoueur(nouveauJoueur, ind);
 			}
 		});
-		bouton.setBounds(1150, 610, 100, 22);
+		boutonFinirTour.setBounds(xPanelsInfos+40, 610, 90, 22);
 
-		this.plateau.add(bouton, JLayeredPane.DEFAULT_LAYER);
+		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
 
 		setTourJoueur(tourJoueur, ind);
 
 		/** Panel Pause **/
 		PanelPause MenuPause = new PanelPause(this.joueurs);
 		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
-
+		
+		MenuPause.boutonMenuPrincipal.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				MenuPrincipal menuPrincipal = new MenuPrincipal();
+				menuPrincipal.show();
+				//dispose();
+			}
+		});
+		
+		MenuPause.boutonContinuer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuPause.setVisible(false);
+				cmpt.compteur.start();
+			}
+		});
 		// Affichage de bouton pause
 		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
 		JButton boutonPause = new JButton(imageIconPause);
 		boutonPause.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MenuPause.setVisible(visible);
+				cmpt.compteur.stop();
 				if (visible) {
 					panelTerrains.retirerMouseListenerHexagones();
 					visible = false;
@@ -160,7 +177,7 @@ public class PlateauVue extends JFrame {
 			}
 		});
 		boutonPause.setBackground(new Color(16, 22, 33));
-		boutonPause.setBounds(1110, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		boutonPause.setBounds(xPanelsInfos, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
 		this.plateau.add(boutonPause, JLayeredPane.DEFAULT_LAYER);
 
 		/** Panel Fin Baitaille **/

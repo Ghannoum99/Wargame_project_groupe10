@@ -26,10 +26,10 @@ public class Guide extends JPanel {
 	private JLabel labelIcon;
 	private boolean[] competencesAcquises;
 
-	public Guide(int yBounds) {
+	public Guide(int yBounds, int widthBounds) {
 		this.setLayout(null);
 		this.setVisible(true);
-		this.setBounds(0, yBounds, 1094, 500);
+		this.setBounds(0, yBounds, widthBounds, 500);
 		this.setOpaque(false);	
 
 		this.guideActive = false;
@@ -83,7 +83,7 @@ public class Guide extends JPanel {
 			labelIcon.setVisible(false);
 			labelIndications.setText("<html>ATTENTION : un soldat ne peut se déplacer que si ses points de déplacements "
 					+ "additioné au bonus de déplacement du terrain sur lequel il se trouve le permettent.</html>");
-			labelIndications.setBounds(300, 130, 630, 50);	
+			labelIndications.setBounds(300, 130, this.getWidth()-464, 50);	
 
 			boutonValider.setVisible(true);
 			for (ActionListener actionL : boutonValider.getActionListeners()) {
@@ -148,7 +148,7 @@ public class Guide extends JPanel {
 			labelIndications2.setText("<html>Vous vous trouvez à proximité d'un ennemi !</html>");
 
 			labelIndications.setText("<html>Pour pouvoir attaquer un soldat, il ne doit y avoir aucun hexagone vous séparant l'un de l'autre. Une fois ce critère rempli, il vous suffit de cliquer sur l'ennemi pour l'attaquer. </html>");
-			labelIndications.setBounds(300, 130, 660, 50);	
+			labelIndications.setBounds(300, 130, this.getWidth()-434, 50);	
 
 			for (ActionListener actionL : boutonValider.getActionListeners()) {
 				boutonValider.removeActionListener(actionL);
@@ -304,7 +304,7 @@ public class Guide extends JPanel {
 		labelIndications.setText("<html>Voulez-vous lancer le tutoriel ?</html>");
 		labelIndications.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		labelIndications.setForeground(Color.white);
-		labelIndications.setBounds(300, 130, 660, 50);	
+		labelIndications.setBounds(300, 130, this.getWidth()-434, 50);	
 
 		boutonValider.setVisible(true);
 		boutonValider.setText("Oui");

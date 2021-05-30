@@ -18,6 +18,8 @@ import modele.Joueur;
 public class PanelPause extends JPanel {
 	private JLabel labelTitre;
 	private controleur.JsonController json;
+	public JButton boutonContinuer;
+	public JButton boutonMenuPrincipal;
 	private ArrayList<Joueur> joueurs;
 
 	public PanelPause(ArrayList<Joueur> joueurs) {
@@ -27,10 +29,10 @@ public class PanelPause extends JPanel {
 		this.setLayout(null);
 		this.setVisible(false);
 		
-		//Création d'un jsonController pour l'enregistrement de la partie en cours
+		//CrÃ©ation d'un jsonController pour l'enregistrement de la partie en cours
 		this.json = new JsonController();
 		
-		//Récupération de la liste des joueurs
+		//RÃ©cupÃ©ration de la liste des joueurs
 		this.joueurs = joueurs;
 		
 		/** TITRE DU PANEL **/
@@ -71,20 +73,13 @@ public class PanelPause extends JPanel {
 	/** AFFICHAGE D'UN BOUTON, QUI RETOURNE AU MenuPrincipal                                        **/
 	/*************************************************************************************************/
 	public void AfficherBoutonMenuPrincipal() {
-		JButton boutonMenuPrincipal = new JButton("Menu Principal");
+		boutonMenuPrincipal = new JButton("Menu Principal");
 		boutonMenuPrincipal.setBorder(UIManager.getBorder("Button.border"));
 		boutonMenuPrincipal.setIcon(new ImageIcon("images/large-button-active.png"));
 		boutonMenuPrincipal. setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		boutonMenuPrincipal. setForeground (Color.white);
 		boutonMenuPrincipal.setBounds (100, 100, 172, 44);
 		boutonMenuPrincipal.setHorizontalTextPosition(JButton.CENTER);
-		boutonMenuPrincipal.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent e) {
-				MenuPrincipal menuPrincipal = new MenuPrincipal();
-				menuPrincipal.show();
-			}
-		});
 		boutonMenuPrincipal.setBounds(190, 320, 172, 48);
 		this.add(boutonMenuPrincipal);
 	}
@@ -93,18 +88,13 @@ public class PanelPause extends JPanel {
 	/** AFFICHAGE D'UN BOUTON QUI PERMET AUX JOUEURS DE CONTINUER LA PARTIE **/
 	/*************************************************************************/		
 	public void AfficherBoutonContinuer(PanelPause MenuPause) {
-		JButton boutonContinuer = new JButton("Continuer");
+		boutonContinuer = new JButton("Continuer");
 		boutonContinuer.setBorder(UIManager.getBorder("Button.border"));
 		boutonContinuer.setIcon(new ImageIcon("images/large-button-active.png"));
 		boutonContinuer. setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		boutonContinuer. setForeground (Color.white);
 		boutonContinuer.setBounds (100, 100, 172, 44);
 		boutonContinuer.setHorizontalTextPosition(JButton.CENTER);
-		boutonContinuer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MenuPause.setVisible(false);
-			}
-		});
 		boutonContinuer.setBounds(190, 270, 172, 48);
 		this.add(boutonContinuer);
 	}
