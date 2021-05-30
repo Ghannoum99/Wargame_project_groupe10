@@ -4,13 +4,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import modele.Joueur;
 import modele.ScenarioStandard;
@@ -39,7 +42,7 @@ public class MenuScenario extends JFrame {
 		this.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Dimension size = Toolkit. getDefaultToolkit().getScreenSize();
+		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
 			device.setFullScreenWindow(this);
