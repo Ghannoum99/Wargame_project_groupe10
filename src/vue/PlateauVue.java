@@ -155,7 +155,7 @@ public class PlateauVue extends JFrame {
 					cmpt.compteur.stop();
 					ImageIcon imageIconPause = new ImageIcon("images/ornate_play_30-active.png");
 					boutonPause.setIcon(imageIconPause);
-					panelTerrains.retirerMouseListenerHexagones();
+					//panelTerrains.retirerMouseListenerHexagones();
 					clicked = true;
 				}
 				
@@ -163,7 +163,7 @@ public class PlateauVue extends JFrame {
 					cmpt.compteur.start();
 					ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
 					boutonPause.setIcon(imageIconPause);
-					panelTerrains.ajouterMouseListenerHexagones();
+					//panelTerrains.ajouterMouseListenerHexagones();
 					clicked = false;
 				}
 				/*
