@@ -33,6 +33,8 @@ public class Guide extends JPanel {
 		this.setOpaque(false);	
 
 		this.guideActive = false;
+		
+		System.out.println(widthBounds);
 
 		competencesAcquises = new boolean[6];
 
@@ -125,7 +127,7 @@ public class Guide extends JPanel {
 			boutonValider.setVisible(true);
 			ImageIcon imageFond = new ImageIcon("images/button_small_copper_H22-active.png");
 			boutonValider.setIcon(imageFond);
-			boutonValider.setBounds(1000,165, 50, 20);
+			boutonValider.setBounds(this.getWidth()-94,165, 50, 20);
 			boutonValider.setFont(new Font("Times New Roman", Font.PLAIN, 11));
 			boutonValider.setText("OK");
 			boutonValider.addActionListener(new ActionListener() {
@@ -143,7 +145,7 @@ public class Guide extends JPanel {
 
 	public void afficherIndicationsCombat() {
 		if (aValideCompetence(3)) {
-			labelIcon.setBounds(620, 50, 200, 200);
+			labelIcon.setBounds(this.getWidth()-474, 50, 200, 200);
 
 			labelIndications2.setText("<html>Vous vous trouvez à proximité d'un ennemi !</html>");
 
@@ -155,7 +157,7 @@ public class Guide extends JPanel {
 			}
 			boutonValider.setVisible(true);
 			boutonValider.setIcon(new ImageIcon("images/large-button-active.png"));
-			boutonValider.setBounds(950,165, 100, 22);
+			boutonValider.setBounds(this.getWidth()-144,165, 100, 22);
 			boutonValider.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 			boutonValider.setText("Suivant");
 			boutonValider.addActionListener(new ActionListener() {
@@ -212,7 +214,7 @@ public class Guide extends JPanel {
 	public void afficherFinTuto() {
 		if (aValideCompetence(4)) {
 			labelIcon.setVisible(true);
-			labelIcon.setBounds(870, 30, 200, 200);
+			labelIcon.setBounds(this.getWidth()-224, 30, 200, 200);
 
 			labelIndications2.setText("<html>Information supplémentaire : la petite carte en haut à droite vous permet d'avoir une vue d'ensemble sur le plateau et sur les différents terrains.</html>");
 
@@ -323,7 +325,7 @@ public class Guide extends JPanel {
 		boutonValider.setIcon(new ImageIcon("images/large-button-active.png"));
 		boutonValider.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		boutonValider.setForeground(Color.white);
-		boutonValider.setBounds(950,165, 100, 22);
+		boutonValider.setBounds(this.getWidth()-144,165, 100, 22);
 		boutonValider.setHorizontalTextPosition(JButton.CENTER);
 		boutonValider.addActionListener(new ActionListener() {
 			@Override
@@ -345,7 +347,7 @@ public class Guide extends JPanel {
 		boutonAnnuler.setIcon(new ImageIcon("images/large-button-active.png"));
 		boutonAnnuler.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		boutonAnnuler.setForeground(Color.white);
-		boutonAnnuler.setBounds(840,165, 100, 22);
+		boutonAnnuler.setBounds(this.getWidth()-254,165, 100, 22);
 		boutonAnnuler.setHorizontalTextPosition(JButton.CENTER);
 		boutonAnnuler.addActionListener(new ActionListener() {
 			@Override
