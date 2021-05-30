@@ -10,7 +10,7 @@ import java.util.*;
 import modele.*;
 
 /*
- * La classe PlateauVue permet dâ€™afficher les diffÃ©rents Ã©lÃ©ments du plateau 
+ * La classe PlateauVue permet d’afficher les différents éléments du plateau 
  * : les terrains, les soldats des joueurs de la partie et le cadre du plateau.
  */
 
@@ -30,7 +30,7 @@ public class PlateauVue extends JFrame {
 	private boolean visible;
 
 	public PlateauVue(ArrayList<Joueur> joueurs, ScenarioStandard scenario) {  
-		// DÃ©finition des donnÃ©es de la fenÃªtre principale
+		// Définition des données de la fenêtre principale
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setBounds(0,0, 1310, 820);
 		this.getContentPane().setBackground(Color.white);	
@@ -64,40 +64,42 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
 		}
 		
-		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide;
+		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide, xCompteur, yCompteur;
 		widthPlateau = backgroundimage.getWidth()-187;
 		heightPlateau = backgroundimage.getHeight()-135;
 		xPanelsInfos = backgroundimage.getWidth()-157;
 		yGuide = backgroundimage.getHeight()-210;
 		widthGuide = backgroundimage.getWidth()-173;
+		xCompteur = backgroundimage.getWidth()/2 - 150;
+		yCompteur = backgroundimage.getHeight()-780;
 		
-		PanelCompteur cmpt = new PanelCompteur();
+		PanelCompteur cmpt = new PanelCompteur(xCompteur, yCompteur);
 		this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
 		
-		// CrÃ©ation du panel permettant d'afficher les infos du soldat
+		// Création du panel permettant d'afficher les infos du soldat
 		this.panelInfosSoldat = new PanelInfosSoldat(xPanelsInfos);
 		this.plateau.add(this.panelInfosSoldat, JLayeredPane.DEFAULT_LAYER);
 
-		// CrÃ©ation du panel permettant d'afficher les infos du joueur
+		// Création du panel permettant d'afficher les infos du joueur
 		this.infosJoueur = new PanelInfosJoueur(joueurs, xPanelsInfos);
 		this.plateau.add(this.infosJoueur, JLayeredPane.DEFAULT_LAYER);
 	
-		// CrÃ©ation des joueurs 
+		// Création des joueurs 
 		this.joueurs = joueurs;
 		
 		this.scenario = scenario;
 
-		// CrÃ©ation des labels reprÃ©sentant les soldats
+		// Création des labels représentant les soldats
 		this.soldatVue = new SoldatVue();
 		this.soldatVue.creerSoldats(this.joueurs);
 
-		// Choix alÃ©atoire d'un joueur pour commencer le tour
+		// Choix aléatoire d'un joueur pour commencer le tour
 		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
 		this.tourJoueur = this.joueurs.get(ind);
 
 		this.visible = true;
 		
-		// CrÃ©ation de minimap
+		// Création de minimap
 		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this, xPanelsInfos);
 		this.plateau.add(this.minimap, JLayeredPane.DEFAULT_LAYER);
 
@@ -106,7 +108,7 @@ public class PlateauVue extends JFrame {
 		this.plateau.add(this.guide, JLayeredPane.DRAG_LAYER);
 		this.guide.afficherQuestion();
 
-		// CrÃ©ation du panel permettant d'afficher les terrains et de positionner les soldats
+		// Création du panel permettant d'afficher les terrains et de positionner les soldats
 		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.infosJoueur, this.guide, widthPlateau, heightPlateau);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 		

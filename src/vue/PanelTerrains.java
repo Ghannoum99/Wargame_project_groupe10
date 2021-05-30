@@ -687,6 +687,15 @@ public class PanelTerrains extends JLayeredPane {
 		labelHexagone.addMouseListener(new MouseHexagone(labelHexagone));
 	}
 	
+	public JLabel chercherLabelSoldat() {
+		List<JLabel> chercheLabel = new ArrayList<JLabel>();
+		for(Soldat soldat : this.soldats)
+		{
+			chercheLabel.addAll(this.labelsSoldats.stream().filter(x -> Integer.parseInt(x.getName()) == soldat.getId()).collect(Collectors.toList()));
+		}
+		return chercheLabel.get(0);
+	}
+	
 	public class MouseHexagone extends MouseAdapter {
 		
 		private JLabel labelBordure;
