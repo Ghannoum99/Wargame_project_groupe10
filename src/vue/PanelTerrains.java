@@ -296,7 +296,7 @@ public class PanelTerrains extends JLayeredPane {
 					{
 						tue.setKo(true);
 						hexagone.removeFromHexagone(tue);
-						labelSoldatEnnemi.setIcon(new ImageIcon("images/hexagone3.png"));
+						labelSoldatEnnemi.setIcon(new ImageIcon("images/hexagones/hexagone3.png"));
 						JLabel lsoldat = chercherLabelSoldat(tue);
 						lsoldat.setVisible(false);
 						labelsSoldats.remove(lsoldat);
