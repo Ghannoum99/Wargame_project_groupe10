@@ -5,16 +5,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JButton;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class PanelScenario extends JPanel {
-
 	private JPanel panelPrincipal;
 	public JScrollPane scrollPane;
-	private JButton boutonImage;
-	public ArrayList<JButton> listeBoutons = new ArrayList<JButton>();
+	public JButton boutonScenarioStandard;
+	public JButton boutonScenarioTempsLimite;
 
 	public PanelScenario() {
 		this.setBounds(289, 155, 699, 381);
@@ -28,10 +26,11 @@ public class PanelScenario extends JPanel {
 		panelPrincipal.setOpaque(false);
 		scrollPane.setViewportView(panelPrincipal);
 		
-		/** AFFICHER LES 5 BOUTONS **/
-		afficherBoutonScenario();
-
+		/** AFFICHER 2 BOUTONS POUR CHOISIR LE SCENARIO DU JEU **/
+		afficherBoutonScenarioStandard();
+		afficherBoutonScenarioTempsLimite();
 	}
+	
 	
 	/*********************************************************************************/
 	/** AFFICHAGE D'UN SCROLLPANE POUR PRESENTER LES DIFFERENTS SCENARIOS POSSIBLES **/
@@ -47,20 +46,28 @@ public class PanelScenario extends JPanel {
 	}
 	
 		
-	/********************************************************************/
-	/** AFFICHAGE DE 5 BOUTONS, CHAQUE BOUTON CORRESPOND A UN SCENRAIO **/
-	/************************************** *****************************/	
-	public void afficherBoutonScenario() {
-		int i = 0;
-		//String[] numbers= {"1", "2", "3", "4", "5"};
-		String[] images = {"images/scenarios/infrantries-lourdes.jpg", "images/scenarios/match-de-4-mins.jpg", "images/scenarios/tuez-5-soldats-et-gagnez.jpg",  "images/scenarios/jeu-standard.jpg", "images/scenarios/gardez-un-soldat.jpg"};
-		for(i=0; i<5; i++) {
-			boutonImage = new JButton("");
-			boutonImage.setIcon(new ImageIcon(images[i]));
-			panelPrincipal.add(boutonImage);
-			
-			listeBoutons.add(boutonImage);
-		}
+	/*====================================== BOUTONS QUI PERMETTENT AUX JOUEURS DE CHOISIR LE SCENARIO ====================================== */
+	
+	/*****************************************************************************************************************************/
+	/**         AFFICHAGE DU boutonScenarioStandard : QUI REGROUPE 4 SCENARIO                                                   **/
+	/**         1. Le jeu se terminera lorsqu'un seul joueur aura au moins un soldat                                            **/
+	/**         2. Si l’un des joueurs a tué successivement cinq soldats appartenant au joueur adverse alors il gagne la partie **/
+	/**         3. faut atteindre le numéro de tour numéro cinq avec au moins un soldat encore en liste                         **/
+	/**         4. Si l’un des joueurs tue toutes les infanteries lourdes de son adversaire, il gagne la partie                 **/
+	/************************************** **************************************************************************************/	
+	public void afficherBoutonScenarioStandard() {
+		boutonScenarioStandard = new JButton();
+		boutonScenarioStandard.setIcon(new ImageIcon("images/scenarios/jeu-standard.jpg"));
+		panelPrincipal.add(boutonScenarioStandard);
+	}
+	
+	/*********************************************************************************/
+	/** AFFICHAGE DU boutonScenarioTempsLimite : PERMET DE JOUER UN MATCH DE 4 MINS **/
+	/*********************************************************************************/
+	public void afficherBoutonScenarioTempsLimite() {
+		boutonScenarioTempsLimite = new JButton();
+		boutonScenarioTempsLimite.setIcon(new ImageIcon("images/scenarios/match-de-4-mins.jpg"));
+		panelPrincipal.add(boutonScenarioTempsLimite);
 	}
 	
 	
