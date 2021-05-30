@@ -144,6 +144,15 @@ public class PlateauVue extends JFrame {
 		PanelPause MenuPause = new PanelPause(this.joueurs);
 		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
 		
+		MenuPause.boutonMenuPrincipal.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				MenuPrincipal menuPrincipal = new MenuPrincipal();
+				menuPrincipal.show();
+				//dispose();
+			}
+		});
+		
 		MenuPause.boutonContinuer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MenuPause.setVisible(false);
