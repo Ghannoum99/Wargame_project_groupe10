@@ -3,27 +3,20 @@ package controleur;
 import java.io.File;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import modele.Joueur;
 import modele.ScenarioStandard;
 import modele.Soldat;
   
 public class JsonController
 {
-    public void sauvegarde_file_json(ScenarioStandard scenario)
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void sauvegarde_file_json(ScenarioStandard scenario)
     {
     	try
     	{
