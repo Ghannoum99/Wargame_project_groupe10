@@ -27,7 +27,8 @@ public class PlateauVue extends JFrame {
 	private Joueur tourJoueur;
 	private ArrayList<Joueur> joueurs;
 	private Guide guide;
-	private boolean visible;
+	private boolean visible = true;
+	private boolean clicked = false;
 
 	public PlateauVue(ArrayList<Joueur> joueurs, ScenarioStandard scenario) {  
 		// Définition des données de la fenêtre principale
@@ -64,14 +65,16 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
 		}
 		
-		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide;
+		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide, xCompteur, yCompteur;
 		widthPlateau = backgroundimage.getWidth()-187;
 		heightPlateau = backgroundimage.getHeight()-135;
 		xPanelsInfos = backgroundimage.getWidth()-157;
 		yGuide = backgroundimage.getHeight()-210;
 		widthGuide = backgroundimage.getWidth()-173;
+		xCompteur = backgroundimage.getWidth()/2 - 150;
+		yCompteur = backgroundimage.getHeight()-780;
 		
-		PanelCompteur cmpt = new PanelCompteur();
+		PanelCompteur cmpt = new PanelCompteur(xCompteur, yCompteur);
 		this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
 		
 		// Création du panel permettant d'afficher les infos du soldat
@@ -134,8 +137,9 @@ public class PlateauVue extends JFrame {
 				setTourJoueur(nouveauJoueur, ind);
 			}
 		});
-		boutonFinirTour.setBounds(xPanelsInfos+40, 610, 90, 22);
-
+		
+		boutonFinirTour.setBounds(xPanelsInfos, 650, 172, 44);
+        
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
 
 		setTourJoueur(tourJoueur, ind);
@@ -149,7 +153,7 @@ public class PlateauVue extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				MenuPrincipal menuPrincipal = new MenuPrincipal();
 				menuPrincipal.show();
-				//dispose();
+				dispose();
 			}
 		});
 		
@@ -159,21 +163,41 @@ public class PlateauVue extends JFrame {
 				cmpt.compteur.start();
 			}
 		});
+		
 		// Affichage de bouton pause
 		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
-		JButton boutonPause = new JButton(imageIconPause);
+		JButton boutonPause = new JButton();
+		boutonPause.setIcon(imageIconPause);
 		boutonPause.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MenuPause.setVisible(visible);
-				cmpt.compteur.stop();
-				if (visible) {
+				
+				if(!clicked) {
+					cmpt.compteur.stop();
+					ImageIcon imageIconPause = new ImageIcon("images/ornate_play_30-active.png");
+					boutonPause.setIcon(imageIconPause);
 					panelTerrains.retirerMouseListenerHexagones();
+					clicked = true;
+				}
+				
+				else {
+					cmpt.compteur.start();
+					ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
+					boutonPause.setIcon(imageIconPause);
+					panelTerrains.ajouterMouseListenerHexagones();
+					clicked = false;
+				}
+				/*
+				ornate_play_30-active
+				if (visible) {
+					
 					visible = false;
 				}
 				else {
-					panelTerrains.ajouterMouseListenerHexagones();
+					
 					visible = true;
 				}
+				
+				*/
 			}
 		});
 		boutonPause.setBackground(new Color(16, 22, 33));
@@ -186,6 +210,14 @@ public class PlateauVue extends JFrame {
 		//PanelMenuInfos panelMenu = new PanelMenuInfos(155, 98, 544, 440);
 		//this.plateau.add(panelMenu, JLayeredPane.DRAG_LAYER);
 		//this.panelTerrains.retirerMouseListenerHexagones();
+		
+		// BOUTON POUR QUITTER //
+        JButton boutonQuitter = new JButton();
+        boutonQuitter.setIcon(new ImageIcon("images/icons8-close-window-30.png"));
+        boutonQuitter.setBackground(new Color(16, 22, 33));
+        boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
+        boutonQuitter.setBounds(xPanelsInfos+10, 610, 172, 48);
+        this.plateau.add(boutonQuitter,  JLayeredPane.DEFAULT_LAYER);
 
 		SwingUtilities.updateComponentTreeUI(this.plateau);
 	}

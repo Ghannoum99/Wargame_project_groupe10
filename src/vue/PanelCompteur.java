@@ -18,14 +18,19 @@ public class PanelCompteur extends JPanel {
 	private String ddMinute;
 	private DecimalFormat dFormat = new DecimalFormat("00");
 	public boolean termine = false;
+	private int xBounds;
+	private int yBounds;
 
 	/**
 	 * Create the panel.
 	 */
 	
 	//w : 46, h: 18
-	public PanelCompteur() {
-		this.setBounds(388, 10, 109, 18);
+	public PanelCompteur(int xBounds, int yBounds) {
+		this.xBounds = xBounds;
+		this.yBounds = yBounds;
+		
+		this.setBounds(xBounds, yBounds, 109, 18);
 		this.setOpaque(false);
 		this.setLayout(null);
 		
@@ -76,4 +81,21 @@ public class PanelCompteur extends JPanel {
 		});
 		
 	}
+
+	public int getxBounds() {
+		return xBounds;
+	}
+
+	public void setxBounds(int xBounds) {
+		this.xBounds = xBounds;
+	}
+
+	public int getyBounds() {
+		return yBounds;
+	}
+
+	public void setyBounds(int yBounds) {
+		this.yBounds = yBounds;
+	}
+	
 }

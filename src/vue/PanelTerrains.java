@@ -1,17 +1,12 @@
 package vue;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +16,11 @@ import java.util.TimerTask;
 import java.util.stream.Collectors;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -54,6 +49,7 @@ public class PanelTerrains extends JLayeredPane {
 	private Soldat soldatSelec, ancienSoldatSelec;
 	private JLabel labelSoldatSelec;
 	private ArrayList<JLabel> labelsSoldats;
+	private ArrayList<JProgressBar> progressBarSoldats;
 	private Camera camera;
 	private JScrollPane scrollPane;
 	private ArrayList<Terrain> terrains;
@@ -66,7 +62,7 @@ public class PanelTerrains extends JLayeredPane {
 	private Joueur tourJoueur;
 	private int indTourJoueur;
 	private Hexagone hexagoneSelected;
-	
+
 	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, PanelInfosJoueur panelInfosJoueur, Guide guide, int widthPlateau, int heightPlateau) {
 		// Définition des données du panel
 		this.setLayout(null);
@@ -82,6 +78,9 @@ public class PanelTerrains extends JLayeredPane {
 		// Création du HashMap qui contiendra les couples identifiant des hexagones et le label correspondant
 		this.labelsHexagones = new HashMap<Integer, JLabel>();
 
+		// Création d'une liste de progress bar pour pouvoir consulter les points de vies des soldats
+		this.progressBarSoldats = new ArrayList<JProgressBar>();
+		
 		// Création d'une liste de terrains
 		this.terrains = new ArrayList<Terrain>();
 
@@ -146,7 +145,7 @@ public class PanelTerrains extends JLayeredPane {
 
 		// Récupération du panel permettant d'afficher les informations du joueur
 		this.panelInfosJoueur = panelInfosJoueur;
-		
+
 		// Initialisation des soldats sélectionnés
 		this.labelSoldatSelec = null;
 		this.soldatSelec = null;
@@ -158,6 +157,15 @@ public class PanelTerrains extends JLayeredPane {
 			this.add(labelSoldat, JLayeredPane.MODAL_LAYER);
 			Hexagone hexagone = getHexagone(soldat.getAbscisse(), soldat.getOrdonnees());
 			hexagone.addInHexagone(soldat);
+			JProgressBar progressBar = new JProgressBar();
+	        progressBar.setForeground(Color.GREEN);
+	        progressBar.setOpaque(true);
+	        progressBar.setValue(soldat.getPv());
+	        progressBar.setOrientation(SwingConstants.VERTICAL);
+	        progressBar.setBounds(labelSoldat.getX()+10, labelSoldat.getY()+10, 6, 44);
+	        progressBar.setName(labelSoldat.getName());
+	        this.progressBarSoldats.add(progressBar);
+	        this.add(progressBar, JLayeredPane.DRAG_LAYER);
 		}
 
 		// Création du scroll pane contenant le panel
@@ -177,7 +185,7 @@ public class PanelTerrains extends JLayeredPane {
 
 		// Mettre à jour l'image des hexagones sous chaque label des soldats
 		mettreAjourHexagonesSoldats();
-		
+
 		//afficherBrouillard();
 	}
 
@@ -196,10 +204,13 @@ public class PanelTerrains extends JLayeredPane {
 			JLabel label = getLabel(hexagone.getId());
 			label.setIcon(bordure);
 
+			for (MouseListener mouseL : labelSoldat.getMouseListeners()) {
+				labelSoldat.removeMouseListener(mouseL);
+			}
+
 			labelSoldat.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					System.out.println("Click");
 					if (tourJoueur.soldatExiste(soldat)) {
 						panelInfosSoldat.afficherInfosSoldats(soldat);
 
@@ -224,19 +235,19 @@ public class PanelTerrains extends JLayeredPane {
 						}
 						boolean attaque = possibiliteAttaque(hexagoneSelected, hexagone);
 						System.out.println(attaque);
-						System.out.println(hexagone);
 						if(attaque)  {
-							diminuerpointdeviesoldat(hexagoneSelected, hexagone);
-							tuersoldat(hexagone);
-							System.out.println(hexagone);
+							System.out.println("hex deb : " + hexagone);
+							int degats = diminuerpointdeviesoldat(hexagoneSelected, hexagone);
+							tuersoldat(hexagone, degats);
+							System.out.println("hex fin : " + hexagone);
 						}
 					}
 				}
-				
+
 			});
 		}
 	}
-	
+
 	/*
 	 * Fonction pour vérfier les possiblités d'attaquer
 	 * on peut attaquer seulement les 6 hexagones autour du soldat
@@ -268,23 +279,20 @@ public class PanelTerrains extends JLayeredPane {
 				||
 				//Bas droite
 				(abscisseAmis + intervalleAbscisse == abscisseEnnemi && (ordonneeAmis + intervalleOrdonnee1 == ordonneeEnnemi || ordonneeAmis + intervalleOrdonnee2 == ordonneeEnnemi))
-		) {
+				) {
 			result = true;
 		}
 		return result;
 	}
-	
+
 	/*
 	 * Fonction permet d'afficher un feu pour le soldat ennemi
 	 * Tuer un soldat
 	 */
-	public void tuersoldat(Hexagone hexagone) {
+	public void tuersoldat(Hexagone hexagone, int degats) {
 		if (hexagone != null) {
-			ImageIcon fog = new ImageIcon(new ImageIcon("images/feux.gif").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));  
-			JLabel fogOfWar = getLabel(hexagone.getId());
-			fogOfWar.setIcon(fog);
-			retirerMouseListenerHexagone(fogOfWar);
 			Soldat tue = hexagone.getUnits().get(0);
+<<<<<<< HEAD
 			TimerTask task = new TimerTask() {
 		        public void run() {
 		        	if(tue.getPv() <= 0)
@@ -306,30 +314,73 @@ public class PanelTerrains extends JLayeredPane {
 		    Timer timer = new Timer("Timer");
 		    long delay = 1000L;
 		    timer.schedule(task, delay);
+=======
+			
+			ImageIcon feu = new ImageIcon(new ImageIcon("images/feux.gif").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));  
+			JLabel labelSoldatEnnemi = getLabel(hexagone.getId());
+			labelSoldatEnnemi.setIcon(feu);
+			
+			JLabel labelDegats = new JLabel(Integer.toString(degats));
+			labelDegats.setBounds(labelSoldatEnnemi.getX()+25, labelSoldatEnnemi.getY()-60, 100, 100);
+			labelDegats.setForeground(Color.red);
+			labelDegats.setFont(new Font("Arial", Font.BOLD, 16));
+			labelDegats.setVisible(true);
+			this.add(labelDegats, JLayeredPane.DRAG_LAYER);
+>>>>>>> branch 'main' of https://github.com/Ghannoum99/Wargame_project_groupe10
 		
+			JProgressBar progressBarSoldatEnnemi = chercherProgressBar(tue);
+			progressBarSoldatEnnemi.setValue(tue.getPv());
+			
+			TimerTask task = new TimerTask() {
+				public void run() {
+					if(tue.getPv() <= 0)
+					{
+						tue.setKo(true);
+						hexagone.removeFromHexagone(tue);
+						labelSoldatEnnemi.setIcon(new ImageIcon("images/hexagones/hexagone3.png"));
+						JLabel lsoldat = chercherLabelSoldat(tue);
+						lsoldat.setVisible(false);
+						labelsSoldats.remove(lsoldat);
+						soldats.remove(tue);
+						remove(lsoldat);
+						progressBarSoldats.remove(progressBarSoldatEnnemi);
+						remove(progressBarSoldatEnnemi);
+						tourJoueur.ajouterSoldatTue(tue);
+						//incrementer le score
+						tourJoueur.setScore(tourJoueur.getScore()+10);
+						panelInfosJoueur.score.setText(String.valueOf((Integer)tourJoueur.getScore()));
+					}
+					else {
+						labelSoldatEnnemi.setIcon(new ImageIcon(imageAafficher(tue)));
+					}
+					labelDegats.setVisible(false);
+					remove(labelDegats);
+					revalidate();
+				}
+			};
+			Timer timer = new Timer("Timer");
+			long delay = 1000L;
+			timer.schedule(task, delay);
 		}
 	}
-	
-	public JLabel chercherLabelSoldat() {
-        List<JLabel> chercheLabel = new ArrayList<JLabel>();
-        for(Soldat soldat : this.soldats)
-        {
-            chercheLabel.addAll(this.labelsSoldats.stream().filter(x -> Integer.parseInt(x.getName()) == soldat.getId()).collect(Collectors.toList()));
-        }
-        return chercheLabel.get(0);
-    }
 
 	/*
 	 * Cette fonction permet de diminuer les points de vie d'un soldat attaqué
 	 */
-	
-	public void diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
+
+	public int diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
 		Random random = new Random();
 		int max = selected.getUnits().get(0).getAttaque() - ennemi.getUnits().get(0).getDefense();
+<<<<<<< HEAD
 		int value = Math.abs(ennemi.getUnits().get(0).getPv() - (max - (random.nextInt(max + 1) + 1)));
+=======
+		int degats = (max - (random.nextInt(max + 1) + 1));
+		int value = ennemi.getUnits().get(0).getPv() - degats;
+>>>>>>> branch 'main' of https://github.com/Ghannoum99/Wargame_project_groupe10
 		ennemi.getUnits().get(0).setPv(value);
+		return degats;
 	}
-	
+
 	/*
 	 * Cette fonction permet de retourner l'image "allié" ou "ennemi"
 	 * en fonction du joueur dont c'est le tour et du soldat en paramètres
@@ -642,7 +693,7 @@ public class PanelTerrains extends JLayeredPane {
 	public void setIndTourJoueur(int indTourJoueur) {
 		this.indTourJoueur = indTourJoueur;
 	}
-	
+
 	/*
 	 * Cette fonction permet d'afficher le Brouillard sur un hexagone
 	 */
@@ -655,7 +706,7 @@ public class PanelTerrains extends JLayeredPane {
 			retirerMouseListenerHexagone(fogOfWar);
 		}
 	}
-	
+
 	/*
 	 * Cette fonction permet d'afficher le brouillard sur tout le terrain
 	 */
@@ -668,19 +719,19 @@ public class PanelTerrains extends JLayeredPane {
 			for (j=0; j<terrains.get(i).getHexagones().size(); j++) {
 				Hexagone hexagone = terrains.get(i).getHexagones().get(j);
 				if(hexagone.getUnits().isEmpty())
-                {
+				{
 					afficherImageFog(hexagone.getAbscisse(), hexagone.getOrdonnees());
-                }
+				}
 			}
 		}
-		
+
 		return;
 	}
 
 	/*
 	 * Cette fonction permet de retirer tous les mouse listener des labels hexagones
 	 */
-	
+
 	public void retirerMouseListenerHexagones() {
 		int i, j;
 		for(i=0;i<terrains.size();i++)
@@ -695,21 +746,21 @@ public class PanelTerrains extends JLayeredPane {
 			retirerMouseListenerHexagone(this.labelsSoldats.get(i));
 		}
 	}
-	
+
 	/*
 	 * Cette fonction permet de retirer tous les mouse listener d'un label hexagone
 	 */
-	
+
 	public void retirerMouseListenerHexagone(JLabel labelHexagone) {
 		for (MouseListener mouseL : labelHexagone.getMouseListeners()) {
 			labelHexagone.removeMouseListener(mouseL);
 		}
 	}
-	
+
 	/*
 	 * Cette fonction permet d'ajouter tous les mouse listener des labels hexagones
 	 */
-	
+
 	public void ajouterMouseListenerHexagones() {
 		int i, j;
 		for(i=0;i<terrains.size();i++)
@@ -721,23 +772,43 @@ public class PanelTerrains extends JLayeredPane {
 			}
 		}
 	}
-	
+
 	/*
 	 * Cette fonction permet d'ajouter tous les mouse listener d'un label hexagone
 	 */
-	
+
 	public void ajouterMouseListenerHexagone(JLabel labelHexagone) {
 		labelHexagone.addMouseListener(new MouseHexagone(labelHexagone));
 	}
 	
+	/*
+	 * Cette fonction permet de chercher un label soldat à partir de l'id d'un soldat
+	 */
+
+	public JLabel chercherLabelSoldat(Soldat soldat) {
+		List<JLabel> chercheLabel = new ArrayList<JLabel>();
+		chercheLabel.addAll(this.labelsSoldats.stream().filter(x -> Integer.parseInt(x.getName()) == soldat.getId()).collect(Collectors.toList()));
+		return chercheLabel.get(0);
+	}
+	
+	/*
+	 * Cette fonction permet de chercher une progress bar à partir de l'id d'un soldat
+	 */
+
+	public JProgressBar chercherProgressBar(Soldat soldat) {
+		List<JProgressBar> chercheProgressBar = new ArrayList<JProgressBar>();
+		chercheProgressBar.addAll(this.progressBarSoldats.stream().filter(x -> Integer.parseInt(x.getName()) == soldat.getId()).collect(Collectors.toList()));
+		return chercheProgressBar.get(0);
+	}
+
 	public class MouseHexagone extends MouseAdapter {
-		
+
 		private JLabel labelBordure;
-		
+
 		public MouseHexagone(JLabel label) {
 			this.labelBordure = label;
 		}
-		
+
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			afficherImageSelec(false, labelBordure.getX(), labelBordure.getY());
@@ -754,15 +825,15 @@ public class PanelTerrains extends JLayeredPane {
 		@Override
 		public void mouseExited(MouseEvent e) {
 			TimerTask task = new TimerTask() {
-		        public void run() {
-		        	if (guide.isGuideActive() && !guide.aValideCompetence(3)) {
+				public void run() {
+					if (guide.isGuideActive() && !guide.aValideCompetence(3)) {
 						guide.afficherIndicationsDeplacement3();
 					}
-		        }
-		    };
-		    Timer timer = new Timer("Timer");
-		    long delay = 1000L;
-		    timer.schedule(task, delay);
+				}
+			};
+			Timer timer = new Timer("Timer");
+			long delay = 1000L;
+			timer.schedule(task, delay);
 			effacerImageSelec(labelBordure.getX(), labelBordure.getY());
 			remove(labelBonusDef);
 		}
@@ -774,6 +845,7 @@ public class PanelTerrains extends JLayeredPane {
 				guide.afficherIndicationsDeplacement2();
 			}
 			remove(labelBonusDef);
+			
 			Hexagone hexagone = getHexagone(labelBordure.getX(), labelBordure.getY());
 			if (soldatSelec != null && !hexagone.contientEnnemi(tourJoueur)) {
 				int nbrHexagones, nouveauX, nouveauY, xClic, yClic;
@@ -839,7 +911,7 @@ public class PanelTerrains extends JLayeredPane {
 						if (hex.getUnits().size() > 0 && !(tourJoueur.soldatExiste(hex.getUnits().get(0))) && (hex.getAbscisse()-hexagoneClique.getAbscisse()) <= 54 && (hex.getAbscisse()-hexagoneClique.getAbscisse()) >= -54 && (hex.getOrdonnees()-hexagoneClique.getOrdonnees()) <= 72 && (hex.getOrdonnees()-hexagoneClique.getOrdonnees()) >= -72) {
 							listeHex.add(hex);
 						}
-						
+
 					}
 				}
 				if (!listeHex.isEmpty()) {
@@ -847,9 +919,11 @@ public class PanelTerrains extends JLayeredPane {
 						guide.afficherIndicationsCombat();
 					}
 				}
-				
+
 				soldatSelec.deplacementPossible(0, getWidth() - 50, 0, getHeight() - 70, nouveauX, nouveauY, nbrHexagones, bonusDeplacement);
 				labelSoldatSelec.setLocation(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees());
+				JProgressBar progressBarSoldat = chercherProgressBar(soldatSelec);
+				progressBarSoldat.setLocation(labelSoldatSelec.getX()+10, labelSoldatSelec.getY()+10);
 				camera.update(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees(), scrollPane);
 				modifierCoordonneesCamera();
 				updateSoldatHexagone();

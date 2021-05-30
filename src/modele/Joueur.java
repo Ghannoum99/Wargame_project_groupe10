@@ -65,13 +65,13 @@ public class Joueur {
 	
 	public int getNombreSoldat() {
 		int nombreSoldats = 0;
-        for(int i = 0; i < KO.length; i++) {
-            if (KO[i] == 0) {
-                nombreSoldats++;
-            }
-        }
-
-        return nombreSoldats;
+		for(int i = 0; i < KO.length; i++) {
+			if (KO[i] == 0) {
+				nombreSoldats++;
+			}
+		}
+		
+		return nombreSoldats;
 	} 
 	
 	public ArrayList<Joueur> getAdversaires() {
