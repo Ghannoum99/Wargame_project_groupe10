@@ -224,8 +224,8 @@ public class PanelTerrains extends JLayeredPane {
 						System.out.println(attaque);
 						if(attaque)  {
 							System.out.println("hex deb : " + hexagone);
-							diminuerpointdeviesoldat(hexagoneSelected, hexagone);
-							tuersoldat(hexagone);
+							int degats = diminuerpointdeviesoldat(hexagoneSelected, hexagone);
+							tuersoldat(hexagone, degats);
 							System.out.println("hex fin : " + hexagone);
 						}
 					}
@@ -276,11 +276,19 @@ public class PanelTerrains extends JLayeredPane {
 	 * Fonction permet d'afficher un feu pour le soldat ennemi
 	 * Tuer un soldat
 	 */
-	public void tuersoldat(Hexagone hexagone) {
+	public void tuersoldat(Hexagone hexagone, int degats) {
 		if (hexagone != null) {
 			ImageIcon feu = new ImageIcon(new ImageIcon("images/feux.gif").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));  
 			JLabel labelSoldatEnnemi = getLabel(hexagone.getId());
 			labelSoldatEnnemi.setIcon(feu);
+			
+			JLabel labelDegats = new JLabel(Integer.toString(degats));
+			labelDegats.setBounds(labelSoldatEnnemi.getX()+25, labelSoldatEnnemi.getY()-60, 100, 100);
+			labelDegats.setForeground(Color.red);
+			labelDegats.setFont(new Font("Arial", Font.BOLD, 16));
+			labelDegats.setVisible(true);
+			this.add(labelDegats, JLayeredPane.DRAG_LAYER);
+		
 			Soldat tue = hexagone.getUnits().get(0);
 			TimerTask task = new TimerTask() {
 				public void run() {
@@ -290,14 +298,17 @@ public class PanelTerrains extends JLayeredPane {
 						hexagone.removeFromHexagone(tue);
 						labelSoldatEnnemi.setIcon(new ImageIcon("images/hexagone3.png"));
 						JLabel lsoldat = chercherLabelSoldat(tue);
+						lsoldat.setVisible(false);
 						labelsSoldats.remove(lsoldat);
 						soldats.remove(tue);
-						remove(lsoldat);
 						revalidate();
+						remove(lsoldat);
+						labelDegats.setVisible(false);
+						remove(labelDegats);
 						tourJoueur.ajouterSoldatTue(tue);
 						//incrementer le score
-						int score = tourJoueur.getScore();
-						score++;
+						tourJoueur.setScore(tourJoueur.getScore()+1);
+						panelInfosJoueur.score.setText(String.valueOf((Integer)tourJoueur.getScore()));
 					}
 					else {
 						labelSoldatEnnemi.setIcon(new ImageIcon(imageAafficher(tue)));
@@ -315,11 +326,12 @@ public class PanelTerrains extends JLayeredPane {
 	 * Cette fonction permet de diminuer les points de vie d'un soldat attaqué
 	 */
 
-	public void diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
+	public int diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
 		Random random = new Random();
 		int max = selected.getUnits().get(0).getAttaque() - ennemi.getUnits().get(0).getDefense();
 		int value = ennemi.getUnits().get(0).getPv() - (max - (random.nextInt(max + 1) + 1));
 		ennemi.getUnits().get(0).setPv(value);
+		return value;
 	}
 
 	/*
