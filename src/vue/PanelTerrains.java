@@ -59,7 +59,7 @@ public class PanelTerrains extends JLayeredPane {
 	private int indTourJoueur;
 	private Hexagone hexagoneSelected;
 	
-	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, PanelInfosJoueur panelInfosJoueur, Guide guide) {
+	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, PanelInfosJoueur panelInfosJoueur, Guide guide, int widthPlateau, int heightPlateau) {
 		// Définition des données du panel
 		this.setLayout(null);
 		this.setVisible(true);
@@ -156,7 +156,7 @@ public class PanelTerrains extends JLayeredPane {
 		this.scrollPane = new JScrollPane(this);
 		this.scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
 		this.scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0,0));
-		this.scrollPane.setBounds(10,13,1080,545);
+		this.scrollPane.setBounds(10,13,widthPlateau,heightPlateau);
 		this.scrollPane.setPreferredSize(this.getPreferredSize());
 		this.scrollPane.getHorizontalScrollBar().setValue(1);
 		this.scrollPane.getVerticalScrollBar().setValue(1);

@@ -40,12 +40,6 @@ public class PlateauVue extends JFrame {
 		this.setBackground(Color.black);
 		this.setTitle("WarGame");
 
-		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
-			device.setFullScreenWindow(this);
-		} 
-
 		this.plateau = new JLayeredPane();
 		this.plateau.setLayout(null);
 		this.plateau.setBounds(0,0,1267, 680);
@@ -55,10 +49,24 @@ public class PlateauVue extends JFrame {
 
 		// Image de fond
 		JLabel backgroundimage = new JLabel("");
-		backgroundimage.setBounds(0, 0, 1267, 680);
-		backgroundimage.setIcon(new ImageIcon("images/plateau.png"));
 		this.add(backgroundimage);
-
+		
+		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
+			device.setFullScreenWindow(this);
+			backgroundimage.setBounds(0, 0, 1267, 680);
+			backgroundimage.setIcon(new ImageIcon("images/plateau.png"));
+		} 
+		else {
+			backgroundimage.setBounds(0, 0, 1300, 781);
+			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
+		}
+		
+		int widthPlateau, heightPlateau;
+		widthPlateau = backgroundimage.getWidth()-187;
+		heightPlateau = backgroundimage.getHeight()-135;
+		
 		// Création du panel permettant d'afficher les infos du soldat
 		this.panelInfosSoldat = new PanelInfosSoldat();
 		this.plateau.add(this.panelInfosSoldat, JLayeredPane.DEFAULT_LAYER);
@@ -93,7 +101,7 @@ public class PlateauVue extends JFrame {
 		this.guide.afficherQuestion();
 
 		// Création du panel permettant d'afficher les terrains et de positionner les soldats
-		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.infosJoueur, this.guide);
+		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.infosJoueur, this.guide, widthPlateau, heightPlateau);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 		
 		scenario.appliquerScenario(this.panelTerrains.getTourJoueur());
