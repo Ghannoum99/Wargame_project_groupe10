@@ -51,7 +51,7 @@ public class PlateauVue extends JFrame {
 		JLabel backgroundimage = new JLabel("");
 		this.add(backgroundimage);
 		
-		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide, xCompteur, yCompteur, heightBoutonFinirTour, yBoutonFinirTour;
+		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide, xCompteur, yCompteur, xMiniBoutons, heightBoutonFinirTour, yBoutonFinirTour;
 		
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -62,6 +62,7 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setIcon(new ImageIcon("images/plateau.png"));
 			heightBoutonFinirTour = 22;
 			yBoutonFinirTour = 645;
+			xMiniBoutons = 600;
 		} 
 		else {
 			backgroundimage.setBounds(0, 0, 1300, 781);
@@ -69,6 +70,7 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
 			heightBoutonFinirTour = 44;
 			yBoutonFinirTour = 720;
+			xMiniBoutons = 610;
 		}
 		
 		widthPlateau = backgroundimage.getWidth()-187;
@@ -181,7 +183,7 @@ public class PlateauVue extends JFrame {
 			}
 		});
 		boutonPause.setBackground(new Color(16, 22, 33));
-		boutonPause.setBounds(xPanelsInfos+15, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		boutonPause.setBounds(xPanelsInfos+15, xMiniBoutons, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
 		this.plateau.add(boutonPause, JLayeredPane.DEFAULT_LAYER);
 
     	// Bouton pour lancer le tutoriel //
@@ -189,7 +191,7 @@ public class PlateauVue extends JFrame {
         boutonAide.setIcon(new ImageIcon("images/help_30.png"));
         boutonAide.setBackground(new Color(16, 22, 33));
         boutonAide.setHorizontalTextPosition(JButton.CENTER);
-        boutonAide.setBounds(boutonPause.getX()+40, 610, 30, 30);
+        boutonAide.setBounds(boutonPause.getX()+40, xMiniBoutons, 30, 30);
         boutonAide.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				guide.afficherQuestion();
@@ -202,7 +204,7 @@ public class PlateauVue extends JFrame {
         boutonQuitter.setIcon(new ImageIcon("images/icons8-close-window-30.png"));
         boutonQuitter.setBackground(new Color(16, 22, 33));
         boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
-        boutonQuitter.setBounds(boutonAide.getX()+40, 610, 30, 30);
+        boutonQuitter.setBounds(boutonAide.getX()+40, xMiniBoutons, 30, 30);
         this.plateau.add(boutonQuitter,  JLayeredPane.DEFAULT_LAYER);
 
 		// Finir le tour
