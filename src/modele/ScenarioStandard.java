@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 public class ScenarioStandard {
 	private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+	private String typeScenario;
 	
-	public ScenarioStandard(ArrayList<Joueur> joueurs) {
+	public ScenarioStandard(String typeScenario ,ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
+		this.typeScenario = typeScenario;
 	}
 	
 	
@@ -79,7 +81,7 @@ public class ScenarioStandard {
 					
 					for(Soldat soldat : joueur.getAdversaires().get(j).getSoldatList())
 					{
-						//tester si il a tué un soldat
+						//tester si il a tuÃ© un soldat
 						if(joueur.aTueUnSoldat(soldat));
 						cmpt++;
 					}
@@ -108,6 +110,16 @@ public class ScenarioStandard {
 
 	public void setJoueurs(ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
+	}
+
+
+	public String getTypeScenario() {
+		return typeScenario;
+	}
+
+
+	public void setTypeScenario(String typeScenario) {
+		this.typeScenario = typeScenario;
 	}
 	
 	
