@@ -10,7 +10,7 @@ import java.util.*;
 import modele.*;
 
 /*
- * La classe PlateauVue permet d’afficher les différents éléments du plateau 
+ * La classe PlateauVue permet dâ€™afficher les diffÃ©rents Ã©lÃ©ments du plateau 
  * : les terrains, les soldats des joueurs de la partie et le cadre du plateau.
  */
 
@@ -27,10 +27,11 @@ public class PlateauVue extends JFrame {
 	private Joueur tourJoueur;
 	private ArrayList<Joueur> joueurs;
 	private Guide guide;
-	private boolean visible;
+	private boolean visible = true;
+	private boolean clicked = false;
 
 	public PlateauVue(ArrayList<Joueur> joueurs, ScenarioStandard scenario) {  
-		// Définition des données de la fenêtre principale
+		// DÃ©finition des donnÃ©es de la fenÃªtre principale
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setBounds(0,0, 1310, 820);
 		this.getContentPane().setBackground(Color.white);	
@@ -76,30 +77,30 @@ public class PlateauVue extends JFrame {
 		PanelCompteur cmpt = new PanelCompteur(xCompteur, yCompteur);
 		this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
 		
-		// Création du panel permettant d'afficher les infos du soldat
+		// CrÃ©ation du panel permettant d'afficher les infos du soldat
 		this.panelInfosSoldat = new PanelInfosSoldat(xPanelsInfos);
 		this.plateau.add(this.panelInfosSoldat, JLayeredPane.DEFAULT_LAYER);
 
-		// Création du panel permettant d'afficher les infos du joueur
+		// CrÃ©ation du panel permettant d'afficher les infos du joueur
 		this.infosJoueur = new PanelInfosJoueur(joueurs, xPanelsInfos);
 		this.plateau.add(this.infosJoueur, JLayeredPane.DEFAULT_LAYER);
 	
-		// Création des joueurs 
+		// CrÃ©ation des joueurs 
 		this.joueurs = joueurs;
 		
 		this.scenario = scenario;
 
-		// Création des labels représentant les soldats
+		// CrÃ©ation des labels reprÃ©sentant les soldats
 		this.soldatVue = new SoldatVue();
 		this.soldatVue.creerSoldats(this.joueurs);
 
-		// Choix aléatoire d'un joueur pour commencer le tour
+		// Choix alÃ©atoire d'un joueur pour commencer le tour
 		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
 		this.tourJoueur = this.joueurs.get(ind);
 
 		this.visible = true;
 		
-		// Création de minimap
+		// CrÃ©ation de minimap
 		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this, xPanelsInfos);
 		this.plateau.add(this.minimap, JLayeredPane.DEFAULT_LAYER);
 
@@ -108,7 +109,7 @@ public class PlateauVue extends JFrame {
 		this.plateau.add(this.guide, JLayeredPane.DRAG_LAYER);
 		this.guide.afficherQuestion();
 
-		// Création du panel permettant d'afficher les terrains et de positionner les soldats
+		// CrÃ©ation du panel permettant d'afficher les terrains et de positionner les soldats
 		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.infosJoueur, this.guide, widthPlateau, heightPlateau);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 		
@@ -151,7 +152,7 @@ public class PlateauVue extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				MenuPrincipal menuPrincipal = new MenuPrincipal();
 				menuPrincipal.show();
-				//dispose();
+				dispose();
 			}
 		});
 		
@@ -161,21 +162,41 @@ public class PlateauVue extends JFrame {
 				cmpt.compteur.start();
 			}
 		});
+		
 		// Affichage de bouton pause
 		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
-		JButton boutonPause = new JButton(imageIconPause);
+		JButton boutonPause = new JButton();
+		boutonPause.setIcon(imageIconPause);
 		boutonPause.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MenuPause.setVisible(visible);
-				cmpt.compteur.stop();
-				if (visible) {
+				
+				if(!clicked) {
+					cmpt.compteur.stop();
+					ImageIcon imageIconPause = new ImageIcon("images/ornate_play_30-active.png");
+					boutonPause.setIcon(imageIconPause);
 					panelTerrains.retirerMouseListenerHexagones();
+					clicked = true;
+				}
+				
+				else {
+					cmpt.compteur.start();
+					ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
+					boutonPause.setIcon(imageIconPause);
+					panelTerrains.ajouterMouseListenerHexagones();
+					clicked = false;
+				}
+				/*
+				ornate_play_30-active
+				if (visible) {
+					
 					visible = false;
 				}
 				else {
-					panelTerrains.ajouterMouseListenerHexagones();
+					
 					visible = true;
 				}
+				
+				*/
 			}
 		});
 		boutonPause.setBackground(new Color(16, 22, 33));

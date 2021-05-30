@@ -1,70 +1,33 @@
 package vue;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.stream.Collectors;
-import java.util.Random;
-
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.plaf.BorderUIResource;
 
-import modele.Camera;
-import modele.Colline;
-import modele.EauProfonde;
-import modele.Foret;
-import modele.Glacier;
-import modele.Hexagone;
+import controleur.JsonController;
 import modele.Joueur;
-import modele.Forteresse;
-import modele.Soldat;
-import modele.Terrain;
-
-/*
- * La classe PanelTerrains permet d'afficher toutes les pièces du plateau : les terrains et les soldats
- */
 
 @SuppressWarnings("serial")
-public class PanelTerrains extends JLayeredPane {
+public class PanelPause extends JPanel {
+	private JLabel labelTitre;
+	private controleur.JsonController json;
+	public JButton boutonContinuer;
+	public JButton boutonMenuPrincipal;
+	private ArrayList<Joueur> joueurs;
 
-	private Soldat soldatSelec, ancienSoldatSelec;
-	private JLabel labelSoldatSelec;
-	private ArrayList<JLabel> labelsSoldats;
-	private Camera camera;
-	private JScrollPane scrollPane;
-	private ArrayList<Terrain> terrains;
-	private ArrayList<Soldat> soldats;
-	private Map<Integer, JLabel> labelsHexagones;
-	private PanelInfosSoldat panelInfosSoldat;
-	private PanelInfosJoueur panelInfosJoueur;
-	private JLabel labelBonusDef;
-	private Guide guide;
-	private Joueur tourJoueur;
-	private int indTourJoueur;
-	private Hexagone hexagoneSelected;
-
-	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, PanelInfosJoueur panelInfosJoueur, Guide guide, int widthPlateau, int heightPlateau) {
-		// Définition des données du panel
+	public PanelPause(ArrayList<Joueur> joueurs) {
+		this.setBounds(155, 98, 544, 440);
+		this.setBackground(new Color(16, 22, 33));
+		this.setOpaque(true);
 		this.setLayout(null);
+<<<<<<< HEAD
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(0, 0));
 
@@ -784,88 +747,82 @@ public class PanelTerrains extends JLayeredPane {
 				guide.afficherIndicationsDeplacement2();
 			}
 			remove(labelBonusDef);
+=======
+		this.setVisible(false);
+		
+		//CrÃ©ation d'un jsonController pour l'enregistrement de la partie en cours
+		this.json = new JsonController();
+		
+		//RÃ©cupÃ©ration de la liste des joueurs
+		this.joueurs = joueurs;
+		
+		/** TITRE DU PANEL **/
+		labelTitre = new JLabel("Partie en Pause");
+		labelTitre.setForeground(new Color(255, 204, 0));
+		labelTitre.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 20));
+		labelTitre.setBounds(200, 10, 209, 41);
+		this.add(labelTitre);
+		
+		afficherBoutonQuitter(this);
+		AfficherBoutonMenuPrincipal();
+		AfficherBoutonContinuer(this);
+	}	
+>>>>>>> 1191b05e4c04e417c820d3026ce83e6f3fedbfa6
 			
-			Hexagone hexagone = getHexagone(labelBordure.getX(), labelBordure.getY());
-			if (soldatSelec != null && !hexagone.contientEnnemi(tourJoueur)) {
-				int nbrHexagones, nouveauX, nouveauY, xClic, yClic;
-				nouveauX = soldatSelec.getAbscisse();
-				nouveauY = soldatSelec.getOrdonnees();
-
-				nbrHexagones = 0;
-				xClic = labelBordure.getX();
-				yClic = labelBordure.getY();
-
-				if (xClic  > soldatSelec.getAbscisse() && yClic > soldatSelec.getOrdonnees()) {
-					String imageDroite = soldatSelec.getImage();
-					ImageIcon image = new ImageIcon(imageDroite);
-					labelSoldatSelec.setIcon(image);
-					nouveauX = soldatSelec.deplacementDroit(xClic - soldatSelec.getAbscisse());
-					nouveauY = soldatSelec.deplacementBas(yClic - soldatSelec.getOrdonnees());
-					nbrHexagones = (nouveauX-soldatSelec.getAbscisse()) / labelBordure.getWidth();
-				}
-				else if (xClic  < soldatSelec.getAbscisse() && yClic > soldatSelec.getOrdonnees()) {
-					String imageGauche= soldatSelec.getImagePivotee();
-					ImageIcon image = new ImageIcon(imageGauche);
-					labelSoldatSelec.setIcon(image);
-					nouveauX = soldatSelec.deplacementGauche(soldatSelec.getAbscisse() - xClic);
-					nouveauY = soldatSelec.deplacementBas(yClic - soldatSelec.getOrdonnees());
-					nbrHexagones = (soldatSelec.getAbscisse()-nouveauX) / labelBordure.getWidth();
-				}
-				else if (xClic  > soldatSelec.getAbscisse() && yClic < soldatSelec.getOrdonnees()) {
-					String imageDroite = soldatSelec.getImage();
-					ImageIcon image = new ImageIcon(imageDroite);
-					labelSoldatSelec.setIcon(image);
-					nouveauX = soldatSelec.deplacementDroit(xClic - soldatSelec.getAbscisse());
-					nouveauY = soldatSelec.deplacementHaut(soldatSelec.getOrdonnees() - yClic);
-					nbrHexagones = (nouveauX-soldatSelec.getAbscisse()) / labelBordure.getWidth();
-				}
-				else if (xClic  < soldatSelec.getAbscisse() && yClic < soldatSelec.getOrdonnees()) {
-					String imageGauche= soldatSelec.getImagePivotee();
-					ImageIcon image = new ImageIcon(imageGauche);
-					labelSoldatSelec.setIcon(image);
-					nouveauX = soldatSelec.deplacementGauche(soldatSelec.getAbscisse() - xClic);
-					nouveauY = soldatSelec.deplacementHaut(soldatSelec.getOrdonnees() - yClic);
-					nbrHexagones = (soldatSelec.getAbscisse()-nouveauX) / labelBordure.getWidth();
-				}
-				else if (yClic < soldatSelec.getOrdonnees()) {
-					nouveauY = soldatSelec.deplacementHaut(soldatSelec.getOrdonnees() - yClic);
-					nbrHexagones = (soldatSelec.getOrdonnees()-nouveauY) / labelBordure.getHeight();
-				}
-				else if (yClic > soldatSelec.getOrdonnees()) {
-					nouveauY = soldatSelec.deplacementBas(yClic - soldatSelec.getOrdonnees());
-					nbrHexagones = (nouveauY-soldatSelec.getOrdonnees()) / labelBordure.getHeight();
-				}
-
-				nbrHexagones += 1;
-
-				Hexagone hexagoneClique = getHexagone(labelBordure.getX(), labelBordure.getY());
-				int bonusDeplacement = getBonusDep(hexagoneClique.getTypeTerrain());
-
-				// On vérifie si en se déplacant le soldat se retrouve à proximité d'un ennemi
-				List<Hexagone> listeHex = new ArrayList<Hexagone>();
-				for (int ind=0; ind<terrains.size(); ind++) {
-					Terrain terrain = terrains.get(ind);
-					for (int ind2=0; ind2<terrain.getHexagones().size(); ind2++) {
-						Hexagone hex = terrain.getHexagones().get(ind2);
-						if (hex.getUnits().size() > 0 && !(tourJoueur.soldatExiste(hex.getUnits().get(0))) && (hex.getAbscisse()-hexagoneClique.getAbscisse()) <= 54 && (hex.getAbscisse()-hexagoneClique.getAbscisse()) >= -54 && (hex.getOrdonnees()-hexagoneClique.getOrdonnees()) <= 72 && (hex.getOrdonnees()-hexagoneClique.getOrdonnees()) >= -72) {
-							listeHex.add(hex);
-						}
-
-					}
-				}
-				if (!listeHex.isEmpty()) {
-					if (guide.isGuideActive() && !guide.aValideCompetence(4)) {
-						guide.afficherIndicationsCombat();
-					}
-				}
-
-				soldatSelec.deplacementPossible(0, getWidth() - 50, 0, getHeight() - 70, nouveauX, nouveauY, nbrHexagones, bonusDeplacement);
-				labelSoldatSelec.setLocation(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees());
-				camera.update(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees(), scrollPane);
-				modifierCoordonneesCamera();
-				updateSoldatHexagone();
-				hexagoneSelected = hexagoneClique;
+	/********************************************************************/
+	/** AFFICHAGE D'UN BOUTON QUI PERMET AUX JOUEURS DE QUITTER LE JEU **/
+	/********************************************************************/		
+	public void afficherBoutonQuitter(PanelPause MenuPause) {
+		JButton boutonQuitter = new JButton("Quitter");
+		boutonQuitter.setBorder(UIManager.getBorder("Button.border"));
+		boutonQuitter.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonQuitter. setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		boutonQuitter. setForeground (Color.white);
+		boutonQuitter.setBounds (100, 100, 172, 44);
+		boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
+		boutonQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuPause.json.sauvegarde_file_json(MenuPause.joueurs);
+				System.exit(0);
 			}
-		}
+		});
+		boutonQuitter.setBounds(190, 370, 172, 48);
+		this.add(boutonQuitter);
+	}		
+	
+	
+	/*************************************************************************************************/
+	/** AFFICHAGE D'UN BOUTON, QUI RETOURNE AU MenuPrincipal                                        **/
+	/*************************************************************************************************/
+	public void AfficherBoutonMenuPrincipal() {
+		boutonMenuPrincipal = new JButton("Menu Principal");
+		boutonMenuPrincipal.setBorder(UIManager.getBorder("Button.border"));
+		boutonMenuPrincipal.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonMenuPrincipal. setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		boutonMenuPrincipal. setForeground (Color.white);
+		boutonMenuPrincipal.setBounds (100, 100, 172, 44);
+		boutonMenuPrincipal.setHorizontalTextPosition(JButton.CENTER);
+		boutonMenuPrincipal.setBounds(190, 320, 172, 48);
+		this.add(boutonMenuPrincipal);
 	}
-}
+	
+	/*************************************************************************/
+	/** AFFICHAGE D'UN BOUTON QUI PERMET AUX JOUEURS DE CONTINUER LA PARTIE **/
+	/*************************************************************************/		
+	public void AfficherBoutonContinuer(PanelPause MenuPause) {
+		boutonContinuer = new JButton("Continuer");
+		boutonContinuer.setBorder(UIManager.getBorder("Button.border"));
+		boutonContinuer.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonContinuer. setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		boutonContinuer. setForeground (Color.white);
+		boutonContinuer.setBounds (100, 100, 172, 44);
+		boutonContinuer.setHorizontalTextPosition(JButton.CENTER);
+		boutonContinuer.setBounds(190, 270, 172, 48);
+		this.add(boutonContinuer);
+	}
+
+
+	public void setJoueurs(ArrayList<Joueur> joueurs) {
+		this.joueurs = joueurs;
+	}		
+}	
