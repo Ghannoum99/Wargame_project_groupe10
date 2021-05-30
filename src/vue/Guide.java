@@ -292,6 +292,8 @@ public class Guide extends JPanel {
 	}
 
 	public void afficherQuestion() {
+		labelImageInterlo.setVisible(true);
+		
 		labelIcon.setVisible(false);
 		
 		labelTitre.setVisible(true);
@@ -300,12 +302,21 @@ public class Guide extends JPanel {
 		labelTitre.setForeground(new Color(200, 173, 10));
 		labelTitre.setBounds(300, 100, 700, 50);
 
+		labelIndications2.setText("");
+		
 		labelIndications.setVisible(true);
 		labelIndications.setText("<html>Voulez-vous lancer le tutoriel ?</html>");
 		labelIndications.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		labelIndications.setForeground(Color.white);
 		labelIndications.setBounds(300, 130, this.getWidth()-434, 50);	
 
+		for (ActionListener actionL : boutonValider.getActionListeners()) {
+			boutonValider.removeActionListener(actionL);
+		}
+		for (ActionListener actionL : boutonAnnuler.getActionListeners()) {
+			boutonAnnuler.removeActionListener(actionL);
+		}
+		
 		boutonValider.setVisible(true);
 		boutonValider.setText("Oui");
 		boutonValider.setBorder(UIManager.getBorder("Button.border"));
@@ -324,8 +335,6 @@ public class Guide extends JPanel {
 				labelIndications.setVisible(true);
 				labelTitre.setVisible(true);
 				labelImageInterlo.setVisible(true);
-				boutonValider.setBorder(UIManager.getBorder("Button.border"));
-				boutonValider.setIcon(new ImageIcon("images/large-button-active.png"));
 				afficherIndicationsSelection();
 			}
 		});
@@ -346,11 +355,7 @@ public class Guide extends JPanel {
 				labelIndications.setVisible(false);
 				labelTitre.setVisible(false);
 				labelImageInterlo.setVisible(false);
-				boutonValider.setText("");
-				boutonValider.setIcon(new ImageIcon("images/help_30.png"));
-				boutonValider.setOpaque(false);
-				boutonValider.setBackground(new Color(240, 240, 245));
-				boutonValider.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+				boutonValider.setVisible(false);
 			}
 		});
 

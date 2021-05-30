@@ -80,7 +80,7 @@ public class PanelTerrains extends JLayeredPane {
 
 		// Création d'une liste de progress bar pour pouvoir consulter les points de vies des soldats
 		this.progressBarSoldats = new ArrayList<JProgressBar>();
-		
+
 		// Création d'une liste de terrains
 		this.terrains = new ArrayList<Terrain>();
 
@@ -158,14 +158,14 @@ public class PanelTerrains extends JLayeredPane {
 			Hexagone hexagone = getHexagone(soldat.getAbscisse(), soldat.getOrdonnees());
 			hexagone.addInHexagone(soldat);
 			JProgressBar progressBar = new JProgressBar();
-	        progressBar.setForeground(Color.GREEN);
-	        progressBar.setOpaque(true);
-	        progressBar.setValue(soldat.getPv());
-	        progressBar.setOrientation(SwingConstants.VERTICAL);
-	        progressBar.setBounds(labelSoldat.getX()+10, labelSoldat.getY()+10, 6, 44);
-	        progressBar.setName(labelSoldat.getName());
-	        this.progressBarSoldats.add(progressBar);
-	        this.add(progressBar, JLayeredPane.DRAG_LAYER);
+			progressBar.setForeground(Color.GREEN);
+			progressBar.setOpaque(true);
+			progressBar.setValue(soldat.getPv());
+			progressBar.setOrientation(SwingConstants.VERTICAL);
+			progressBar.setBounds(labelSoldat.getX()+10, labelSoldat.getY()+10, 6, 44);
+			progressBar.setName(labelSoldat.getName());
+			this.progressBarSoldats.add(progressBar);
+			this.add(progressBar, JLayeredPane.DRAG_LAYER);
 		}
 
 		// Création du scroll pane contenant le panel
@@ -292,21 +292,21 @@ public class PanelTerrains extends JLayeredPane {
 	public void tuersoldat(Hexagone hexagone, int degats) {
 		if (hexagone != null) {
 			Soldat tue = hexagone.getUnits().get(0);
-			
+
 			ImageIcon feu = new ImageIcon(new ImageIcon("images/feux.gif").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));  
 			JLabel labelSoldatEnnemi = getLabel(hexagone.getId());
 			labelSoldatEnnemi.setIcon(feu);
-			
+
 			JLabel labelDegats = new JLabel(Integer.toString(degats));
 			labelDegats.setBounds(labelSoldatEnnemi.getX()+25, labelSoldatEnnemi.getY()-60, 100, 100);
 			labelDegats.setForeground(Color.red);
 			labelDegats.setFont(new Font("Arial", Font.BOLD, 16));
 			labelDegats.setVisible(true);
 			this.add(labelDegats, JLayeredPane.DRAG_LAYER);
-		
+
 			JProgressBar progressBarSoldatEnnemi = chercherProgressBar(tue);
 			progressBarSoldatEnnemi.setValue(tue.getPv());
-			
+
 			TimerTask task = new TimerTask() {
 				public void run() {
 					if(tue.getPv() <= 0)
@@ -347,8 +347,18 @@ public class PanelTerrains extends JLayeredPane {
 
 	public int diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
 		Random random = new Random();
-		int max = selected.getUnits().get(0).getAttaque() - ennemi.getUnits().get(0).getDefense();
-		int degats = (max - (random.nextInt(max + 1) + 1));
+		Soldat s1 = selected.getUnits().get(0);
+		Soldat s2 = ennemi.getUnits().get(0);
+		int max = 0;
+		if(s1.getAttaque() > s2.getDefense())
+		{
+			max = (s1.getAttaque() - s2.getDefense()) - 1;
+		}
+		else if(s2.getDefense() > s1.getAttaque())
+		{
+			max = (s1.getAttaque() - s2.getDefense()) - 1;
+		}
+		int degats = random.nextInt(max);
 		int value = ennemi.getUnits().get(0).getPv() - degats;
 		ennemi.getUnits().get(0).setPv(value);
 		return degats;
@@ -753,7 +763,7 @@ public class PanelTerrains extends JLayeredPane {
 	public void ajouterMouseListenerHexagone(JLabel labelHexagone) {
 		labelHexagone.addMouseListener(new MouseHexagone(labelHexagone));
 	}
-	
+
 	/*
 	 * Cette fonction permet de chercher un label soldat à partir de l'id d'un soldat
 	 */
@@ -763,7 +773,7 @@ public class PanelTerrains extends JLayeredPane {
 		chercheLabel.addAll(this.labelsSoldats.stream().filter(x -> Integer.parseInt(x.getName()) == soldat.getId()).collect(Collectors.toList()));
 		return chercheLabel.get(0);
 	}
-	
+
 	/*
 	 * Cette fonction permet de chercher une progress bar à partir de l'id d'un soldat
 	 */
@@ -818,7 +828,7 @@ public class PanelTerrains extends JLayeredPane {
 				guide.afficherIndicationsDeplacement2();
 			}
 			remove(labelBonusDef);
-			
+
 			Hexagone hexagone = getHexagone(labelBordure.getX(), labelBordure.getY());
 			if (soldatSelec != null && !hexagone.contientEnnemi(tourJoueur)) {
 				int nbrHexagones, nouveauX, nouveauY, xClic, yClic;
