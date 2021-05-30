@@ -1,9 +1,7 @@
 package vue;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -11,16 +9,15 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-
 import modele.Joueur;
+import modele.ScenarioStandard;
+import modele.ScenarioTempsLimite;
 
 @SuppressWarnings("serial")
 public class MenuScenario extends JFrame {
@@ -65,18 +62,6 @@ public class MenuScenario extends JFrame {
 		panelPrincipal.add(panelMenu);
 		//panelMenu.setBackground(new Color(0,0,0,125));
 		
-<<<<<<< HEAD
-		panelScroll.boutonScenarioStandard.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent e) {
-				ScenarioStandard scenarioStandard = new ScenarioStandard("scenarioStandard", joueurs);
-				PlateauVue plateau = new PlateauVue(joueurs, scenarioStandard);
-				plateau.show();
-				dispose();
-			}
-		});
-=======
->>>>>>> branch 'main' of https://github.com/Ghannoum99/Wargame_project_groupe10
 		
 		afficherBoutonScenarioStandard();
 		afficherBoutonScenarioTempsLimite();
@@ -99,8 +84,12 @@ public class MenuScenario extends JFrame {
 		boutonScenarioStandard = new JButton();
 		boutonScenarioStandard.setText("Scenario Standard");
 		boutonScenarioStandard.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-			
+				ScenarioStandard scenario = new ScenarioStandard("scenarioStandard", joueurs);
+				PlateauVue plateau = new PlateauVue(joueurs,scenario);
+				plateau.show();
+				dispose();
 			}
 		});
 		boutonScenarioStandard.setIcon(new ImageIcon("images/large-button-active.png"));
@@ -116,8 +105,12 @@ public class MenuScenario extends JFrame {
 		boutonScenarioTempsLimite = new JButton();
 		boutonScenarioTempsLimite.setText("Match de 4 Mins");
 		boutonScenarioTempsLimite.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-
+				ScenarioTempsLimite scenario = new ScenarioTempsLimite("scenarioStandard", joueurs);
+				PlateauVue plateau = new PlateauVue(joueurs,scenario);
+				plateau.show();
+				dispose();
 			}
 		});
 		boutonScenarioTempsLimite.setBorder(UIManager.getBorder("Button.border"));
