@@ -3,11 +3,10 @@ package vue;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.TimerTask;
 import java.util.stream.Collectors;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -28,6 +26,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
+
 import modele.Camera;
 import modele.Colline;
 import modele.EauProfonde;
@@ -221,8 +220,8 @@ public class PanelTerrains extends JLayeredPane {
 						System.out.println(attaque);
 						System.out.println(hexagone);
 						if(attaque)  {
-							tirer(hexagoneSelected, hexagone);
 							diminuerpointdeviesoldat(hexagoneSelected, hexagone);
+							tuersoldat(hexagone);
 							System.out.println(hexagone);
 						}
 					}
@@ -270,12 +269,42 @@ public class PanelTerrains extends JLayeredPane {
 	}
 	
 	/*
-	 * Fonction pour montrer le gif du soldat attaqué
+	 * Fonction permet d'afficher un feu pour le soldat ennemi
+	 * Tuer un soldat
 	 */
-	public void tirer(Hexagone amis, Hexagone ennemi) {
+	public void tuersoldat(Hexagone hexagone) {
+		if (hexagone != null) {
+			ImageIcon fog = new ImageIcon(new ImageIcon("images/feux.gif").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));  
+			JLabel fogOfWar = getLabel(hexagone.getId());
+			fogOfWar.setIcon(fog);
+			retirerMouseListenerHexagone(fogOfWar);
+			Soldat tue = hexagone.getUnits().get(0);
+			TimerTask task = new TimerTask() {
+		        public void run() {
+		        	if(tue.getPv() <= 0)
+		        	{
+		        		tue.setKo(true);
+		        		JLabel lsoldat = chercherLabelSoldat();
+		        		labelsSoldats.remove(lsoldat);
+		        		
+		        		soldats.remove(tue);
+		        		tourJoueur.ajouterSoldatTue(tue);
+		        		//incrementer le score
+		        		int score = tourJoueur.getScore();
+		        		score++;
+		        		//mettreAjourHexagonesSoldats();
+		        	}
+		  
+		        	fogOfWar.setIcon(new ImageIcon(imageAafficher(tue)));
+		        }
+		    };
+		    Timer timer = new Timer("Timer");
+		    long delay = 1000L;
+		    timer.schedule(task, delay);
 		
+		}
 	}
-
+	
 	/*
 	 * Cette fonction permet de diminuer les points de vie d'un soldat attaqué
 	 */
