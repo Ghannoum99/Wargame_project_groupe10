@@ -195,6 +195,7 @@ public class PanelTerrains extends JLayeredPane {
 					if (tourJoueur.soldatExiste(soldat)) {
 						panelInfosSoldat.afficherInfosSoldats(soldat);
 
+						// On affiche la partie 1 du tutoriel
 						if (guide.isGuideActive() && !guide.aValideCompetence(1)) {
 							guide.afficherIndicationsDeplacement();
 						}
@@ -209,6 +210,7 @@ public class PanelTerrains extends JLayeredPane {
 						mettreAjourSoldatSelec();
 					}
 					else {
+						// On affiche la partie 5 du tutoriel
 						if (guide.isGuideActive() && !guide.aValideCompetence(5)) {
 							guide.afficherFinTuto();
 						}

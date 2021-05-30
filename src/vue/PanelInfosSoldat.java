@@ -13,9 +13,9 @@ public class PanelInfosSoldat extends JPanel {
 
 	private JLabel labelImage, attaque, defense, deplacement, vision, pv;
 	
-	public PanelInfosSoldat() {
+	public PanelInfosSoldat(int xBounds) {
 		this.setLayout(null);
-		this.setBounds(1110, 350, 150, 400);
+		this.setBounds(xBounds, 350, 150, 400);
 		this.setOpaque(false);
 		
 		this.labelImage = new JLabel("");

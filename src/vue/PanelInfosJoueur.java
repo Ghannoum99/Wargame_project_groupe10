@@ -24,9 +24,9 @@ public class PanelInfosJoueur extends JPanel {
 	public BufferedImage master;
 	
 	
-	public PanelInfosJoueur(ArrayList<Joueur> joueurs) {
+	public PanelInfosJoueur(ArrayList<Joueur> joueurs, int xBounds) {
 		this.setLayout(null);
-		this.setBounds(1110, 190, 201, 180);
+		this.setBounds(xBounds, 190, 201, 180);
 		this.setLayout(null);
 		this.setOpaque(false);
 		

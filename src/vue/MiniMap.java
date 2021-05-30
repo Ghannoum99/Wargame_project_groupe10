@@ -16,12 +16,12 @@ public class MiniMap extends JLayeredPane {
 	private Joueur tourJoueur;
 	private Soldat SoldatSelec;
 	
-	public MiniMap(ArrayList<Joueur> joueurs, Joueur tourJoueur, SoldatVue soldatVue, PlateauVue vue) {
+	public MiniMap(ArrayList<Joueur> joueurs, Joueur tourJoueur, SoldatVue soldatVue, PlateauVue vue, int xBounds) {
 		super();
 		// Définition des données du panel
 		this.setLayout(null);
 		this.setVisible(true);
-		this.setBounds(1110, 35, 124, 165);
+		this.setBounds(xBounds, 35, 124, 165);
 		this.setOpaque(true);
 		
 		ImageIcon imageIconTerrain;

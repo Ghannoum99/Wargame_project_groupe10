@@ -50,7 +50,6 @@ public class PlateauVue extends JFrame {
 		JLabel backgroundimage = new JLabel("");
 		this.add(backgroundimage);
 		
-		
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
@@ -65,24 +64,25 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
 		}
 		
-		int widthPlateau, heightPlateau;
+		int widthPlateau, heightPlateau, xPanelsInfos, yGuide;
 		widthPlateau = backgroundimage.getWidth()-187;
 		heightPlateau = backgroundimage.getHeight()-135;
+		xPanelsInfos = backgroundimage.getWidth()-157;
+		yGuide = backgroundimage.getHeight()-210;
 		
 		PanelCompteur cmpt = new PanelCompteur();
 		this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
 		
 		// Création du panel permettant d'afficher les infos du soldat
-		this.panelInfosSoldat = new PanelInfosSoldat();
+		this.panelInfosSoldat = new PanelInfosSoldat(xPanelsInfos);
 		this.plateau.add(this.panelInfosSoldat, JLayeredPane.DEFAULT_LAYER);
 
 		// Création du panel permettant d'afficher les infos du joueur
-		this.infosJoueur = new PanelInfosJoueur(joueurs);
+		this.infosJoueur = new PanelInfosJoueur(joueurs, xPanelsInfos);
 		this.plateau.add(this.infosJoueur, JLayeredPane.DEFAULT_LAYER);
 	
 		// Création des joueurs 
 		this.joueurs = joueurs;
-		
 		
 		this.scenario = scenario;
 
@@ -97,11 +97,11 @@ public class PlateauVue extends JFrame {
 		this.visible = true;
 		
 		// Création de minimap
-		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this);
+		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this, xPanelsInfos);
 		this.plateau.add(this.minimap, JLayeredPane.DEFAULT_LAYER);
 
 		// Tutoriel du jeu
-		this.guide = new Guide();
+		this.guide = new Guide(yGuide);
 		this.plateau.add(this.guide, JLayeredPane.DRAG_LAYER);
 		this.guide.afficherQuestion();
 
