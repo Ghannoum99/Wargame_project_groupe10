@@ -1,11 +1,6 @@
 package controleur;
 
 import java.awt.EventQueue;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.util.List;
-import modele.Joueur;
-import modele.ScenarioStandard;
 import vue.*;
 
 public class Application {
