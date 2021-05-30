@@ -52,7 +52,7 @@ public class MenuScenario extends JFrame {
 		
 		afficherPanelPrincipal();
 		
-		/** Creation d'un panel ScÃ©nario qui contient tous les images des scenarios possibles **/
+		/** Creation d'un panel Scénario qui contient tous les images des scenarios possibles **/
 		
 		panelScroll = new PanelScenario();
 		panelPrincipal.add(panelScroll);
@@ -117,7 +117,7 @@ public class MenuScenario extends JFrame {
 	/**********************************************************/
 	public void afficherBoutonGoLeft() {
 		
-		boutonLeft = new JButton("Go Left");
+		boutonLeft = new JButton();
 		boutonLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(panelScroll.scrollPane.isEnabled()) {
@@ -125,8 +125,9 @@ public class MenuScenario extends JFrame {
 				}
 			}
 		});
-		boutonLeft.setBounds(101, 155, 97, 381);
-		boutonLeft.setBackground(new Color(16, 22, 33));
+		boutonLeft.setIcon(new ImageIcon("images/fold-arrow-active@2x-left.png"));
+		boutonLeft.setBackground(new Color(0,0,0,125));
+		boutonLeft.setBounds(96, 155, 97, 381);
 		panelPrincipal.add(boutonLeft);
 	}
 	
@@ -134,7 +135,7 @@ public class MenuScenario extends JFrame {
 	/** AFFICHER UN BOUTON POUR PASSER AU SCENARIO SUIVANT **/
 	/********************************************************/
 	private void afficherBoutonGoRight() {
-		boutonRight = new JButton("Go Right");
+		boutonRight = new JButton();
 		boutonRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(panelScroll.scrollPane.isEnabled()) {
@@ -142,8 +143,9 @@ public class MenuScenario extends JFrame {
 				}	
 			}
 		});
-		boutonRight.setBounds(1084, 155, 97, 381);
-		boutonRight.setBackground(new Color(16, 22, 33));
+		boutonRight.setBounds(1079, 155, 97, 381);
+		boutonRight.setBackground(new Color(0,0,0,125));
+		boutonRight.setIcon(new ImageIcon("images/fold-arrow-active@2x-right.png"));
 		panelPrincipal.add(boutonRight);
 	}
 	

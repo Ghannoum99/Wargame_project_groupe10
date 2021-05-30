@@ -70,6 +70,8 @@ public class PlateauVue extends JFrame {
 		xPanelsInfos = backgroundimage.getWidth()-157;
 		yGuide = backgroundimage.getHeight()-210;
 		
+		System.out.println(yGuide);
+		
 		PanelCompteur cmpt = new PanelCompteur();
 		this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
 		
@@ -133,7 +135,7 @@ public class PlateauVue extends JFrame {
 				setTourJoueur(nouveauJoueur, ind);
 			}
 		});
-		bouton.setBounds(1150, 610, 100, 22);
+		bouton.setBounds(xPanelsInfos+40, 610, 100, 22);
 
 		this.plateau.add(bouton, JLayeredPane.DEFAULT_LAYER);
 
@@ -160,7 +162,7 @@ public class PlateauVue extends JFrame {
 			}
 		});
 		boutonPause.setBackground(new Color(16, 22, 33));
-		boutonPause.setBounds(1110, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		boutonPause.setBounds(xPanelsInfos, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
 		this.plateau.add(boutonPause, JLayeredPane.DEFAULT_LAYER);
 
 		/** Panel Fin Baitaille **/

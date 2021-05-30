@@ -75,11 +75,16 @@ public class ScenarioStandard {
 		{
 			if(joueur == joueurs.get(i))
 			{
-				for(Soldat soldat : joueur.getAdversaires().get(i).getSoldatList())
-				{
-					//tester si il a tué un soldat
-					if(joueur.aTueUnSoldat(soldat));
-					cmpt++;
+				for(int j = 0; j < joueur.getAdversaires().size(); j++) {
+					
+					for(Soldat soldat : joueur.getAdversaires().get(j).getSoldatList())
+					{
+						//tester si il a tué un soldat
+						if(joueur.aTueUnSoldat(soldat));
+						cmpt++;
+					}
+					
+					
 				}
 				
 				break;
