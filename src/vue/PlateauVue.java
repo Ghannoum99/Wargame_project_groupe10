@@ -60,7 +60,7 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setBounds(0, 0, 1267, 680);
 			this.plateau.setBounds(0,0,1267, 680);
 			backgroundimage.setIcon(new ImageIcon("images/plateau.png"));
-			yBoutonFinirTour = 645;
+			yBoutonFinirTour = 642;
 			xMiniBoutons = 600;
 		} 
 		else {
