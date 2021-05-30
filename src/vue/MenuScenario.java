@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -53,21 +52,29 @@ public class MenuScenario extends JFrame {
 		
 		afficherPanelPrincipal();
 		
-		/** Creation d'un panel Scénario qui contient tous les images des scenarios possibles **/
+		/** Creation d'un panel ScÃ©nario qui contient tous les images des scenarios possibles **/
+		
 		panelScroll = new PanelScenario();
 		panelPrincipal.add(panelScroll);
 		
-		for(int i = 0; i < panelScroll.listeBoutons.size(); i++) {
-			panelScroll.listeBoutons.get(i).addActionListener(new ActionListener() {
-				@SuppressWarnings("deprecation")
-				public void actionPerformed(ActionEvent e) {
-					ScenarioStandard scenarioStandard = new ScenarioStandard(joueurs);
-					PlateauVue plateau = new PlateauVue(joueurs, scenarioStandard);
-					plateau.show();
-					dispose();
-				}
-			});
-		}
+		panelScroll.boutonScenarioStandard.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				ScenarioStandard scenarioStandard = new ScenarioStandard(joueurs);
+				PlateauVue plateau = new PlateauVue(joueurs, scenarioStandard);
+				plateau.show();
+				dispose();
+			}
+		});
+		
+		panelScroll.boutonScenarioTempsLimite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//ScenarioTempsLimite scenario = new ScenarioTempsLimite(joueurs);
+				//PlateauVue plateau = new PlateauVue(joueurs, scenario);
+				//plateau.show();
+				dispose();
+			}
+		});
 		
 		
 		/** BOUTON RETOUR **/
@@ -156,8 +163,6 @@ public class MenuScenario extends JFrame {
 		}
 		dispose();
 	}
-
-	
 
 	public boolean isChoix() {
 		return choix;
