@@ -134,10 +134,7 @@ public class PlateauVue extends JFrame {
 				setTourJoueur(nouveauJoueur, ind);
 			}
 		});
-
-		bouton.setBounds(xPanelsInfos+40, 610, 90, 22);
-
-		boutonFinirTour.setBounds(xPanelsInfos+40, 610, 100, 22);
+		boutonFinirTour.setBounds(xPanelsInfos+40, 610, 90, 22);
 
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
 
