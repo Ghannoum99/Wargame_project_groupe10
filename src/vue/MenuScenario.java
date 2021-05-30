@@ -1,154 +1,135 @@
 package vue;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
 import modele.Joueur;
 import modele.ScenarioStandard;
-
+import modele.ScenarioTempsLimite;
 
 @SuppressWarnings("serial")
 public class MenuScenario extends JFrame {
 
-	private JPanel contentPane;
-	private JPanel panelPrincipal ;
-	private JButton boutonLeft;
-	private JButton boutonRight;
+	private JPanel panelPrincipal;
+	private JPanel panelMenu;
 	private JLabel backgroundimage;
-	private PanelScenario panelScroll;
+	private JButton boutonScenarioTempsLimite;
+	private JButton boutonScenarioStandard;
 	private boolean choix;
 	private ArrayList<Joueur> joueurs;
 
-	
+
+	/**
+	 * Create the frame.
+	 */
 	public MenuScenario(boolean choix, ArrayList<Joueur> joueurs) {
-		setTitle("WarGame");
+		this.setTitle("WarGame");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 1300, 781);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
-		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension size = Toolkit. getDefaultToolkit().getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
 			device.setFullScreenWindow(this);
 		} 
-        
+		
+		
 		this.choix = choix;
 		this.joueurs = joueurs;
 		
-		afficherPanelPrincipal();
+		/** PANEL PRINCIPAL DE LA FENETRE **/
+		panelPrincipal = new JPanel();
+		panelPrincipal.setBounds(0, 0, 1296, 767);
+		this.getContentPane().add(panelPrincipal);
+		panelPrincipal.setLayout(null);
 		
-		/** Creation d'un panel Scénario qui contient tous les images des scenarios possibles **/
 		
-		panelScroll = new PanelScenario();
-		panelPrincipal.add(panelScroll);
+		/** PANEL QUI CONTIENT TOUS LES BOUTONS, ET LE LOGO DU JEU **/
+		panelMenu = new PanelMenuInfos(490, 167, 292, 486);
+		panelPrincipal.add(panelMenu);
+		//panelMenu.setBackground(new Color(0,0,0,125));
 		
-		panelScroll.boutonScenarioStandard.addActionListener(new ActionListener() {
+		
+		afficherBoutonScenarioStandard();
+		afficherBoutonScenarioTempsLimite();
+		
+		
+		/** BOUTON RETOUR **/
+		
+		
+		/** BACKGROUND **/
+		backgroundimage = new JLabel("");
+		backgroundimage.setBounds(0, 0, 1296, 767);
+		backgroundimage.setIcon(new ImageIcon("images/liberty.jpg"));
+		panelPrincipal.add(backgroundimage);
+		
+	}
+	
+	
+
+	public void afficherBoutonScenarioStandard() {
+		boutonScenarioStandard = new JButton();
+		boutonScenarioStandard.setText("Scenario Standard");
+		boutonScenarioStandard.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				ScenarioStandard scenarioStandard = new ScenarioStandard("scenarioStandard", joueurs);
-				PlateauVue plateau = new PlateauVue(joueurs, scenarioStandard);
+				ScenarioStandard scenario = new ScenarioStandard("scenarioStandard", joueurs);
+				PlateauVue plateau = new PlateauVue(joueurs,scenario);
 				plateau.show();
 				dispose();
 			}
 		});
-		
-		panelScroll.boutonScenarioTempsLimite.addActionListener(new ActionListener() {
+		boutonScenarioStandard.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonScenarioStandard.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		boutonScenarioStandard.setForeground(Color.white);
+		boutonScenarioStandard.setHorizontalTextPosition(JButton.CENTER);
+		boutonScenarioStandard.setBounds(60, 183, 172, 48);
+		panelMenu.add(boutonScenarioStandard);
+	}
+	
+
+	public void afficherBoutonScenarioTempsLimite() {
+		boutonScenarioTempsLimite = new JButton();
+		boutonScenarioTempsLimite.setText("Match de 4 Mins");
+		boutonScenarioTempsLimite.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				//ScenarioTempsLimite scenario = new ScenarioTempsLimite(joueurs);
-				//PlateauVue plateau = new PlateauVue(joueurs, scenario);
-				//plateau.show();
+				ScenarioTempsLimite scenario = new ScenarioTempsLimite("scenarioStandard", joueurs);
+				PlateauVue plateau = new PlateauVue(joueurs,scenario);
+				plateau.show();
 				dispose();
 			}
 		});
-		
-		
-		/** BOUTON RETOUR **/
+		boutonScenarioTempsLimite.setBorder(UIManager.getBorder("Button.border"));
+		boutonScenarioTempsLimite.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonScenarioTempsLimite.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		boutonScenarioTempsLimite.setForeground(Color.white);
+		boutonScenarioTempsLimite.setHorizontalTextPosition(JButton.CENTER);
+		panelMenu.setLayout(null);
+		boutonScenarioTempsLimite.setBounds(60, 290, 172, 48);
+		panelMenu.add(boutonScenarioTempsLimite);
 		PanelBoutonRetour panelBouton = new PanelBoutonRetour();
-		panelPrincipal.add(panelBouton);
+		panelBouton.setBounds(34, 412, 52, 29);
+		panelMenu.add(panelBouton);
 		panelBouton.boutonRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				retourner();
 			}
 		});
-		
-		afficherBoutonGoLeft();
-		afficherBoutonGoRight();
-		
-		/** BACKGROUND **/
-		backgroundimage = new JLabel("");
-		backgroundimage.setBounds(0, 0, 1296, 767);
-		panelPrincipal.add(backgroundimage);
-		backgroundimage.setIcon(new ImageIcon("images/thumb-1920-646077.jpg"));
-		
 	}
-	
-	/**********************************************************************/
-	/** AFFICHER LE PANEL PRINCIPAL QUI CONTIENT TOUS LES QUTRES WIDGETS **/
-	/************************************** ******************************/
-	public void afficherPanelPrincipal() {
-		panelPrincipal = new JPanel();
-		panelPrincipal.setBorder(null);
-		panelPrincipal.setBounds(0, 0, 1296, 753);
-		panelPrincipal.setLayout(null);
-		contentPane.add(panelPrincipal);
-	}
-	
-	
-
-	/*====================================== BOUTONS POUR BASCULER ENTRE LES SCENARIOS ====================================== */
-	
-	/**********************************************************/
-	/** AFFICHER UN BOUTON POUR PASSER AU SCENARIO PRECEDENT **/
-	/**********************************************************/
-	public void afficherBoutonGoLeft() {
-		
-		boutonLeft = new JButton();
-		boutonLeft.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(panelScroll.scrollPane.isEnabled()) {
-					panelScroll.scrollPane.getHorizontalScrollBar().setValue(panelScroll.scrollPane.getHorizontalScrollBar().getValue()- 855);
-				}
-			}
-		});
-		boutonLeft.setIcon(new ImageIcon("images/fold-arrow-active@2x-left.png"));
-		boutonLeft.setBackground(new Color(0,0,0,125));
-		boutonLeft.setBounds(96, 155, 97, 381);
-		panelPrincipal.add(boutonLeft);
-	}
-	
-	/********************************************************/
-	/** AFFICHER UN BOUTON POUR PASSER AU SCENARIO SUIVANT **/
-	/********************************************************/
-	private void afficherBoutonGoRight() {
-		boutonRight = new JButton();
-		boutonRight.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(panelScroll.scrollPane.isEnabled()) {
-					panelScroll.scrollPane.getHorizontalScrollBar().setValue(panelScroll.scrollPane.getHorizontalScrollBar().getValue() + 855);
-				}	
-			}
-		});
-		boutonRight.setBounds(1079, 155, 97, 381);
-		boutonRight.setBackground(new Color(0,0,0,125));
-		boutonRight.setIcon(new ImageIcon("images/fold-arrow-active@2x-right.png"));
-		panelPrincipal.add(boutonRight);
-	}
-	
 	
 	/*====================================== BOUTONS POUR RETOURNER ====================================== */
 	@SuppressWarnings("deprecation")
@@ -182,6 +163,6 @@ public class MenuScenario extends JFrame {
 		this.joueurs = joueurs;
 	}
 	
-	
+
 	
 }

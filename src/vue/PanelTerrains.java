@@ -292,6 +292,29 @@ public class PanelTerrains extends JLayeredPane {
 	public void tuersoldat(Hexagone hexagone, int degats) {
 		if (hexagone != null) {
 			Soldat tue = hexagone.getUnits().get(0);
+<<<<<<< HEAD
+			TimerTask task = new TimerTask() {
+		        public void run() {
+		        	if(tue.getPv() <= 0)
+		        	{
+		        		tue.setKo(true);
+		        		JLabel lsoldat = chercherLabelSoldat();
+		        		labelsSoldats.remove(lsoldat);
+		        		
+		        		soldats.remove(tue);
+		        		tourJoueur.ajouterSoldatTue(tue);
+		        		//incrementer le score
+		        		int score = tourJoueur.getScore();
+		        		score++;
+		        	}
+		  
+		        	fogOfWar.setIcon(new ImageIcon(imageAafficher(tue)));
+		        }
+		    };
+		    Timer timer = new Timer("Timer");
+		    long delay = 1000L;
+		    timer.schedule(task, delay);
+=======
 			
 			ImageIcon feu = new ImageIcon(new ImageIcon("images/feux.gif").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));  
 			JLabel labelSoldatEnnemi = getLabel(hexagone.getId());
@@ -303,6 +326,7 @@ public class PanelTerrains extends JLayeredPane {
 			labelDegats.setFont(new Font("Arial", Font.BOLD, 16));
 			labelDegats.setVisible(true);
 			this.add(labelDegats, JLayeredPane.DRAG_LAYER);
+>>>>>>> branch 'main' of https://github.com/Ghannoum99/Wargame_project_groupe10
 		
 			JProgressBar progressBarSoldatEnnemi = chercherProgressBar(tue);
 			progressBarSoldatEnnemi.setValue(tue.getPv());
@@ -348,8 +372,12 @@ public class PanelTerrains extends JLayeredPane {
 	public int diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
 		Random random = new Random();
 		int max = selected.getUnits().get(0).getAttaque() - ennemi.getUnits().get(0).getDefense();
+<<<<<<< HEAD
+		int value = Math.abs(ennemi.getUnits().get(0).getPv() - (max - (random.nextInt(max + 1) + 1)));
+=======
 		int degats = (max - (random.nextInt(max + 1) + 1));
 		int value = ennemi.getUnits().get(0).getPv() - degats;
+>>>>>>> branch 'main' of https://github.com/Ghannoum99/Wargame_project_groupe10
 		ennemi.getUnits().get(0).setPv(value);
 		return degats;
 	}

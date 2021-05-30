@@ -12,6 +12,11 @@ public class ScenarioStandard {
 	}
 	
 	
+	public ScenarioStandard() {
+		super();
+	}
+
+
 	/** Scenario standard **/
 	public boolean appliquerScenario(Joueur joueur) {
 		return (appliquerScenario1(joueur) || appliquerScenario4(joueur) || appliquerScenario5());
