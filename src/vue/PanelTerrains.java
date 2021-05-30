@@ -298,7 +298,6 @@ public class PanelTerrains extends JLayeredPane {
 		        		//incrementer le score
 		        		int score = tourJoueur.getScore();
 		        		score++;
-		        		mettreAjourHexagonesSoldats();
 		        	}
 		  
 		        	fogOfWar.setIcon(new ImageIcon(imageAafficher(tue)));
@@ -327,7 +326,7 @@ public class PanelTerrains extends JLayeredPane {
 	public void diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
 		Random random = new Random();
 		int max = selected.getUnits().get(0).getAttaque() - ennemi.getUnits().get(0).getDefense();
-		int value = ennemi.getUnits().get(0).getPv() - (max - (random.nextInt(max + 1) + 1));
+		int value = Math.abs(ennemi.getUnits().get(0).getPv() - (max - (random.nextInt(max + 1) + 1)));
 		ennemi.getUnits().get(0).setPv(value);
 	}
 	

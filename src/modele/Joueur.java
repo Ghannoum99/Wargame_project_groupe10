@@ -20,7 +20,11 @@ public class Joueur {
 		this.image = image;
 		this.adversaires = adversaires;
 	}
-	
+
+	public Joueur() {
+		super();
+	}
+
 	public void initialiserKO() {
 		for (int i = 0; i < KO.length; i++) {
 			KO[i] = 0;
@@ -121,14 +125,6 @@ public class Joueur {
 	public boolean soldatExiste(Soldat soldat) {
 		List<Soldat> chercheSoldat = this.soldats.stream().filter(x -> x.getId() == soldat.getId()).collect(Collectors.toList());
 		return chercheSoldat.size() > 0;
-	}
-	
-	public ArrayList<Soldat> getSoldats() {
-		return soldats;
-	}
-
-	public void setSoldats(ArrayList<Soldat> soldats) {
-		this.soldats = soldats;
 	}
 
 	public int[] getKO() {

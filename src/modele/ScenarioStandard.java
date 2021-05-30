@@ -4,12 +4,19 @@ import java.util.ArrayList;
 
 public class ScenarioStandard {
 	private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+	private String typeScenario;
 	
-	public ScenarioStandard(ArrayList<Joueur> joueurs) {
+	public ScenarioStandard(String typeScenario ,ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
+		this.typeScenario = typeScenario;
 	}
 	
 	
+	public ScenarioStandard() {
+		super();
+	}
+
+
 	/** Scenario standard **/
 	public boolean appliquerScenario(Joueur joueur) {
 		return (appliquerScenario1(joueur) || appliquerScenario4(joueur) || appliquerScenario5());
@@ -108,6 +115,16 @@ public class ScenarioStandard {
 
 	public void setJoueurs(ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
+	}
+
+
+	public String getTypeScenario() {
+		return typeScenario;
+	}
+
+
+	public void setTypeScenario(String typeScenario) {
+		this.typeScenario = typeScenario;
 	}
 	
 	
