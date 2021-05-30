@@ -51,7 +51,7 @@ public class PlateauVue extends JFrame {
 		JLabel backgroundimage = new JLabel("");
 		this.add(backgroundimage);
 		
-		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide, xCompteur, yCompteur, xMiniBoutons, heightBoutonFinirTour, yBoutonFinirTour;
+		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide, xCompteur, yCompteur, xMiniBoutons, yBoutonFinirTour;
 		
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -60,7 +60,6 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setBounds(0, 0, 1267, 680);
 			this.plateau.setBounds(0,0,1267, 680);
 			backgroundimage.setIcon(new ImageIcon("images/plateau.png"));
-			heightBoutonFinirTour = 22;
 			yBoutonFinirTour = 645;
 			xMiniBoutons = 600;
 		} 
@@ -68,7 +67,6 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setBounds(0, 0, 1300, 781);
 			this.plateau.setBounds(0,0,1300, 781);
 			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
-			heightBoutonFinirTour = 44;
 			yBoutonFinirTour = 720;
 			xMiniBoutons = 610;
 		}
@@ -228,7 +226,7 @@ public class PlateauVue extends JFrame {
 			}
 		});
 		
-		boutonFinirTour.setBounds(xPanelsInfos, yBoutonFinirTour, 140, heightBoutonFinirTour);
+		boutonFinirTour.setBounds(xPanelsInfos, yBoutonFinirTour, 140, 22);
         
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
 		
