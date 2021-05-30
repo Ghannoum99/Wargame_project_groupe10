@@ -324,6 +324,8 @@ public class Guide extends JPanel {
 				labelIndications.setVisible(true);
 				labelTitre.setVisible(true);
 				labelImageInterlo.setVisible(true);
+				boutonValider.setBorder(UIManager.getBorder("Button.border"));
+				boutonValider.setIcon(new ImageIcon("images/large-button-active.png"));
 				afficherIndicationsSelection();
 			}
 		});
@@ -344,8 +346,11 @@ public class Guide extends JPanel {
 				labelIndications.setVisible(false);
 				labelTitre.setVisible(false);
 				labelImageInterlo.setVisible(false);
+				boutonValider.setText("");
 				boutonValider.setIcon(new ImageIcon("images/help_30.png"));
-				System.out.println(boutonvalider.getIcon());
+				boutonValider.setOpaque(false);
+				boutonValider.setBackground(new Color(240, 240, 245));
+				boutonValider.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 			}
 		});
 
