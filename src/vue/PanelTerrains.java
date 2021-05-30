@@ -21,6 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -49,6 +50,7 @@ public class PanelTerrains extends JLayeredPane {
 	private Soldat soldatSelec, ancienSoldatSelec;
 	private JLabel labelSoldatSelec;
 	private ArrayList<JLabel> labelsSoldats;
+	private ArrayList<JProgressBar> progressBarSoldats;
 	private Camera camera;
 	private JScrollPane scrollPane;
 	private ArrayList<Terrain> terrains;
@@ -77,6 +79,9 @@ public class PanelTerrains extends JLayeredPane {
 		// Création du HashMap qui contiendra les couples identifiant des hexagones et le label correspondant
 		this.labelsHexagones = new HashMap<Integer, JLabel>();
 
+		// Création d'une liste de progress bar pour pouvoir consulter les points de vies des soldats
+		this.progressBarSoldats = new ArrayList<JProgressBar>();
+		
 		// Création d'une liste de terrains
 		this.terrains = new ArrayList<Terrain>();
 
@@ -153,6 +158,15 @@ public class PanelTerrains extends JLayeredPane {
 			this.add(labelSoldat, JLayeredPane.MODAL_LAYER);
 			Hexagone hexagone = getHexagone(soldat.getAbscisse(), soldat.getOrdonnees());
 			hexagone.addInHexagone(soldat);
+			JProgressBar progressBar = new JProgressBar();
+	        progressBar.setForeground(Color.GREEN);
+	        progressBar.setOpaque(true);
+	        progressBar.setValue(soldat.getPv());
+	        progressBar.setOrientation(SwingConstants.VERTICAL);
+	        progressBar.setBounds(labelSoldat.getX()+10, labelSoldat.getY()+10, 6, 44);
+	        progressBar.setName(labelSoldat.getName());
+	        this.progressBarSoldats.add(progressBar);
+	        this.add(progressBar, JLayeredPane.DRAG_LAYER);
 		}
 
 		// Création du scroll pane contenant le panel
@@ -278,6 +292,8 @@ public class PanelTerrains extends JLayeredPane {
 	 */
 	public void tuersoldat(Hexagone hexagone, int degats) {
 		if (hexagone != null) {
+			Soldat tue = hexagone.getUnits().get(0);
+			
 			ImageIcon feu = new ImageIcon(new ImageIcon("images/feux.gif").getImage().getScaledInstance(65, 65, Image.SCALE_DEFAULT));  
 			JLabel labelSoldatEnnemi = getLabel(hexagone.getId());
 			labelSoldatEnnemi.setIcon(feu);
@@ -289,7 +305,9 @@ public class PanelTerrains extends JLayeredPane {
 			labelDegats.setVisible(true);
 			this.add(labelDegats, JLayeredPane.DRAG_LAYER);
 		
-			Soldat tue = hexagone.getUnits().get(0);
+			JProgressBar progressBarSoldatEnnemi = chercherProgressBar(tue);
+			progressBarSoldatEnnemi.setValue(tue.getPv());
+			
 			TimerTask task = new TimerTask() {
 				public void run() {
 					if(tue.getPv() <= 0)
@@ -302,6 +320,8 @@ public class PanelTerrains extends JLayeredPane {
 						labelsSoldats.remove(lsoldat);
 						soldats.remove(tue);
 						remove(lsoldat);
+						progressBarSoldats.remove(progressBarSoldatEnnemi);
+						remove(progressBarSoldatEnnemi);
 						tourJoueur.ajouterSoldatTue(tue);
 						//incrementer le score
 						tourJoueur.setScore(tourJoueur.getScore()+10);
@@ -733,11 +753,25 @@ public class PanelTerrains extends JLayeredPane {
 	public void ajouterMouseListenerHexagone(JLabel labelHexagone) {
 		labelHexagone.addMouseListener(new MouseHexagone(labelHexagone));
 	}
+	
+	/*
+	 * Cette fonction permet de chercher un label soldat à partir de l'id d'un soldat
+	 */
 
 	public JLabel chercherLabelSoldat(Soldat soldat) {
 		List<JLabel> chercheLabel = new ArrayList<JLabel>();
 		chercheLabel.addAll(this.labelsSoldats.stream().filter(x -> Integer.parseInt(x.getName()) == soldat.getId()).collect(Collectors.toList()));
 		return chercheLabel.get(0);
+	}
+	
+	/*
+	 * Cette fonction permet de chercher une progress bar à partir de l'id d'un soldat
+	 */
+
+	public JProgressBar chercherProgressBar(Soldat soldat) {
+		List<JProgressBar> chercheProgressBar = new ArrayList<JProgressBar>();
+		chercheProgressBar.addAll(this.progressBarSoldats.stream().filter(x -> Integer.parseInt(x.getName()) == soldat.getId()).collect(Collectors.toList()));
+		return chercheProgressBar.get(0);
 	}
 
 	public class MouseHexagone extends MouseAdapter {
@@ -861,6 +895,8 @@ public class PanelTerrains extends JLayeredPane {
 
 				soldatSelec.deplacementPossible(0, getWidth() - 50, 0, getHeight() - 70, nouveauX, nouveauY, nbrHexagones, bonusDeplacement);
 				labelSoldatSelec.setLocation(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees());
+				JProgressBar progressBarSoldat = chercherProgressBar(soldatSelec);
+				progressBarSoldat.setLocation(labelSoldatSelec.getX()+10, labelSoldatSelec.getY()+10);
 				camera.update(soldatSelec.getAbscisse(), soldatSelec.getOrdonnees(), scrollPane);
 				modifierCoordonneesCamera();
 				updateSoldatHexagone();
