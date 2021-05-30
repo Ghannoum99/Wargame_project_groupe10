@@ -32,8 +32,7 @@ public class PlateauVue extends JFrame {
 	public PlateauVue(ArrayList<Joueur> joueurs, ScenarioStandard scenario) {  
 		// Définition des données de la fenêtre principale
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		this.setBounds(0,0,1267,720);
-		this.setSize(new Dimension(1267, 720));
+		this.setBounds(0,0, 1300, 781);
 		this.getContentPane().setBackground(Color.white);	
 		getContentPane().setLayout(null);
 		this.setVisible(true);
