@@ -82,6 +82,7 @@ public class SoldatVue {
 				labelSoldat = new JLabel("");
 				labelSoldat.setIcon(new ImageIcon(soldat.getImage()));
 				labelSoldat.setBounds(soldat.getAbscisse(), soldat.getOrdonnees(), 72, 72);
+				labelSoldat.setName(Integer.toString(soldat.getId()));
 				this.labelsSoldats.add(labelSoldat);
 			}
 			joueurs.get(i).getSoldatList().addAll(soldatsJoueurs);
