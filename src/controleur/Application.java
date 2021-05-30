@@ -14,12 +14,8 @@ public class Application {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					/*MenuPrincipal frame = new MenuPrincipal();
-					frame.setVisible(true);*/
-					JsonController json = new JsonController();
-					ScenarioStandard read = json.read_file_json();
-					System.out.print(read.getTypeScenario());
-					System.out.print(read.getJoueurs());
+					MenuPrincipal frame = new MenuPrincipal();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
