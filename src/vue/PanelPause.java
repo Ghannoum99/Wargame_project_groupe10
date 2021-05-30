@@ -19,6 +19,7 @@ public class PanelPause extends JPanel {
 	private JLabel labelTitre;
 	private controleur.JsonController json;
 	public JButton boutonContinuer;
+	public JButton boutonMenuPrincipal;
 	private ArrayList<Joueur> joueurs;
 
 	public PanelPause(ArrayList<Joueur> joueurs) {
@@ -72,20 +73,13 @@ public class PanelPause extends JPanel {
 	/** AFFICHAGE D'UN BOUTON, QUI RETOURNE AU MenuPrincipal                                        **/
 	/*************************************************************************************************/
 	public void AfficherBoutonMenuPrincipal() {
-		JButton boutonMenuPrincipal = new JButton("Menu Principal");
+		boutonMenuPrincipal = new JButton("Menu Principal");
 		boutonMenuPrincipal.setBorder(UIManager.getBorder("Button.border"));
 		boutonMenuPrincipal.setIcon(new ImageIcon("images/large-button-active.png"));
 		boutonMenuPrincipal. setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		boutonMenuPrincipal. setForeground (Color.white);
 		boutonMenuPrincipal.setBounds (100, 100, 172, 44);
 		boutonMenuPrincipal.setHorizontalTextPosition(JButton.CENTER);
-		boutonMenuPrincipal.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent e) {
-				MenuPrincipal menuPrincipal = new MenuPrincipal();
-				menuPrincipal.show();
-			}
-		});
 		boutonMenuPrincipal.setBounds(190, 320, 172, 48);
 		this.add(boutonMenuPrincipal);
 	}
