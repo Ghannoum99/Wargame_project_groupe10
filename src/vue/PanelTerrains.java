@@ -304,7 +304,7 @@ public class PanelTerrains extends JLayeredPane {
 						remove(lsoldat);
 						tourJoueur.ajouterSoldatTue(tue);
 						//incrementer le score
-						tourJoueur.setScore(tourJoueur.getScore()+1);
+						tourJoueur.setScore(tourJoueur.getScore()+10);
 						panelInfosJoueur.score.setText(String.valueOf((Integer)tourJoueur.getScore()));
 					}
 					else {
@@ -328,9 +328,10 @@ public class PanelTerrains extends JLayeredPane {
 	public int diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
 		Random random = new Random();
 		int max = selected.getUnits().get(0).getAttaque() - ennemi.getUnits().get(0).getDefense();
-		int value = ennemi.getUnits().get(0).getPv() - (max - (random.nextInt(max + 1) + 1));
+		int degats = (max - (random.nextInt(max + 1) + 1));
+		int value = ennemi.getUnits().get(0).getPv() - degats;
 		ennemi.getUnits().get(0).setPv(value);
-		return value;
+		return degats;
 	}
 
 	/*
