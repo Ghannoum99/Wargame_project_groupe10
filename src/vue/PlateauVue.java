@@ -115,13 +115,13 @@ public class PlateauVue extends JFrame {
 		//scenario.appliquerScenario(this.panelTerrains.getTourJoueur());
 	
 		// Finir le tour
-		JButton bouton = new JButton("Finir tour");
-		bouton.setBorder(UIManager.getBorder("Button.border"));
-		bouton.setIcon(new ImageIcon("images/large-button-active.png"));
-		bouton.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		bouton.setForeground(Color.white);
-		bouton.setHorizontalTextPosition(JButton.CENTER);
-		bouton.addActionListener(new ActionListener() {
+		JButton boutonFinirTour = new JButton("Finir tour");
+		boutonFinirTour.setBorder(UIManager.getBorder("Button.border"));
+		boutonFinirTour.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonFinirTour.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		boutonFinirTour.setForeground(Color.white);
+		boutonFinirTour.setHorizontalTextPosition(JButton.CENTER);
+		boutonFinirTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int ind = 0;
 				Joueur ancienJoueur, nouveauJoueur;
@@ -134,22 +134,32 @@ public class PlateauVue extends JFrame {
 				setTourJoueur(nouveauJoueur, ind);
 			}
 		});
+
 		bouton.setBounds(xPanelsInfos+40, 610, 90, 22);
 
-		this.plateau.add(bouton, JLayeredPane.DEFAULT_LAYER);
+		boutonFinirTour.setBounds(xPanelsInfos+40, 610, 100, 22);
+
+		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
 
 		setTourJoueur(tourJoueur, ind);
 
 		/** Panel Pause **/
 		PanelPause MenuPause = new PanelPause(this.joueurs);
 		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
-
+		
+		MenuPause.boutonContinuer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuPause.setVisible(false);
+				cmpt.compteur.start();
+			}
+		});
 		// Affichage de bouton pause
 		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
 		JButton boutonPause = new JButton(imageIconPause);
 		boutonPause.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MenuPause.setVisible(visible);
+				cmpt.compteur.stop();
 				if (visible) {
 					panelTerrains.retirerMouseListenerHexagones();
 					visible = false;
