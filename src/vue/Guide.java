@@ -26,10 +26,10 @@ public class Guide extends JPanel {
 	private JLabel labelIcon;
 	private boolean[] competencesAcquises;
 
-	public Guide(int yBounds) {
+	public Guide(int yBounds, int widthBounds) {
 		this.setLayout(null);
 		this.setVisible(true);
-		this.setBounds(0, yBounds, 1094, 500);
+		this.setBounds(0, yBounds, widthBounds, 500);
 		this.setOpaque(false);	
 
 		this.guideActive = false;

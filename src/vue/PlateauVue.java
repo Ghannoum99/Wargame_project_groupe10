@@ -64,13 +64,12 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
 		}
 		
-		int widthPlateau, heightPlateau, xPanelsInfos, yGuide;
+		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide;
 		widthPlateau = backgroundimage.getWidth()-187;
 		heightPlateau = backgroundimage.getHeight()-135;
 		xPanelsInfos = backgroundimage.getWidth()-157;
 		yGuide = backgroundimage.getHeight()-210;
-		
-		System.out.println(yGuide);
+		widthGuide = backgroundimage.getWidth()-173;
 		
 		PanelCompteur cmpt = new PanelCompteur();
 		this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
@@ -103,7 +102,7 @@ public class PlateauVue extends JFrame {
 		this.plateau.add(this.minimap, JLayeredPane.DEFAULT_LAYER);
 
 		// Tutoriel du jeu
-		this.guide = new Guide(yGuide);
+		this.guide = new Guide(yGuide, widthGuide);
 		this.plateau.add(this.guide, JLayeredPane.DRAG_LAYER);
 		this.guide.afficherQuestion();
 
