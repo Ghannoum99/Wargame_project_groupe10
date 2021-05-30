@@ -17,10 +17,10 @@ import modele.Joueur;
 @SuppressWarnings("serial")
 public class PanelPause extends JPanel {
 	private JLabel labelTitre;
-	private controleur.JsonController json;
 	public JButton boutonContinuer;
 	public JButton boutonMenuPrincipal;
 	private ArrayList<Joueur> joueurs;
+	public JButton boutonQuitter;
 
 	public PanelPause(ArrayList<Joueur> joueurs) {
 		this.setBounds(155, 98, 544, 440);
@@ -28,9 +28,6 @@ public class PanelPause extends JPanel {
 		this.setOpaque(true);
 		this.setLayout(null);
 		this.setVisible(false);
-		
-		//Création d'un jsonController pour l'enregistrement de la partie en cours
-		this.json = new JsonController();
 		
 		//Récupération de la liste des joueurs
 		this.joueurs = joueurs;
@@ -51,19 +48,14 @@ public class PanelPause extends JPanel {
 	/** AFFICHAGE D'UN BOUTON QUI PERMET AUX JOUEURS DE QUITTER LE JEU **/
 	/********************************************************************/		
 	public void afficherBoutonQuitter(PanelPause MenuPause) {
-		JButton boutonQuitter = new JButton("Quitter");
+		boutonQuitter = new JButton("Quitter");
 		boutonQuitter.setBorder(UIManager.getBorder("Button.border"));
 		boutonQuitter.setIcon(new ImageIcon("images/large-button-active.png"));
 		boutonQuitter. setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		boutonQuitter. setForeground (Color.white);
 		boutonQuitter.setBounds (100, 100, 172, 44);
 		boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
-		boutonQuitter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MenuPause.json.sauvegarde_file_json(MenuPause.joueurs);
-				System.exit(0);
-			}
-		});
+		
 		boutonQuitter.setBounds(190, 370, 172, 48);
 		this.add(boutonQuitter);
 	}		
