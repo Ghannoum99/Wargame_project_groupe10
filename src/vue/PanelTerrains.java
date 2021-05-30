@@ -319,6 +319,7 @@ public class PanelTerrains extends JLayeredPane {
 						labelsSoldats.remove(lsoldat);
 						soldats.remove(tue);
 						remove(lsoldat);
+						progressBarSoldatEnnemi.setVisible(false);
 						progressBarSoldats.remove(progressBarSoldatEnnemi);
 						remove(progressBarSoldatEnnemi);
 						tourJoueur.ajouterSoldatTue(tue);
