@@ -42,7 +42,6 @@ public class PlateauVue extends JFrame {
 
 		this.plateau = new JLayeredPane();
 		this.plateau.setLayout(null);
-		this.plateau.setBounds(0,0,1267, 680);
 		this.plateau.setVisible(true);
 		this.plateau.setOpaque(false);
 		this.add(this.plateau);
@@ -56,10 +55,12 @@ public class PlateauVue extends JFrame {
 		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
 			device.setFullScreenWindow(this);
 			backgroundimage.setBounds(0, 0, 1267, 680);
+			this.plateau.setBounds(0,0,1267, 680);
 			backgroundimage.setIcon(new ImageIcon("images/plateau.png"));
 		} 
 		else {
 			backgroundimage.setBounds(0, 0, 1300, 781);
+			this.plateau.setBounds(0,0,1300, 781);
 			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
 		}
 		
