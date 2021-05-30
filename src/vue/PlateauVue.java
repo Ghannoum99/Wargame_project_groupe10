@@ -210,6 +210,14 @@ public class PlateauVue extends JFrame {
 		//PanelMenuInfos panelMenu = new PanelMenuInfos(155, 98, 544, 440);
 		//this.plateau.add(panelMenu, JLayeredPane.DRAG_LAYER);
 		//this.panelTerrains.retirerMouseListenerHexagones();
+		
+		// BOUTON POUR QUITTER //
+        JButton boutonQuitter = new JButton();
+        boutonQuitter.setIcon(new ImageIcon("images/icons8-close-window-30.png"));
+        boutonQuitter.setBackground(new Color(16, 22, 33));
+        boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
+        boutonQuitter.setBounds(xPanelsInfos+10, 610, 172, 48);
+        this.plateau.add(boutonQuitter,  JLayeredPane.DEFAULT_LAYER);
 
 		SwingUtilities.updateComponentTreeUI(this.plateau);
 	}
