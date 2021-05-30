@@ -34,8 +34,6 @@ public class Guide extends JPanel {
 
 		this.guideActive = false;
 		
-		System.out.println(widthBounds);
-
 		competencesAcquises = new boolean[6];
 
 		this.labelTitre = new JLabel();

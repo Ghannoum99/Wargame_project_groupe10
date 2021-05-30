@@ -208,43 +208,7 @@ public class PanelTerrains extends JLayeredPane {
 				labelSoldat.removeMouseListener(mouseL);
 			}
 
-			labelSoldat.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					if (tourJoueur.soldatExiste(soldat)) {
-						panelInfosSoldat.afficherInfosSoldats(soldat);
-
-						// On affiche la partie 1 du tutoriel
-						if (guide.isGuideActive() && !guide.aValideCompetence(1)) {
-							guide.afficherIndicationsDeplacement();
-						}
-						SwingUtilities.updateComponentTreeUI(guide);
-
-						if (soldat != soldatSelec) {
-							ancienSoldatSelec = soldatSelec;
-						}
-
-						labelSoldatSelec = labelSoldat;
-						soldatSelec = soldat;
-						mettreAjourSoldatSelec();
-					}
-					else {
-						// On affiche la partie 5 du tutoriel
-						if (guide.isGuideActive() && !guide.aValideCompetence(5)) {
-							guide.afficherFinTuto();
-						}
-						boolean attaque = possibiliteAttaque(hexagoneSelected, hexagone);
-						System.out.println(attaque);
-						if(attaque)  {
-							System.out.println("hex deb : " + hexagone);
-							int degats = diminuerpointdeviesoldat(hexagoneSelected, hexagone);
-							tuersoldat(hexagone, degats);
-							System.out.println("hex fin : " + hexagone);
-						}
-					}
-				}
-
-			});
+			labelSoldat.addMouseListener(new MouseLabelSoldat(soldat, labelSoldat, hexagone));
 		}
 	}
 
@@ -712,7 +676,7 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet de retirer tous les mouse listener des labels hexagones
+	 * Cette fonction permet de retirer tous les mouse listener des labels hexagones et des labels soldats
 	 */
 
 	public void retirerMouseListenerHexagones() {
@@ -741,7 +705,7 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Cette fonction permet d'ajouter tous les mouse listener des labels hexagones
+	 * Cette fonction permet d'ajouter tous les mouse listener des labels hexagones et des labels soldats
 	 */
 
 	public void ajouterMouseListenerHexagones() {
@@ -754,6 +718,7 @@ public class PanelTerrains extends JLayeredPane {
 				ajouterMouseListenerHexagone(label);
 			}
 		}
+		mettreAjourHexagonesSoldats();
 	}
 
 	/*
@@ -763,6 +728,7 @@ public class PanelTerrains extends JLayeredPane {
 	public void ajouterMouseListenerHexagone(JLabel labelHexagone) {
 		labelHexagone.addMouseListener(new MouseHexagone(labelHexagone));
 	}
+	
 
 	/*
 	 * Cette fonction permet de chercher un label soldat à partir de l'id d'un soldat
@@ -782,6 +748,54 @@ public class PanelTerrains extends JLayeredPane {
 		List<JProgressBar> chercheProgressBar = new ArrayList<JProgressBar>();
 		chercheProgressBar.addAll(this.progressBarSoldats.stream().filter(x -> Integer.parseInt(x.getName()) == soldat.getId()).collect(Collectors.toList()));
 		return chercheProgressBar.get(0);
+	}
+
+	public class MouseLabelSoldat extends MouseAdapter {
+
+		private Soldat soldat;
+		private JLabel labelSoldat;
+		private Hexagone hexagone;
+
+		public MouseLabelSoldat(Soldat soldat, JLabel labelSoldat, Hexagone hexagone) {
+			this.soldat = soldat;
+			this.labelSoldat = labelSoldat;
+			this.hexagone = hexagone;
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			if (tourJoueur.soldatExiste(soldat)) {
+				panelInfosSoldat.afficherInfosSoldats(soldat);
+
+				// On affiche la partie 1 du tutoriel
+				if (guide.isGuideActive() && !guide.aValideCompetence(1)) {
+					guide.afficherIndicationsDeplacement();
+				}
+				SwingUtilities.updateComponentTreeUI(guide);
+
+				if (soldat != soldatSelec) {
+					ancienSoldatSelec = soldatSelec;
+				}
+
+				labelSoldatSelec = labelSoldat;
+				soldatSelec = soldat;
+				mettreAjourSoldatSelec();
+			}
+			else {
+				// On affiche la partie 5 du tutoriel
+				if (guide.isGuideActive() && !guide.aValideCompetence(5)) {
+					guide.afficherFinTuto();
+				}
+				boolean attaque = possibiliteAttaque(hexagoneSelected, hexagone);
+				System.out.println(attaque);
+				if(attaque)  {
+					System.out.println("hex deb : " + hexagone);
+					int degats = diminuerpointdeviesoldat(hexagoneSelected, hexagone);
+					tuersoldat(hexagone, degats);
+					System.out.println("hex fin : " + hexagone);
+				}
+			}
+		}
 	}
 
 	public class MouseHexagone extends MouseAdapter {
