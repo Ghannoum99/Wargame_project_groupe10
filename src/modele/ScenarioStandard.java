@@ -81,7 +81,7 @@ public class ScenarioStandard {
 					
 					for(Soldat soldat : joueur.getAdversaires().get(j).getSoldatList())
 					{
-						//tester si il a tuÃ© un soldat
+						//tester si il a tué un soldat
 						if(joueur.aTueUnSoldat(soldat));
 						cmpt++;
 					}

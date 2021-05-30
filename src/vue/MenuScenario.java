@@ -60,7 +60,7 @@ public class MenuScenario extends JFrame {
 		panelScroll.boutonScenarioStandard.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				ScenarioStandard scenarioStandard = new ScenarioStandard(joueurs);
+				ScenarioStandard scenarioStandard = new ScenarioStandard("scenarioStandard", joueurs);
 				PlateauVue plateau = new PlateauVue(joueurs, scenarioStandard);
 				plateau.show();
 				dispose();
