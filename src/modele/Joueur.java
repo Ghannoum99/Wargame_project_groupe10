@@ -96,9 +96,18 @@ public class Joueur {
 			i += 1;
 		}
 	}
+	
 	public void ajouterSoldatTue(Soldat soldatTue) {
         Joueur joueur = rechercherJoueur(soldatTue);
+        Soldat soldat = rechercherSoldat(soldatTue, joueur);
+        soldat.setPv(0);
+        soldat.setKo(true);
         joueur.retirerSoldat();
+    }
+	
+	public Soldat rechercherSoldat(Soldat soldatTue, Joueur joueur) {
+        List<Soldat> chercheSoldat = joueur.getSoldatList().stream().filter(x -> x.getId() == soldatTue.getId()).collect(Collectors.toList());
+        return chercheSoldat.get(0);
     }
 
     public int nombreInfanterieLourde(Joueur joueur) {
@@ -111,9 +120,9 @@ public class Joueur {
         return c;
     }
     
-    public boolean aTueUnSoldat(Soldat soldat) {
-    	//Joueur joueur = rechercherJoueur(soldatTue);
-        //joueur.retirerSoldat();
+    public boolean aTueUnSoldat(Soldat soldatTue) {
+    	Joueur joueur = rechercherJoueur(soldatTue);
+    	Soldat soldat = rechercherSoldat(soldatTue, joueur);
         return (soldat.getPv() == 0);
     }
     
