@@ -98,6 +98,9 @@ public class Joueur {
 	}
 	public void ajouterSoldatTue(Soldat soldatTue) {
         Joueur joueur = rechercherJoueur(soldatTue);
+        Soldat soldat = rechercherSoldat(soldatTue, joueur);
+        soldat.setPv(0);
+        soldat.setKo(true);
         joueur.retirerSoldat();
     }
 
@@ -115,6 +118,11 @@ public class Joueur {
     	//Joueur joueur = rechercherJoueur(soldatTue);
         //joueur.retirerSoldat();
         return (soldat.getPv() == 0);
+    }
+    
+    public Soldat rechercherSoldat(Soldat soldatTue, Joueur joueur) {
+    	List<Soldat> chercheSoldat = joueur.getSoldatList().stream().filter(x -> x.getId() == soldatTue.getId()).collect(Collectors.toList());
+        return chercheSoldat.get(0);
     }
     
     public Joueur rechercherJoueur(Soldat soldatTue) {
