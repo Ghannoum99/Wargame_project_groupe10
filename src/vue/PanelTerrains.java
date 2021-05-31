@@ -346,9 +346,12 @@ public class PanelTerrains extends JLayeredPane {
 	 */
 
 	public int diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
+		System.out.println(ennemi);
 		Random random = new Random();
 		Soldat s1 = selected.getUnits().get(0);
 		Soldat s2 = ennemi.getUnits().get(0);
+		int bd = s2.getDefense();
+		s2.setDefense(bd+(bd*getBonusDep(ennemi.getTypeTerrain())));
 		int max = 0;
 		if(s1.getAttaque() > s2.getDefense())
 		{
@@ -356,11 +359,11 @@ public class PanelTerrains extends JLayeredPane {
 		}
 		else if(s2.getDefense() > s1.getAttaque())
 		{
-			max = (s1.getAttaque() - s2.getDefense()) - 1;
+			max = (s2.getDefense() - s1.getAttaque()) - 1;
 		}
 		int degats = random.nextInt(max);
 		int value = ennemi.getUnits().get(0).getPv() - degats;
-		ennemi.getUnits().get(0).setPv(value);
+		s2.setPv(value);
 		return degats;
 	}
 
