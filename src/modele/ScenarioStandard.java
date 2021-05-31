@@ -15,14 +15,17 @@ public class ScenarioStandard {
 		
 		if(appliquerScenario1() != null) {
 			gagnant = appliquerScenario1();
+			System.out.println("scénario1");
 		}
 		
 		else if(appliquerScenario2() != null) {
 			gagnant = appliquerScenario2();
+			System.out.println("scénario2");
 		}
 		
 		else if(appliquerScenario3(joueur) != null) {
 			gagnant = appliquerScenario3(joueur);
+			System.out.println("scénario3");
 		}
 		
 		return gagnant;

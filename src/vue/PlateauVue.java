@@ -19,7 +19,7 @@ public class PlateauVue extends JFrame {
 	private JLayeredPane plateau;
 	private PanelTerrains panelTerrains;
 	private SoldatVue soldatVue;
-	private PanelInfosJoueur infosJoueur;
+	private PanelInfosJoueur panelInfosJoueur;
 	private PanelInfosSoldat panelInfosSoldat;
 	private String scenario;
 	private boolean termine = false;
@@ -89,8 +89,8 @@ public class PlateauVue extends JFrame {
 		this.plateau.add(this.panelInfosSoldat, JLayeredPane.DEFAULT_LAYER);
 
 		// Création du panel permettant d'afficher les infos du joueur
-		this.infosJoueur = new PanelInfosJoueur(joueurs, xPanelsInfos);
-		this.plateau.add(this.infosJoueur, JLayeredPane.DEFAULT_LAYER);
+		this.panelInfosJoueur = new PanelInfosJoueur(joueurs, xPanelsInfos);
+		this.plateau.add(this.panelInfosJoueur, JLayeredPane.DEFAULT_LAYER);
 
 		// Création des joueurs 
 		this.joueurs = joueurs;
@@ -104,7 +104,10 @@ public class PlateauVue extends JFrame {
 		// Choix aléatoire d'un joueur pour commencer le tour
 		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
 		this.tourJoueur = this.joueurs.get(ind);
-
+		
+		this.panelInfosJoueur.NomJoueur.setText(this.tourJoueur.getNomJoueur());
+		this.panelInfosJoueur.score.setText(String.valueOf((Integer)this.tourJoueur.getScore()));
+		this.panelInfosJoueur.nombreSoldat.setText(String.valueOf((Integer)this.tourJoueur.getSoldatList().size()));
 
 		// Création de minimap
 		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this, xPanelsInfos);
@@ -116,7 +119,7 @@ public class PlateauVue extends JFrame {
 		this.guide.afficherQuestion();
 
 		// Création du panel permettant d'afficher les terrains et de positionner les soldats
-		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.infosJoueur, this.guide, widthPlateau, heightPlateau);
+		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.panelInfosJoueur, this.guide, widthPlateau, heightPlateau);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 
 		/** Panel Pause **/
@@ -224,9 +227,7 @@ public class PlateauVue extends JFrame {
 
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
 
-
 		SwingUtilities.updateComponentTreeUI(this.plateau);
-
 	}
 
 	public void verifGagnant(int xCompteur, int yCompteur) {
