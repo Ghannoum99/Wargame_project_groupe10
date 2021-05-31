@@ -5,11 +5,10 @@ import java.util.ArrayList;
 public class ScenarioStandard {
 	protected ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
 	
-	public ScenarioStandard( ArrayList<Joueur> joueurs) {
+	public ScenarioStandard(ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
 	}
 	
-
 	/** Scenario standard **/
 	public Joueur appliquerScenario(Joueur joueur) {
 		Joueur gagnant = null;
