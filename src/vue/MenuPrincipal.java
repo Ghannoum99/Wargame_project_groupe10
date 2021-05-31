@@ -2,17 +2,14 @@ package vue;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
-
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
-
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
-
 import javax.swing.*;
+import modele.ScenarioStandard;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
@@ -26,6 +23,7 @@ public class MenuPrincipal extends JFrame{
 	private JButton boutonContinuer;
 	private JButton boutonMultiJoueurs;
 	private JButton boutonSolo;
+	private controleur.JsonController json;
 	private JLabel backgroundimage;
 	private PanelMenuInfos panelMenu;
 	
@@ -97,7 +95,7 @@ public class MenuPrincipal extends JFrame{
 		boutonMultiJoueurs.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		boutonMultiJoueurs.setForeground(Color.white);
 		boutonMultiJoueurs.setHorizontalTextPosition(JButton.CENTER);
-		boutonMultiJoueurs.setBounds(60, 173, 172, 48);
+		boutonMultiJoueurs.setBounds(60, 167, 172, 48);
 		panelMenu.add(boutonMultiJoueurs);
 	}
 	
@@ -135,6 +133,16 @@ public class MenuPrincipal extends JFrame{
 		boutonContinuer = new JButton();
 		boutonContinuer.setBorder(UIManager.getBorder("Button.border"));
 		boutonContinuer.setText("Continuer");
+		boutonContinuer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//faut recuperer la liste des joueurs avec le scenario choisi avant
+				playAudio("c:\\Windows\\media\\ding.wav");
+				PlateauVue plateau = json.read_file_json();				
+				//PlateauVue plateau = new PlateauVue(scenario.getJoueurs(), scenario);
+				plateau.show();
+				dispose();
+			}
+		});
 		boutonContinuer.setIcon(new ImageIcon("images/large-button-active.png"));
 		boutonContinuer.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		boutonContinuer.setForeground(Color.white);
