@@ -53,6 +53,8 @@ public class PlateauVue extends JFrame {
 		JLabel backgroundimage = new JLabel("");
 		this.add(backgroundimage);
 
+		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide, xCompteur, yCompteur, heightBoutonFinirTour, yBoutonFinirTour;
+
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
@@ -60,14 +62,17 @@ public class PlateauVue extends JFrame {
 			backgroundimage.setBounds(0, 0, 1267, 680);
 			this.plateau.setBounds(0,0,1267, 680);
 			backgroundimage.setIcon(new ImageIcon("images/plateau.png"));
+			heightBoutonFinirTour = 22;
+			yBoutonFinirTour = 643;
 		} 
 		else {
 			backgroundimage.setBounds(0, 0, 1300, 781);
 			this.plateau.setBounds(0,0,1300, 781);
 			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
+			heightBoutonFinirTour = 22;
+			yBoutonFinirTour = 660;
 		}
 
-		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide, xCompteur, yCompteur;
 		widthPlateau = backgroundimage.getWidth()-187;
 		heightPlateau = backgroundimage.getHeight()-135;
 		xPanelsInfos = backgroundimage.getWidth()-157;
@@ -114,6 +119,84 @@ public class PlateauVue extends JFrame {
 		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.infosJoueur, this.guide, widthPlateau, heightPlateau);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 
+		/** Panel Pause **/
+		PanelPause MenuPause = new PanelPause(this.joueurs);
+		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
+
+		MenuPause.boutonMenuPrincipal.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				MenuPrincipal menuPrincipal = new MenuPrincipal();
+				menuPrincipal.show();
+				dispose();
+			}
+		});
+
+		MenuPause.boutonContinuer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuPause.setVisible(false);
+			}
+		});
+
+		// Affichage de bouton pause
+		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
+		JButton boutonPause = new JButton();
+		boutonPause.setIcon(imageIconPause);
+		boutonPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if(!clicked) {
+					ImageIcon imageIconPause = new ImageIcon("images/ornate_play_30-active.png");
+					boutonPause.setIcon(imageIconPause);
+					panelTerrains.retirerMouseListenerHexagones();
+					clicked = true;
+				}
+
+				else {
+					ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
+					boutonPause.setIcon(imageIconPause);
+					panelTerrains.ajouterMouseListenerHexagones();
+					clicked = false;
+				}
+				/*
+				ornate_play_30-active
+				if (visible) {
+
+					visible = false;
+				}
+				else {
+
+					visible = true;
+				}
+
+				 */
+			}
+		});
+		boutonPause.setBackground(new Color(16, 22, 33));
+		boutonPause.setBounds(xPanelsInfos+15, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		this.plateau.add(boutonPause, JLayeredPane.DEFAULT_LAYER);
+
+		// Bouton pour lancer le tutoriel //
+		JButton boutonAide = new JButton();
+		boutonAide.setIcon(new ImageIcon("images/help_30.png"));
+		boutonAide.setBackground(new Color(16, 22, 33));
+		boutonAide.setHorizontalTextPosition(JButton.CENTER);
+		boutonAide.setBounds(boutonPause.getX()+40, 610, 30, 30);
+		boutonAide.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guide.afficherQuestion();
+			}
+		});
+		this.plateau.add(boutonAide,  JLayeredPane.DEFAULT_LAYER);
+
+		// BOUTON POUR QUITTER //
+		JButton boutonQuitter = new JButton();
+		boutonQuitter.setIcon(new ImageIcon("images/icons8-close-window-30.png"));
+		boutonQuitter.setBackground(new Color(16, 22, 33));
+		boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
+		boutonQuitter.setBounds(boutonAide.getX()+40, 610, 30, 30);
+		this.plateau.add(boutonQuitter,  JLayeredPane.DEFAULT_LAYER);
+
 		// Finir le tour
 		JButton boutonFinirTour = new JButton("Finir tour");
 		boutonFinirTour.setBorder(UIManager.getBorder("Button.border"));
@@ -137,89 +220,32 @@ public class PlateauVue extends JFrame {
 			}
 		});
 
-		boutonFinirTour.setBounds(xPanelsInfos, 650, 172, 44);
+		boutonFinirTour.setBounds(xPanelsInfos, yBoutonFinirTour, 140, heightBoutonFinirTour);
 
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
 
-		setTourJoueur(tourJoueur, ind);
 
-		/** Panel Pause **/
-		PanelPause MenuPause = new PanelPause(this.joueurs);
-		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
-
-		MenuPause.boutonQuitter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PlateauVue plateau = new PlateauVue(joueurs, scenario);
-				//json.sauvegarde_file_json(plateau);
-				System.exit(0);
-			}
-		});
-
-		MenuPause.boutonMenuPrincipal.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent e) {
-				MenuPrincipal menuPrincipal = new MenuPrincipal();
-				menuPrincipal.show();
-				dispose();
-			}
-		});
-
-		MenuPause.boutonContinuer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MenuPause.setVisible(false);
-				//cmpt.compteur.start();
-			}
-		});
-
-		// Affichage de bouton pause
-		ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
-		JButton boutonPause = new JButton();
-		boutonPause.setIcon(imageIconPause);
-		boutonPause.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if(!clicked) {
-					//cmpt.compteur.stop();
-					ImageIcon imageIconPause = new ImageIcon("images/ornate_play_30-active.png");
-					boutonPause.setIcon(imageIconPause);
-					panelTerrains.retirerMouseListenerHexagones();
-					clicked = true;
-				}
-
-				else {
-					//cmpt.compteur.start();
-					ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
-					boutonPause.setIcon(imageIconPause);
-					//panelTerrains.ajouterMouseListenerHexagones();
-					clicked = false;
-				}
-			}
-		});
-		boutonPause.setBackground(new Color(16, 22, 33));
-		boutonPause.setBounds(xPanelsInfos, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
-		this.plateau.add(boutonPause, JLayeredPane.DEFAULT_LAYER);
-		
 		SwingUtilities.updateComponentTreeUI(this.plateau);
 
 	}
 
 	public void verifGagnant(int xCompteur, int yCompteur) {
 		switch(this.scenario) {
-			case "scenarioStandard" :
-				ScenarioStandard scenarioStandard = new ScenarioStandard(joueurs);
-				if(scenarioStandard.appliquerScenario(getTourJoueur()) != null)
-				{
-					gagnant = scenarioStandard.appliquerScenario(getTourJoueur());
-					termine = true;
-				}
-				break;
-	
-			case "scenarioTempsLimite" :
-				ScenarioTempsLimite scenarioTempsLimite = new ScenarioTempsLimite(joueurs);
-				PanelCompteur cmpt = new PanelCompteur(xCompteur, yCompteur);
-				this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
-				/*if (cmpt.minute != 0 && cmpt.seconde != 0) {
-	
+		case "scenarioStandard" :
+			ScenarioStandard scenarioStandard = new ScenarioStandard(joueurs);
+			if(scenarioStandard.appliquerScenario(getTourJoueur()) != null)
+			{
+				gagnant = scenarioStandard.appliquerScenario(getTourJoueur());
+				termine = true;
+			}
+			break;
+
+		case "scenarioTempsLimite" :
+			ScenarioTempsLimite scenarioTempsLimite = new ScenarioTempsLimite(joueurs);
+			PanelCompteur cmpt = new PanelCompteur(xCompteur, yCompteur);
+			this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
+			/*if (cmpt.minute != 0 && cmpt.seconde != 0) {
+
 					if(!clicked) {
 						cmpt.compteur.stop();
 					}
@@ -230,26 +256,26 @@ public class PlateauVue extends JFrame {
 				else {
 					termine = true;
 				}*/
-	
-				break;
-	
-				//faut afficher le panelFinbataille
-	
-			case "scenarioTourLimite" :
-				ScenarioTourLimite scenarioTourLimite = new ScenarioTourLimite(joueurs);
-				if(scenarioTourLimite.appliquerScenarioTourLimite(getTourJoueur(), nombreTours, gagnant))
-				{
-					termine = true;
-				}			
-				break;	
+
+			break;
+
+			//faut afficher le panelFinbataille
+
+		case "scenarioTourLimite" :
+			ScenarioTourLimite scenarioTourLimite = new ScenarioTourLimite(joueurs);
+			if(scenarioTourLimite.appliquerScenarioTourLimite(getTourJoueur(), nombreTours, gagnant))
+			{
+				termine = true;
+			}			
+			break;	
 		}
-		
+
 		if (termine) {
 			PanelFinBataille fin = new PanelFinBataille(joueurs, gagnant);
 			this.plateau.add(fin, JLayeredPane.DRAG_LAYER);
 			panelTerrains.retirerMouseListenerHexagones(); 
 		}
-	
+
 	}
 
 	public Joueur getTourJoueur() {
