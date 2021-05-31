@@ -41,7 +41,7 @@ public class PlateauVue extends JFrame {
 	private JLabel labelScore;
 	private JLabel labelNumJoueur;
 	private JLabel labelNomJoueur;
-	
+	private PanelMenuInfos panelMenu;
 
 	public PlateauVue(ArrayList<Joueur> joueurs, String scenario) { 
 		// Définition des données de la fenêtre principale
@@ -134,7 +134,7 @@ public class PlateauVue extends JFrame {
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 
 		/** Panel Pause **/
-		PanelPause MenuPause = new PanelPause(this.joueurs);
+		PanelQuitter MenuPause = new PanelQuitter(this.joueurs);
 		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
 
 		MenuPause.boutonMenuPrincipal.addActionListener(new ActionListener() {
@@ -237,6 +237,8 @@ public class PlateauVue extends JFrame {
 		boutonFinirTour.setBounds(xPanelsInfos, yBoutonFinirTour, 140, heightBoutonFinirTour);
 
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
+		
+		
 
 		SwingUtilities.updateComponentTreeUI(this.plateau);
 	}
@@ -302,7 +304,7 @@ public class PlateauVue extends JFrame {
 		boutonQuitter.setForeground(Color.white);
 		boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
 		boutonQuitter.setBounds(289, 370, 172, 48);
-		this.add(boutonQuitter);
+		panelMenu.add(boutonQuitter);
 	}		
 	
 	/*************************************************************************************************/
@@ -323,19 +325,8 @@ public class PlateauVue extends JFrame {
 		boutonReJouer.setForeground(Color.white);
 		boutonReJouer.setHorizontalTextPosition(JButton.CENTER);
 		boutonReJouer.setBounds(79, 370, 172, 48);
-		this.add(boutonReJouer);
+		panelMenu.add(boutonReJouer);
 	}	
-	
-	/****************************************************************************************/
-	/** AFFICHAGE D'UN PANEL, QUI CONTIENT LES INFORMATIONS (NOM DES JOUEURS, LEUR SCORES) **/
-	/****************************************************************************************/		
-	public void afficherPanelInfo() {
-		panelInfo = new JPanel();
-		panelInfo.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Scores", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panelInfo.setBounds(59, 84, 424, 263);
-		this.add(panelInfo);
-		panelInfo.setLayout(null);
-	}
 	
 	/******************************************************************/
 	/** AFFICHAGE DE 3 LABELS, CHAQUE LABEL CORRESPOND A UNE COLONEE **/
@@ -347,9 +338,9 @@ public class PlateauVue extends JFrame {
 		for(i=0; i<3; i++) {
 			labelInfo = new JLabel(text[i]);
 			labelInfo.setFont(new Font("Times new Roman", Font.BOLD, 17));
-			labelInfo.setForeground(Color.GRAY);
+			labelInfo.setForeground(new Color(200, 173, 10));
 			labelInfo.setBounds(x, 105, 70, 41);
-			this.add(labelInfo);
+			panelMenu.add(labelInfo);
 			
 			x += 190;
 		}
@@ -364,7 +355,7 @@ public class PlateauVue extends JFrame {
 			labelScore.setForeground(new Color(200, 173, 10));
 			labelScore.setFont(new Font("Times new Roman", Font.PLAIN, 15));
 			labelScore.setBounds(448, y, 77, 41);
-			this.add(labelScore);
+			panelMenu.add(labelScore);
 			
 			y += 33;
 		}
@@ -379,7 +370,7 @@ public class PlateauVue extends JFrame {
 			labelNumJoueur.setForeground(new Color(200, 173, 10));
 			labelNumJoueur.setFont(new Font("Times new Roman", Font.PLAIN, 15));
 			labelNumJoueur.setBounds(68, y, 77, 41);
-			this.add(labelNumJoueur);
+			panelMenu.add(labelNumJoueur);
 			
 			y += 33;
 		}
@@ -393,7 +384,7 @@ public class PlateauVue extends JFrame {
 			labelNomJoueur.setForeground(new Color(200, 173, 10));
 			labelNomJoueur.setFont(new Font("Times new Roman", Font.PLAIN, 16));
 			labelNomJoueur.setBounds(239, y, 77, 41);
-			this.add(labelNomJoueur);
+			panelMenu.add(labelNomJoueur);
 			
 			y += 33;
 		}
@@ -401,7 +392,7 @@ public class PlateauVue extends JFrame {
 	
 	
 	public void afficherPanelFinBataille() {
-		PanelMenuInfos panelMenu = new PanelMenuInfos(290, 127, 596, 480);
+		panelMenu = new PanelMenuInfos(290, 127, 596, 480);
 		this.plateau.add(panelMenu, JLayeredPane.DRAG_LAYER);
 		
 		/** TITRE DU PANEL **/
@@ -410,10 +401,9 @@ public class PlateauVue extends JFrame {
 		labelTitre.setForeground(new Color(200, 173, 10));
 		labelTitre.setFont(new Font("Times new Roman", Font.BOLD, 20));
 		labelTitre.setBounds(168, 10, 209, 41);
-		this.add(labelTitre);
+		panelMenu.add(labelTitre);
 		
 		/** AFFICHAGE DU PANEL QUI CONTIENT LES INFORMATIONS (Numéro du joueur, Nom du Joueur et son score) **/
-		//afficherPanelInfo();
 		afficherLabelInfo();
 		afficherNumJoueur();
 		afficherNomJoueur();
