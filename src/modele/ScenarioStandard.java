@@ -53,8 +53,7 @@ public class ScenarioStandard {
 		Joueur gagnant = null;
 		int atueToutesLesInfanteries = 0;
         for(Joueur joueur : joueurs) {
-        	System.out.println("joueur vérifie : " + joueur.getNomJoueur());
-            for(Joueur joueurA : joueur.getAdversaires()) {
+        	for(Joueur joueurA : joueur.getAdversaires()) {
             	if (joueur.nombreSoldatsTuesType(joueurA, "infanterieLourde") == 2) {
                 	atueToutesLesInfanteries++;
                 }     
