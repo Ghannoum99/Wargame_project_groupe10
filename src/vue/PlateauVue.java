@@ -114,7 +114,7 @@ public class PlateauVue extends JFrame {
 
 		// Choix aléatoire d'un joueur pour commencer le tour
 		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
-		this.tourJoueur = this.joueurs.get(ind);
+		this.tourJoueur = this.joueurs.get(0);
 
 		// Création de minimap
 		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this, xPanelsInfos);
@@ -225,7 +225,7 @@ public class PlateauVue extends JFrame {
 		boutonFinirTour.setBounds(xPanelsInfos, yBoutonFinirTour, 140, heightBoutonFinirTour);
 
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
-
+	
 		SwingUtilities.updateComponentTreeUI(this.plateau);
 	}
 
