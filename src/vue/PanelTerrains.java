@@ -572,7 +572,7 @@ public class PanelTerrains extends JLayeredPane {
 				System.out.println("je suis le robot");
 				Robot robot = new Robot();
 				robot.setAutoDelay(250);
-				robot.mouseMove(hexagone.getAbscisse(), hexagone.getOrdonnees());
+				robot.mouseMove(hexagone.getAbscisse(), 500);
 				robot.keyPress(MouseEvent.BUTTON3);
 				/*robot.keyPress(KeyEvent.VK_1);
 				robot.keyRelease(KeyEvent.VK_1);
