@@ -718,7 +718,12 @@ public class PanelTerrains extends JLayeredPane {
 				ajouterMouseListenerHexagone(label);
 			}
 		}
-		mettreAjourHexagonesSoldats();
+		for (i=0; i<this.soldats.size(); i++) {
+			JLabel labelSoldat = this.labelsSoldats.get(i);
+			Soldat soldat = this.soldats.get(i);
+			Hexagone hexagone = getHexagone(soldat);
+			labelSoldat.addMouseListener(new MouseLabelSoldat(soldat, labelSoldat, hexagone));
+		}
 	}
 
 	/*
