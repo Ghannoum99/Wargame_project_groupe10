@@ -12,13 +12,13 @@ public class Ordinateur  extends Joueur{
 		super(nomJoueur, soldats, score, image, adversaires);
 	}
 	
-	public int choisirSoldat()
+	public Soldat choisirSoldat()
 	{ 	
 		int min=0;
 		int max=super.getSoldatList().size();
 		Random random = new Random();
 		int numsoldat = random.nextInt(max+min)+min;
-		return numsoldat ;
+		return super.getSoldatList().get(numsoldat) ;
 	}
 	
 	/*public int choisirHexagone(ArrayList<Hexagone> labelsHexagonesVisions, Soldat soldat)

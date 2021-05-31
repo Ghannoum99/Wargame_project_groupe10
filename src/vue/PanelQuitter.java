@@ -28,7 +28,7 @@ public class PanelQuitter extends JPanel {
 		this.setLayout(null);
 		this.setVisible(false);
 		
-		//RÃ©cupÃ©ration de la liste des joueurs
+		//Récupération de la liste des joueurs
 		this.joueurs = joueurs;
 		
 		/** TITRE DU PANEL **/

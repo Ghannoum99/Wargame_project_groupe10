@@ -130,7 +130,7 @@ public class PlateauVue extends JFrame {
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 
 		/** Panel Pause **/
-		PanelPause MenuPause = new PanelPause(this.joueurs);
+		PanelQuitter MenuPause = new PanelQuitter(this.joueurs);
 		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
 
 		MenuPause.boutonMenuPrincipal.addActionListener(new ActionListener() {
@@ -168,18 +168,6 @@ public class PlateauVue extends JFrame {
 					panelTerrains.ajouterMouseListenerHexagones();
 					clicked = false;
 				}
-				/*
-				ornate_play_30-active
-				if (visible) {
-
-					visible = false;
-				}
-				else {
-
-					visible = true;
-				}
-
-				 */
 			}
 		});
 		boutonPause.setBackground(new Color(16, 22, 33));
@@ -203,6 +191,10 @@ public class PlateauVue extends JFrame {
 		JButton boutonQuitter = new JButton();
 		boutonQuitter.setIcon(new ImageIcon("images/icons8-close-window-30.png"));
 		boutonQuitter.setBackground(new Color(16, 22, 33));
+		boutonQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
 		boutonQuitter.setBounds(boutonAide.getX()+40, yMiniBoutons, 30, 30);
 		this.plateau.add(boutonQuitter,  JLayeredPane.DEFAULT_LAYER);

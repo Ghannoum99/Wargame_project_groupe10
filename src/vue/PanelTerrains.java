@@ -176,7 +176,7 @@ public class PanelTerrains extends JLayeredPane {
 		this.scrollPane.setPreferredSize(this.getPreferredSize());
 		this.scrollPane.getHorizontalScrollBar().setValue(1);
 		this.scrollPane.getVerticalScrollBar().setValue(1);
-
+		
 		// Création d'une caméra
 		this.camera = new Camera(0,0);
 
@@ -565,14 +565,26 @@ public class PanelTerrains extends JLayeredPane {
 		System.out.println(this.tourJoueur.getClass().getName());
 		if (this.tourJoueur.getClass().getName().equals("modele.Ordinateur")) {
 			Ordinateur ordinateur = new Ordinateur(this.tourJoueur.getNomJoueur(), this.tourJoueur.getSoldatList(), this.tourJoueur.getScore(), this.tourJoueur.getImage(), this.tourJoueur.getAdversaires());
-			int indSoldat = ordinateur.choisirSoldat();
-			Soldat soldat = ordinateur.getSoldatList().get(indSoldat);
+			Soldat soldat = ordinateur.choisirSoldat();
+			System.out.println(soldat);
+			System.out.println("soldat x " + soldat.getAbscisse());
+			System.out.println("soldat y " + soldat.getOrdonnees());
 			Hexagone hexagone = getHexagone(soldat);
 			try {
+				System.out.println("wd " + this.getPreferredSize());
+				
+				int x, y;
+				x = hexagone.getAbscisse()+30;
+				y = (int) ((this.getPreferredSize().getHeight() - soldat.getOrdonnees()) - this.scrollPane.getHeight());
+	
 				System.out.println("je suis le robot");
 				Robot robot = new Robot();
 				robot.setAutoDelay(250);
-				robot.mouseMove(hexagone.getAbscisse(), 500);
+				
+				System.out.println("hex x = " + x);
+				System.out.println("hex y = " + y);
+				
+				robot.mouseMove(x, y);
 				robot.keyPress(MouseEvent.BUTTON3);
 				/*robot.keyPress(KeyEvent.VK_1);
 				robot.keyRelease(KeyEvent.VK_1);
@@ -877,6 +889,9 @@ public class PanelTerrains extends JLayeredPane {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
+			System.out.println("mon clic x " + arg0.getXOnScreen());
+			System.out.println("mon clic y " + arg0.getYOnScreen());
+			
 			if (tourJoueur.soldatExiste(soldat)) {
 				panelInfosSoldat.afficherInfosSoldats(soldat);
 
