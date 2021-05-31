@@ -18,7 +18,6 @@ public class MenuMultiJoueurs extends JFrame {
 	protected boolean choix; //true:multi-joueurs, false :solo
 	private JPanel contentPane;
 	private JLabel backgroundImage;
-	private boolean  checked = false;
 	private JLabel labelJoueur;
 	private JButton boutonValider;
 	private JComboBox<String> imageJoueur;
@@ -31,7 +30,6 @@ public class MenuMultiJoueurs extends JFrame {
 	protected ArrayList<JLabel> lblJoueur = new ArrayList<JLabel>();
 	protected ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
 	protected ArrayList<Joueur> adversaires;
-	protected ArrayList<JLabel> labelCheckBox = new ArrayList<JLabel>();
 	protected ArrayList<JComboBox<String>> listeCombobox = new ArrayList<JComboBox<String>>();
 	protected PanelMenuInfos panelMenu;
 	protected JSpinner spinnerNombreJoueur;
@@ -111,7 +109,6 @@ public class MenuMultiJoueurs extends JFrame {
 				afficherLabelNumJoueur();
 				afficherChampTextPseudo();
 				afficherCombobox();
-				afficherCheckBox();
 				pressed = true;
 			}
 		});
@@ -153,7 +150,7 @@ public class MenuMultiJoueurs extends JFrame {
 					for(int i=0; i<nombreJoueur; i++) {
 						//adversaires = new ArrayList<Joueur>();
 						String photoProfile = "images/profile/" + images.get(i) +"_copie.png";
-						Joueur humain = new Humain(pseudos.get(i), new ArrayList<Soldat>(),0, photoProfile, adversaires);
+						Humain humain = new Humain(pseudos.get(i), new ArrayList<Soldat>(),0, photoProfile, adversaires);
 						joueurs.add(humain);
 					}
 					
@@ -162,7 +159,7 @@ public class MenuMultiJoueurs extends JFrame {
 						recupererAdversaires(joueurs.get(i));
 					}
 					
-					// faut ajouter des conditions si le check box est selectionné, donc c'est un ordinateur
+					// faut ajouter des conditions si le check box est selectionnÃ©, donc c'est un ordinateur
 					
 					MenuScenario frame = new MenuScenario(choix, joueurs);
 					frame.show();
@@ -246,7 +243,7 @@ public class MenuMultiJoueurs extends JFrame {
 		
 		for(i=0; i<nombreJoueur; i++) {
 			imageJoueur = new JComboBox<String>();
-			imageJoueur.setBounds(397, y, 68, 22);
+			imageJoueur.setBounds(402, y, 68, 22);
 			imageJoueur.setModel(new DefaultComboBoxModel<String>(new String[] {"image2", "image3", "image4", "image5", "image6", "image7"}));
 			panelMenu.add(imageJoueur);
 			
@@ -255,45 +252,7 @@ public class MenuMultiJoueurs extends JFrame {
 			y += 52;
 		}
 	}
-	
-	/**********************************************************************************/
-	/** AFFICHAGE DES CHECKBUTTONS POUR INDIQUER SI C'EST UN JOUEUR OU UN ORDINATEUR **/
-	/**  				PRESSED : ORDINATEUR, OTHERWISE IT'S A HUMAIN                **/
-	/**********************************************************************************/
-	public void afficherCheckBox() {
-		int y = 198;
-		int i = 0;
-		
-		for(JLabel checkBox : labelCheckBox ) {
-			panelMenu.remove(checkBox);
-		}
-		
-		labelCheckBox.removeAll(labelCheckBox);
-		
-		for(i=0; i<nombreJoueur; i++) {
-			JLabel checkbox = new JLabel(new ImageIcon("images/checkbox-active.png"));
-			checkbox.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!checked) {
-						checkbox.setIcon(new ImageIcon("images/checkbox-active-pressed.png"));
-						checked = true;
-					}
-					else {
-						checkbox.setIcon(new ImageIcon("images/checkbox-active.png"));
-						checked = false;
-					}
-				}
-			});
-			checkbox.setBounds(497, y, 20, 26);
-			panelMenu.add(checkbox);
-			
-			labelCheckBox.add(checkbox);
-			y += 52;
-		}
-		
-	}
-	
+
 	/******************************************************************************/
 	/** RECUPERATION DES PSEUDOS : STOCKER LES PSEUDOS DANS UN ARRAYLIST pseudos **/
 	/******************************************************************************/
