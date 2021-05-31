@@ -22,15 +22,15 @@ public class MenuMultiJoueurs extends JFrame {
 	private JLabel labelJoueur;
 	private JButton boutonValider;
 	private JComboBox<String> imageJoueur;
-	private ArrayList<String> images = new ArrayList<String>();
+	protected ArrayList<String> images = new ArrayList<String>();
 	protected boolean pressed = false;
 	protected JLabel labelNombreJoueur;
 	protected JButton boutonNombreJoueur;
 	protected ArrayList<String> pseudos  = new ArrayList<String>();;
 	protected ArrayList<JTextField> listeChampText = new ArrayList<JTextField>();
 	protected ArrayList<JLabel> lblJoueur = new ArrayList<JLabel>();
-	private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
-	private ArrayList<Joueur> adversaires;
+	protected ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+	protected ArrayList<Joueur> adversaires;
 	protected ArrayList<JLabel> labelCheckBox = new ArrayList<JLabel>();
 	protected ArrayList<JComboBox<String>> listeCombobox = new ArrayList<JComboBox<String>>();
 	protected PanelMenuInfos panelMenu;
@@ -153,8 +153,8 @@ public class MenuMultiJoueurs extends JFrame {
 					for(int i=0; i<nombreJoueur; i++) {
 						//adversaires = new ArrayList<Joueur>();
 						String photoProfile = "images/profile/" + images.get(i) +"_copie.png";
-						Joueur joueur = new Joueur(pseudos.get(i), new ArrayList<Soldat>(),0, photoProfile, adversaires);
-						joueurs.add(joueur);
+						Joueur humain = new Humain(pseudos.get(i), new ArrayList<Soldat>(),0, photoProfile, adversaires);
+						joueurs.add(humain);
 					}
 					
 					/** RECUPERATION DES ADVERSAIRES **/
@@ -225,7 +225,6 @@ public class MenuMultiJoueurs extends JFrame {
 			labelJoueur.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 12));
 			labelJoueur.setBounds(36, y, 111, 29);
 			panelMenu.add(labelJoueur);
-			
 			lblJoueur.add(labelJoueur);
 			
 			y += 52;

@@ -1,9 +1,12 @@
 package vue;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -35,6 +38,7 @@ import modele.Foret;
 import modele.Glacier;
 import modele.Hexagone;
 import modele.Joueur;
+import modele.Ordinateur;
 import modele.Forteresse;
 import modele.Soldat;
 import modele.Terrain;
@@ -146,10 +150,6 @@ public class PanelTerrains extends JLayeredPane {
 		// Récupération du panel permettant d'afficher les informations du joueur
 		this.panelInfosJoueur = panelInfosJoueur;
 
-		// Initialisation des soldats sélectionnés
-		this.labelSoldatSelec = null;
-		this.soldatSelec = null;
-
 		// Ajout des labels soldat au panel
 		for (int i = 0; i<this.labelsSoldats.size(); i++) {
 			JLabel labelSoldat = this.labelsSoldats.get(i);
@@ -180,12 +180,8 @@ public class PanelTerrains extends JLayeredPane {
 		// Création d'une caméra
 		this.camera = new Camera(0,0);
 
-		// Centrer la caméra sur la position actuelle sur le joueur
-		modifierCameraJoueur();
-
-		// Mettre à jour l'image des hexagones sous chaque label des soldats
-		mettreAjourHexagonesSoldats();
-
+		setTourJoueur(this.tourJoueur);
+		
 		//afficherBrouillard();
 	}
 
@@ -311,23 +307,23 @@ public class PanelTerrains extends JLayeredPane {
 	 */
 
 	public int diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
-        Random random = new Random();
-        Soldat s1 = selected.getUnits().get(0);
-        Soldat s2 = ennemi.getUnits().get(0);
-        int max = 0;
-        if(s1.getAttaque() > s2.getDefense())
-        {
-            max = (s1.getAttaque() - s2.getDefense()) - 1;
-        }
-        else if(s2.getDefense() > s1.getAttaque())
-        {
-            max = (s2.getDefense() - s1.getAttaque()) - 1;
-        }
-        int degats = random.nextInt(max);
-        int value = ennemi.getUnits().get(0).getPv() - degats;
-        ennemi.getUnits().get(0).setPv(value);
-        return degats;
-    }
+		Random random = new Random();
+		Soldat s1 = selected.getUnits().get(0);
+		Soldat s2 = ennemi.getUnits().get(0);
+		int max = 0;
+		if(s1.getAttaque() > s2.getDefense())
+		{
+			max = (s1.getAttaque() - s2.getDefense()) - 1;
+		}
+		else if(s2.getDefense() > s1.getAttaque())
+		{
+			max = (s2.getDefense() - s1.getAttaque()) - 1;
+		}
+		int degats = random.nextInt(max);
+		int value = ennemi.getUnits().get(0).getPv() - degats;
+		ennemi.getUnits().get(0).setPv(value);
+		return degats;
+	}
 
 	/*
 	 * Cette fonction permet de retourner l'image "allié" ou "ennemi"
@@ -555,13 +551,78 @@ public class PanelTerrains extends JLayeredPane {
 
 	public void setTourJoueur(Joueur tourJoueur) {
 		this.tourJoueur = tourJoueur;
+		// Centrer la caméra sur la position actuelle sur le joueur
 		modifierCameraJoueur();
+		// Mettre à jour l'image des hexagones sous chaque label des soldats
 		mettreAjourHexagonesSoldats();
+		// Initialisation des soldats sélectionnés
 		this.soldatSelec = null;
 		this.labelSoldatSelec = null;
 		this.panelInfosJoueur.NomJoueur.setText(this.tourJoueur.getNomJoueur());
 		this.panelInfosJoueur.score.setText(String.valueOf((Integer)this.tourJoueur.getScore()));
 		this.panelInfosJoueur.nombreSoldat.setText(String.valueOf((Integer)this.tourJoueur.getNombreSoldat()));
+
+		System.out.println(this.tourJoueur.getClass().getName());
+		if (this.tourJoueur.getClass().getName().equals("modele.Ordinateur")) {
+			Ordinateur ordinateur = new Ordinateur(this.tourJoueur.getNomJoueur(), this.tourJoueur.getSoldatList(), this.tourJoueur.getScore(), this.tourJoueur.getImage(), this.tourJoueur.getAdversaires());
+			int indSoldat = ordinateur.choisirSoldat();
+			Soldat soldat = ordinateur.getSoldatList().get(indSoldat);
+			Hexagone hexagone = getHexagone(soldat);
+			try {
+				System.out.println("je suis le robot");
+				Robot robot = new Robot();
+				robot.setAutoDelay(250);
+				robot.mouseMove(hexagone.getAbscisse(), hexagone.getOrdonnees());
+				robot.keyPress(MouseEvent.BUTTON3);
+				/*robot.keyPress(KeyEvent.VK_1);
+				robot.keyRelease(KeyEvent.VK_1);
+				robot.keyPress(KeyEvent.VK_2);
+				robot.keyRelease(KeyEvent.VK_2);
+				robot.keyPress(KeyEvent.VK_3);
+				robot.keyRelease(KeyEvent.VK_4);*/
+				robot.keyRelease(MouseEvent.BUTTON3);
+			} catch (AWTException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	public ArrayList<JLabel> recupereHexagoneVisionSoldat(ArrayList<Soldat> soldats) {
+		ArrayList<JLabel> labelsHexagonesVisions = new ArrayList<JLabel>();
+		for(int k=0;k<soldats.size();k++)
+		{  Soldat soldat=soldats.get(k);
+		for (int i=0; i<this.terrains.size(); i++) {
+			Terrain terrain = terrains.get(i);
+			for (int j=0; j<terrain.getHexagones().size(); j++) {
+				Hexagone hexagone = terrain.getHexagones().get(j);
+				JLabel labelHexagone = getLabel(hexagone.getId());
+				// faire les if pour vérifier que l'hexagone qu'on veut ajouter est bien dans le champ de vision
+
+				if(((labelHexagone.getX()-soldat.getAbscisse())/labelHexagone.getWidth())<=(soldat.getVision()+terrain.getPointDeplacement())){	
+
+					labelsHexagonesVisions.add(labelHexagone); 
+
+				}	
+				else if(((soldat.getAbscisse()-labelHexagone.getX())/labelHexagone.getWidth())<=(soldat.getVision()+terrain.getPointDeplacement()))
+				{
+
+					labelsHexagonesVisions.add(labelHexagone);
+				}
+				else if(((soldat.getOrdonnees()-labelHexagone.getY())/labelHexagone.getHeight())<=(soldat.getVision()+terrain.getPointDeplacement()))
+				{
+					labelsHexagonesVisions.add(labelHexagone);
+				}
+				else if(((labelHexagone.getY()-soldat.getOrdonnees())/labelHexagone.getHeight())<=(soldat.getVision()+terrain.getPointDeplacement()))
+				{
+
+					labelsHexagonesVisions.add(labelHexagone);
+				}
+				//   JLabel labelHexagone = getLabel(hexagone.getId());
+				//   labelsHexagonesVisions.add(labelHexagone);
+			}
+		}
+		}
+		return labelsHexagonesVisions;
 	}
 
 	/*
@@ -640,6 +701,36 @@ public class PanelTerrains extends JLayeredPane {
 
 	public void setIndTourJoueur(int indTourJoueur) {
 		this.indTourJoueur = indTourJoueur;
+	}
+
+	/*
+	 * Cette fonction permet supprimer le brouillard des hexagones qui appartient de zone de vision des soldats
+	 */
+
+	public void effacerBrouillard(ArrayList<JLabel> labelsHexagonesVisions)
+	{
+		int i;
+		for(i=0;i<labelsHexagonesVisions.size();i++)
+		{
+			effaceImageFog(labelsHexagonesVisions.get(i).getX(),labelsHexagonesVisions.get(i).getY());
+
+		}
+
+
+	}
+
+	/*
+	 * Cette fonction permet de supprime le brouillard sur un hexagone
+	 */
+
+	public void effaceImageFog(int x, int y) {
+		Hexagone hexagone = getHexagone(x, y);
+		if (hexagone != null) {
+			JLabel fogOfWar = getLabel(hexagone.getId());
+			fogOfWar.setVisible(false);
+			//fogOfWar.remove(hexagone.getId());
+
+		}
 	}
 
 	/*
@@ -734,7 +825,7 @@ public class PanelTerrains extends JLayeredPane {
 	public void ajouterMouseListenerHexagone(JLabel labelHexagone) {
 		labelHexagone.addMouseListener(new MouseHexagone(labelHexagone));
 	}
-	
+
 
 	/*
 	 * Cette fonction permet de chercher un label soldat à partir de l'id d'un soldat
@@ -755,7 +846,7 @@ public class PanelTerrains extends JLayeredPane {
 		chercheProgressBar.addAll(this.progressBarSoldats.stream().filter(x -> Integer.parseInt(x.getName()) == soldat.getId()).collect(Collectors.toList()));
 		return chercheProgressBar.get(0);
 	}
-	
+
 	public ArrayList<JLabel> recupereHexagoneVisionSoldat(Soldat soldat) {
 		ArrayList<JLabel> labelsHexagonesVisions = new ArrayList<JLabel>();
 
@@ -768,7 +859,7 @@ public class PanelTerrains extends JLayeredPane {
 				labelsHexagonesVisions.add(labelHexagone);
 			}
 		}
-		
+
 		return labelsHexagonesVisions;
 	}
 
@@ -864,7 +955,7 @@ public class PanelTerrains extends JLayeredPane {
 				guide.afficherIndicationsDeplacement2();
 			}
 			remove(labelBonusDef);
-			
+
 			Hexagone hexagone = getHexagone(labelBordure.getX(), labelBordure.getY());
 			if (soldatSelec != null && !hexagone.contientEnnemi(tourJoueur)) {
 				int nbrHexagones, nouveauX, nouveauY, xClic, yClic;

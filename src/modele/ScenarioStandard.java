@@ -56,15 +56,15 @@ public class ScenarioStandard {
         	for(Joueur joueurA : joueur.getAdversaires()) {
             	if (joueur.nombreSoldatsTuesType(joueurA, "infanterieLourde") == 2) {
                 	atueToutesLesInfanteries++;
-                }     
+                }   
             }
-            
-            if(atueToutesLesInfanteries == joueurs.size()-1) {
+        	
+            if(atueToutesLesInfanteries == joueur.getAdversaires().size()) {
             	gagnant = joueur;
             	break;
             }
         }
-
+           
         return gagnant;
     }
 	

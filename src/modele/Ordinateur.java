@@ -1,52 +1,28 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import modele.*;
 
-
 public class Ordinateur  extends Joueur{
 
-	private ArrayList<Hexagone> Hexagone= new ArrayList<Hexagone>();
-	private ArrayList<Terrain> Terrain= new ArrayList<Terrain>();
-	
-	
 	public Ordinateur(String nomJoueur, ArrayList<Soldat> soldats, int score, String image,
-			ArrayList<Joueur> adversaires, ArrayList<modele.Hexagone> hexagone, ArrayList<Terrain> terrain) {
+			ArrayList<Joueur> adversaires) {
 		super(nomJoueur, soldats, score, image, adversaires);
-		Hexagone = hexagone;
-		Terrain = terrain;
 	}
 	
-	public ArrayList<Terrain> getTerrain() {
-		return Terrain;
-	}
-
-	public void setTerrain(ArrayList<Terrain> terrain) {
-		Terrain = terrain;
-	}
-
-	public ArrayList<Hexagone> getHexagone() {
-		return Hexagone;
-	}
-
-	public void setHexagone(ArrayList<Hexagone> hexagone) {
-		Hexagone = hexagone;
-	}
-
-	public int choisirSoldat(ArrayList<Soldat> soldats)
+	public int choisirSoldat()
 	{ 	
 		int min=0;
-		int max=10;
+		int max=super.getSoldatList().size();
 		Random random = new Random();
 		int numsoldat = random.nextInt(max+min)+min;
 		return numsoldat ;
-		
 	}
 	
-	public int choisirHexagone(ArrayList<Hexagone> labelsHexagonesVisions,Soldat soldat)
+	/*public int choisirHexagone(ArrayList<Hexagone> labelsHexagonesVisions, Soldat soldat)
 	{ 	
-		
 		int nbhexagonesPossibles=labelsHexagonesVisions.size();
 		int min=0;
 		int max=nbhexagonesPossibles;
@@ -54,7 +30,7 @@ public class Ordinateur  extends Joueur{
 		int Numhexagone = random.nextInt(max+min)+min;
 		int hexagone=getHexagone().get(Numhexagone).getId();
 		return hexagone;
-	}
+	}*/
 
 	/*************************************************************************************/
 	/** FONCTION POUR RECHERCHE SI IL Y A UNE VILLAGE DISPONIBLE POUR SOIGNE LE SOLDAT **/

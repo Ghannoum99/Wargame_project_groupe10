@@ -41,6 +41,7 @@ public class PlateauVue extends JFrame {
 	private JLabel labelScore;
 	private JLabel labelNumJoueur;
 	private JLabel labelNomJoueur;
+	private PanelMenuInfos panelMenu;
 	
 
 	public PlateauVue(ArrayList<Joueur> joueurs, String scenario) { 
@@ -114,11 +115,6 @@ public class PlateauVue extends JFrame {
 		// Choix aléatoire d'un joueur pour commencer le tour
 		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
 		this.tourJoueur = this.joueurs.get(ind);
-
-		// On affiche les informations du joueur
-		this.panelInfosJoueur.NomJoueur.setText(this.tourJoueur.getNomJoueur());
-		this.panelInfosJoueur.score.setText(String.valueOf((Integer)this.tourJoueur.getScore()));
-		this.panelInfosJoueur.nombreSoldat.setText(String.valueOf((Integer)this.tourJoueur.getSoldatList().size()));
 
 		// Création de minimap
 		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this, xPanelsInfos);
@@ -301,8 +297,8 @@ public class PlateauVue extends JFrame {
 		boutonQuitter.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		boutonQuitter.setForeground(Color.white);
 		boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
-		boutonQuitter.setBounds(289, 370, 172, 48);
-		this.add(boutonQuitter);
+		boutonQuitter.setBounds(296, 380, 172, 48);
+		panelMenu.add(boutonQuitter);
 	}		
 	
 	/*************************************************************************************************/
@@ -322,8 +318,8 @@ public class PlateauVue extends JFrame {
 		boutonReJouer.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		boutonReJouer.setForeground(Color.white);
 		boutonReJouer.setHorizontalTextPosition(JButton.CENTER);
-		boutonReJouer.setBounds(79, 370, 172, 48);
-		this.add(boutonReJouer);
+		boutonReJouer.setBounds(96, 380, 172, 48);
+		panelMenu.add(boutonReJouer);
 	}	
 	
 	/****************************************************************************************/
@@ -342,58 +338,58 @@ public class PlateauVue extends JFrame {
 	/******************************************************************/
 	public void afficherLabelInfo() {
 		int i = 0;
-		int x = 50;
+		int x = 70;
 		String[] text = {"#Num", "Joueur", "Score"};
 		for(i=0; i<3; i++) {
 			labelInfo = new JLabel(text[i]);
 			labelInfo.setFont(new Font("Times new Roman", Font.BOLD, 17));
 			labelInfo.setForeground(Color.GRAY);
-			labelInfo.setBounds(x, 105, 70, 41);
-			this.add(labelInfo);
+			labelInfo.setBounds(x, 165, 70, 41);
+			panelMenu.add(labelInfo);
 			
 			x += 190;
 		}
 	}
 	
 	public void afficherScore() {
-		int y = 154;
+		int y = 214;
 		for(int i = 0; i < joueurs.size(); i++) {
 			String score = String.valueOf((Integer) joueurs.get(i).getScore());
 			labelScore = new JLabel();
 			labelScore.setText(score);
 			labelScore.setForeground(new Color(200, 173, 10));
 			labelScore.setFont(new Font("Times new Roman", Font.PLAIN, 15));
-			labelScore.setBounds(448, y, 77, 41);
-			this.add(labelScore);
+			labelScore.setBounds(468, y, 77, 41);
+			panelMenu.add(labelScore);
 			
 			y += 33;
 		}
 	}
 	
 	public void afficherNumJoueur() {
-		int y = 154;
+		int y = 214;
 		for(int i = 0; i < joueurs.size(); i++) {
 			String numJoueur = String.valueOf((Integer) i);
 			labelNumJoueur = new JLabel();
 			labelNumJoueur.setText(numJoueur);
 			labelNumJoueur.setForeground(new Color(200, 173, 10));
 			labelNumJoueur.setFont(new Font("Times new Roman", Font.PLAIN, 15));
-			labelNumJoueur.setBounds(68, y, 77, 41);
-			this.add(labelNumJoueur);
+			labelNumJoueur.setBounds(88, y, 77, 41);
+			panelMenu.add(labelNumJoueur);
 			
 			y += 33;
 		}
 	}
 	
 	public void afficherNomJoueur() {
-		int y = 154;
+		int y = 214;
 		for(int i = 0; i < joueurs.size(); i++) {
 			labelNomJoueur = new JLabel();
 			labelNomJoueur.setText(joueurs.get(i).getNomJoueur());
 			labelNomJoueur.setForeground(new Color(200, 173, 10));
 			labelNomJoueur.setFont(new Font("Times new Roman", Font.PLAIN, 16));
-			labelNomJoueur.setBounds(239, y, 77, 41);
-			this.add(labelNomJoueur);
+			labelNomJoueur.setBounds(259, y, 77, 41);
+			panelMenu.add(labelNomJoueur);
 			
 			y += 33;
 		}
@@ -401,16 +397,16 @@ public class PlateauVue extends JFrame {
 	
 	
 	public void afficherPanelFinBataille() {
-		PanelMenuInfos panelMenu = new PanelMenuInfos(290, 127, 596, 480);
+		panelMenu = new PanelMenuInfos(290, 80, 596, 480);
 		this.plateau.add(panelMenu, JLayeredPane.DRAG_LAYER);
 		
 		/** TITRE DU PANEL **/
-		String felicitation = "Félicitations" + " " + gagnant.getNomJoueur();
+		String felicitation = "F�licitations" + " " + gagnant.getNomJoueur();
 		labelTitre = new JLabel(felicitation);
 		labelTitre.setForeground(new Color(200, 173, 10));
 		labelTitre.setFont(new Font("Times new Roman", Font.BOLD, 20));
-		labelTitre.setBounds(168, 10, 209, 41);
-		this.add(labelTitre);
+		labelTitre.setBounds(215, 120, 209, 41);
+		panelMenu.add(labelTitre);
 		
 		/** AFFICHAGE DU PANEL QUI CONTIENT LES INFORMATIONS (Numéro du joueur, Nom du Joueur et son score) **/
 		//afficherPanelInfo();

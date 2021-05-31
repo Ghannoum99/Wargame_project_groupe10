@@ -39,7 +39,7 @@ public class Joueur {
 		this.nomJoueur = nomJoueur;
 	}
 	
-	public List<Soldat> getSoldatList() {
+	public ArrayList<Soldat> getSoldatList() {
 		return soldats;
 	}
 	
