@@ -3,6 +3,9 @@ package modele;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import javax.swing.JLabel;
+
 import modele.*;
 
 public class Ordinateur  extends Joueur{
@@ -21,16 +24,15 @@ public class Ordinateur  extends Joueur{
 		return super.getSoldatList().get(numsoldat) ;
 	}
 	
-	public int choisirHexagone(ArrayList<Hexagone> labelsHexagonesVisions,Soldat soldat)
+	public JLabel choisirHexagone(ArrayList<JLabel> labelsHexagonesVisions,Soldat soldat)
     {
-
         int nbhexagonesPossibles=labelsHexagonesVisions.size();
         int min=0;
         int max=nbhexagonesPossibles;
         Random random = new Random();
         int Numhexagone = random.nextInt(max+min)+min;
-        int hexagone=labelsHexagonesVisions.get(Numhexagone).getId();
-        return hexagone;
+        JLabel label = labelsHexagonesVisions.get(Numhexagone);
+        return label;
     }
 
 	/*************************************************************************************/

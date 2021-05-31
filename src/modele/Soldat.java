@@ -81,7 +81,7 @@ public class Soldat extends Piece {
 	}
 	
 	public void deplacementPossible (int abscisseMin, int abscisseMax, int ordonneesMin, int ordonneesMax, int x, int y, int nbrHexagonesAparcourir, int bonusDeplacement) {
-		if (x >= abscisseMin && x <= abscisseMax && y >= ordonneesMin && y <= ordonneesMax && nbrHexagonesAparcourir <= this.deplacement + bonusDeplacement) {
+		if (x >= abscisseMin && x <= abscisseMax && y >= ordonneesMin && y <= ordonneesMax && nbrHexagonesAparcourir <= (this.deplacement + bonusDeplacement) && nbrHexagonesAparcourir <= this.vision) {
 			super.setAbscisse(x);
 			super.setOrdonnees(y);
 		}
