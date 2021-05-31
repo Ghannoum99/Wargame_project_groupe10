@@ -15,19 +15,16 @@ public class ScenarioStandard {
 		
 		if(appliquerScenario1() != null) {
 			gagnant = appliquerScenario1();
-			System.out.println("scénario1");
 		}
 		
 		else if(appliquerScenario2() != null) {
 			gagnant = appliquerScenario2();
-			System.out.println("scénario2");
 		}
 		
 		else if(appliquerScenario3(joueur) != null) {
 			gagnant = appliquerScenario3(joueur);
-			System.out.println("scénario3");
 		}
-		
+			
 		return gagnant;
 	}
 	
@@ -38,17 +35,14 @@ public class ScenarioStandard {
 			joueurs_copie.add(j);
 		}
 		
+		for(Joueur joueur : joueurs_copie) {
+			if(joueur.getNombreSoldat() == 0)
+			{
+				joueurs_copie.remove(joueur);
+			}
+		}
 		if(joueurs_copie.size() == 1) {
 			gagnant = joueurs_copie.get(0);
-
-		}
-		else {
-			for(Joueur joueur : joueurs_copie) {
-				if(joueur.getNombreSoldat() == 0)
-				{
-					joueurs_copie.remove(joueur);
-				}
-			}
 		}
 
 		return gagnant;
@@ -57,16 +51,16 @@ public class ScenarioStandard {
 	/** TUEZ TOUTES LES INFANTERIES LOURDES DE TOUS LES ADVERSAIRES **/
 	public Joueur appliquerScenario2() {
 		Joueur gagnant = null;
-		boolean atueToutesLesInfanteries = true;
+		int atueToutesLesInfanteries = 0;
         for(Joueur joueur : joueurs) {
+        	System.out.println("joueur vérifie : " + joueur.getNomJoueur());
             for(Joueur joueurA : joueur.getAdversaires()) {
-                if (nombreInfanterieLourde(joueurA) == 2) {
-                	atueToutesLesInfanteries = false;
-                }
-              
+            	if (joueur.nombreSoldatsTuesType(joueurA, "infanterieLourde") == 2) {
+                	atueToutesLesInfanteries++;
+                }     
             }
             
-            if(atueToutesLesInfanteries) {
+            if(atueToutesLesInfanteries == joueurs.size()-1) {
             	gagnant = joueur;
             	break;
             }
@@ -74,18 +68,6 @@ public class ScenarioStandard {
 
         return gagnant;
     }
-	
-	/** PERMET DE SAVOIR LE NOMBRE D'INFANTERIES LOURDES TUER PAR LE JOUEUR **/
-	public int nombreInfanterieLourde(Joueur joueur) {
-		int c = 0;
-	    for (Soldat soldat : joueur.getSoldatList()) {
-	    	if (soldat.getTypeSoldat() == "infanterieLourde") {
-	    		c ++;
-	        }
-	    }
-	    return c;
-	}
-	
 	
 	public Joueur appliquerScenario3(Joueur joueur) {
 		Joueur gagnant = null;

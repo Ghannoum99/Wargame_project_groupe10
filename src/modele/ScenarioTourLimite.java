@@ -8,7 +8,6 @@ public class ScenarioTourLimite extends ScenarioStandard {
 		super(joueurs);
 	}
 	
-	
 	public boolean appliquerScenarioTourLimite(Joueur joueur, int nombreTours, Joueur gagnant) {
 		boolean termine = false;
 		//Joueur gagnant = new Joueur(" ", new ArrayList<Soldat>(), 0, " ", new ArrayList<Joueur>());

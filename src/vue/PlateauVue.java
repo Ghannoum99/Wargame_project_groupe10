@@ -53,7 +53,7 @@ public class PlateauVue extends JFrame {
 		JLabel backgroundimage = new JLabel("");
 		this.add(backgroundimage);
 
-		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide, xCompteur, yCompteur, heightBoutonFinirTour, yBoutonFinirTour;
+		int widthPlateau, heightPlateau, xPanelsInfos, yGuide, widthGuide, xCompteur, yCompteur, yMiniBoutons, heightBoutonFinirTour, yBoutonFinirTour;
 
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -63,13 +63,15 @@ public class PlateauVue extends JFrame {
 			this.plateau.setBounds(0,0,1267, 680);
 			backgroundimage.setIcon(new ImageIcon("images/plateau.png"));
 			heightBoutonFinirTour = 22;
-			yBoutonFinirTour = 643;
+			yMiniBoutons = 600;
+			yBoutonFinirTour = 640;
 		} 
 		else {
 			backgroundimage.setBounds(0, 0, 1300, 781);
 			this.plateau.setBounds(0,0,1300, 781);
 			backgroundimage.setIcon(new ImageIcon("images/plateauV2.png"));
 			heightBoutonFinirTour = 22;
+			yMiniBoutons = 610;
 			yBoutonFinirTour = 660;
 		}
 
@@ -80,9 +82,6 @@ public class PlateauVue extends JFrame {
 		widthGuide = backgroundimage.getWidth()-173;
 		xCompteur = backgroundimage.getWidth()/2 - 150;
 		yCompteur = backgroundimage.getHeight()-780;
-
-		//PanelCompteur cmpt = new PanelCompteur(xCompteur, yCompteur);
-		//this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
 
 		// Création du panel permettant d'afficher les infos du soldat
 		this.panelInfosSoldat = new PanelInfosSoldat(xPanelsInfos);
@@ -104,7 +103,8 @@ public class PlateauVue extends JFrame {
 		// Choix aléatoire d'un joueur pour commencer le tour
 		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
 		this.tourJoueur = this.joueurs.get(ind);
-		
+
+		// On affiche les informations du joueur
 		this.panelInfosJoueur.NomJoueur.setText(this.tourJoueur.getNomJoueur());
 		this.panelInfosJoueur.score.setText(String.valueOf((Integer)this.tourJoueur.getScore()));
 		this.panelInfosJoueur.nombreSoldat.setText(String.valueOf((Integer)this.tourJoueur.getSoldatList().size()));
@@ -176,7 +176,7 @@ public class PlateauVue extends JFrame {
 			}
 		});
 		boutonPause.setBackground(new Color(16, 22, 33));
-		boutonPause.setBounds(xPanelsInfos+15, 610, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
+		boutonPause.setBounds(xPanelsInfos+15, yMiniBoutons, imageIconPause.getIconWidth(), imageIconPause.getIconHeight());
 		this.plateau.add(boutonPause, JLayeredPane.DEFAULT_LAYER);
 
 		// Bouton pour lancer le tutoriel //
@@ -184,7 +184,7 @@ public class PlateauVue extends JFrame {
 		boutonAide.setIcon(new ImageIcon("images/help_30.png"));
 		boutonAide.setBackground(new Color(16, 22, 33));
 		boutonAide.setHorizontalTextPosition(JButton.CENTER);
-		boutonAide.setBounds(boutonPause.getX()+40, 610, 30, 30);
+		boutonAide.setBounds(boutonPause.getX()+40, yMiniBoutons, 30, 30);
 		boutonAide.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				guide.afficherQuestion();
@@ -197,7 +197,7 @@ public class PlateauVue extends JFrame {
 		boutonQuitter.setIcon(new ImageIcon("images/icons8-close-window-30.png"));
 		boutonQuitter.setBackground(new Color(16, 22, 33));
 		boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
-		boutonQuitter.setBounds(boutonAide.getX()+40, 610, 30, 30);
+		boutonQuitter.setBounds(boutonAide.getX()+40, yMiniBoutons, 30, 30);
 		this.plateau.add(boutonQuitter,  JLayeredPane.DEFAULT_LAYER);
 
 		// Finir le tour
@@ -256,11 +256,9 @@ public class PlateauVue extends JFrame {
 				}
 				else {
 					termine = true;
-				}*/
-
+				}
+			}*/
 			break;
-
-			//faut afficher le panelFinbataille
 
 		case "scenarioTourLimite" :
 			ScenarioTourLimite scenarioTourLimite = new ScenarioTourLimite(joueurs);

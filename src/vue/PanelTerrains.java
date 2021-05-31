@@ -275,6 +275,7 @@ public class PanelTerrains extends JLayeredPane {
 				public void run() {
 					if(tue.getPv() <= 0)
 					{
+						tue.setPv(0);
 						tue.setKo(true);
 						hexagone.removeFromHexagone(tue);
 						labelSoldatEnnemi.setIcon(new ImageIcon("images/hexagones/hexagone3.png"));
@@ -560,7 +561,7 @@ public class PanelTerrains extends JLayeredPane {
 		this.labelSoldatSelec = null;
 		this.panelInfosJoueur.NomJoueur.setText(this.tourJoueur.getNomJoueur());
 		this.panelInfosJoueur.score.setText(String.valueOf((Integer)this.tourJoueur.getScore()));
-		this.panelInfosJoueur.nombreSoldat.setText(String.valueOf((Integer)this.tourJoueur.getSoldatList().size()));
+		this.panelInfosJoueur.nombreSoldat.setText(String.valueOf((Integer)this.tourJoueur.getNombreSoldat()));
 	}
 
 	/*
@@ -808,12 +809,12 @@ public class PanelTerrains extends JLayeredPane {
 					guide.afficherFinTuto();
 				}
 				boolean attaque = possibiliteAttaque(hexagoneSelected, hexagone);
-				System.out.println(attaque);
+				//System.out.println(attaque);
 				if(attaque)  {
-					System.out.println("hex deb : " + hexagone);
+					//System.out.println("hex deb : " + hexagone);
 					int degats = diminuerpointdeviesoldat(hexagoneSelected, hexagone);
 					tuersoldat(hexagone, degats);
-					System.out.println("hex fin : " + hexagone);
+					//System.out.println("hex fin : " + hexagone);
 				}
 			}
 		}

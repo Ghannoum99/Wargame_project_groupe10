@@ -104,11 +104,6 @@ public class Joueur {
         soldat.setKo(true);
         joueur.retirerSoldat();
     }
-	
-	public Soldat rechercherSoldat(Soldat soldatTue, Joueur joueur) {
-        List<Soldat> chercheSoldat = joueur.getSoldatList().stream().filter(x -> x.getId() == soldatTue.getId()).collect(Collectors.toList());
-        return chercheSoldat.get(0);
-    }
 
     public int nombreInfanterieLourde(Joueur joueur) {
         int c = 0;
@@ -126,6 +121,12 @@ public class Joueur {
         return (soldat.getPv() == 0);
     }
     
+    public int nombreSoldatsTuesType(Joueur joueur, String typeSoldat) {
+    	Joueur joueurAdv = rechercherJoueur(joueur);
+    	List<Soldat> chercheSoldats = joueurAdv.getSoldatList().stream().filter(x -> x.getTypeSoldat().equals(typeSoldat) && x.isKo()).collect(Collectors.toList());
+        return chercheSoldats.size();
+    }
+    
     public Soldat rechercherSoldat(Soldat soldatTue, Joueur joueur) {
     	List<Soldat> chercheSoldat = joueur.getSoldatList().stream().filter(x -> x.getId() == soldatTue.getId()).collect(Collectors.toList());
         return chercheSoldat.get(0);
@@ -136,6 +137,10 @@ public class Joueur {
         return chercheJoueur.get(0);
     }
 
+    public Joueur rechercherJoueur(Joueur joueur) {
+        List<Joueur> chercheJoueur = this.adversaires.stream().filter(x -> x.getNomJoueur().equals(joueur.getNomJoueur())).collect(Collectors.toList());
+        return chercheJoueur.get(0);
+    }
 	public boolean soldatExiste(Soldat soldat) {
 		List<Soldat> chercheSoldat = this.soldats.stream().filter(x -> x.getId() == soldat.getId()).collect(Collectors.toList());
 		return chercheSoldat.size() > 0;

@@ -30,7 +30,7 @@ public class PanelFinBataille extends JPanel {
 	private JLabel labelNomJoueur;
 
 	public PanelFinBataille(ArrayList<Joueur> joueurs, Joueur joueurGagne) {
-		this.setBounds(155, 98, 544, 440);
+		this.setBounds(265, 98, 544, 440);
 		this.setBackground(new Color(0,0,0,125));
 		this.setOpaque(true);
 		this.setLayout(null);
@@ -40,7 +40,7 @@ public class PanelFinBataille extends JPanel {
 		
 		
 		/** TITRE DU PANEL **/
-		String felicitation = "Félicitations" + joueurGagne;
+		String felicitation = "Félicitations " + joueurGagne.getNomJoueur();
 		labelTitre = new JLabel(felicitation);
 		labelTitre.setForeground(new Color(200, 173, 10));
 		labelTitre.setFont(new Font("Times new Roman", Font.BOLD, 20));
@@ -146,7 +146,7 @@ public class PanelFinBataille extends JPanel {
 	public void afficherNumJoueur() {
 		int y = 154;
 		for(int i = 0; i < joueurs.size(); i++) {
-			String numJoueur = String.valueOf((Integer) i);
+			String numJoueur = String.valueOf((Integer) i+1);
 			labelNumJoueur = new JLabel();
 			labelNumJoueur.setText(numJoueur);
 			labelNumJoueur.setForeground(new Color(200, 173, 10));
