@@ -3,58 +3,77 @@ package modele;
 import java.util.ArrayList;
 
 public class ScenarioStandard {
-	private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
-	private String typeScenario;
+	protected ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
 	
-	public ScenarioStandard(String typeScenario ,ArrayList<Joueur> joueurs) {
+	public ScenarioStandard( ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
-		this.typeScenario = typeScenario;
 	}
 	
-	
-	public ScenarioStandard() {
-		super();
-	}
-
 
 	/** Scenario standard **/
-	public boolean appliquerScenario(Joueur joueur) {
-		return (appliquerScenario1(joueur) || appliquerScenario4(joueur) || appliquerScenario5());
-	}
-	
-	public boolean appliquerScenario1(Joueur joueur) {
-		//Joueur gagnant = new Joueur(" ", new ArrayList<Soldat>(), 0, " ", new ArrayList<Joueur>());
-
-		boolean termine = false;
-		for(Joueur j : joueurs) {
-			if(joueur == j && joueur.getNombreSoldat() == 0)
-			{
-				termine = true;
-			}
+	public Joueur appliquerScenario(Joueur joueur) {
+		Joueur gagnant = null;
+		
+		if(appliquerScenario1() != null) {
+			gagnant = appliquerScenario1();
 		}
 		
-		return termine;
+		else if(appliquerScenario2() != null) {
+			gagnant = appliquerScenario2();
+		}
+		
+		else if(appliquerScenario3(joueur) != null) {
+			gagnant = appliquerScenario3(joueur);
+		}
+		
+		return gagnant;
 	}
 	
-	public boolean appliquerScenario5() {
-		boolean termine = false;
+	public Joueur appliquerScenario1() {
+		ArrayList<Joueur> joueurs_copie = new ArrayList<Joueur>();
+		Joueur gagnant = null;
+		for(Joueur j : joueurs) {
+			joueurs_copie.add(j);
+		}
+		
+		if(joueurs_copie.size() == 1) {
+			gagnant = joueurs_copie.get(0);
+
+		}
+		else {
+			for(Joueur joueur : joueurs_copie) {
+				if(joueur.getNombreSoldat() == 0)
+				{
+					joueurs_copie.remove(joueur);
+				}
+			}
+		}
+
+		return gagnant;
+	}
+	
+	/** TUEZ TOUTES LES INFANTERIES LOURDES DE TOUS LES ADVERSAIRES **/
+	public Joueur appliquerScenario2() {
+		Joueur gagnant = null;
+		boolean atueToutesLesInfanteries = true;
         for(Joueur joueur : joueurs) {
             for(Joueur joueurA : joueur.getAdversaires()) {
-                if ( nombreInfanterieLourde(joueurA) == 2) {
-                	termine = true;
-                	//joueursGagnant.add(joueur);
-                	break;
+                if (nombreInfanterieLourde(joueurA) == 2) {
+                	atueToutesLesInfanteries = false;
                 }
+              
+            }
+            
+            if(atueToutesLesInfanteries) {
+            	gagnant = joueur;
+            	break;
             }
         }
 
-        // gagnant est le gagnant
-        // fin de partie
-        //gagnant = joueursGagnant.get(0);
-
-        return termine;
+        return gagnant;
     }
 	
+	/** PERMET DE SAVOIR LE NOMBRE D'INFANTERIES LOURDES TUER PAR LE JOUEUR **/
 	public int nombreInfanterieLourde(Joueur joueur) {
 		int c = 0;
 	    for (Soldat soldat : joueur.getSoldatList()) {
@@ -65,14 +84,16 @@ public class ScenarioStandard {
 	    return c;
 	}
 	
-	public boolean appliquerScenario4(Joueur joueur) {
-		boolean termine = false;
+	
+	public Joueur appliquerScenario3(Joueur joueur) {
+		Joueur gagnant = null;
 		if(aTueCinqSoldats(joueur)) {
-			termine = true;
+			gagnant = joueur;
 		}
 		
-		return termine;
+		return gagnant;
 	}
+	
 	
 	public boolean aTueCinqSoldats(Joueur joueur) {
 		int cmpt = 0;
@@ -86,26 +107,21 @@ public class ScenarioStandard {
 					
 					for(Soldat soldat : joueur.getAdversaires().get(j).getSoldatList())
 					{
-						//tester si il a tué un soldat
-						if(joueur.aTueUnSoldat(soldat));
-						cmpt++;
-					}
-					
-					
+						//tester si il a tuÃ© un soldat
+						if(joueur.aTueUnSoldat(soldat)) {
+							cmpt++;
+						}
+					}				
 				}
-				
-				break;
-			}
-			
+				if(cmpt >= 5) {
+					gagne = true;
+					break;
+				}
+			}		
 			else {
 				cmpt = 0;
 			}	
-		}
-		
-		if(cmpt == 5) {
-			gagne = true;
-		}
-		
+		}	
 		return gagne;
 	}
 	
@@ -117,15 +133,4 @@ public class ScenarioStandard {
 		this.joueurs = joueurs;
 	}
 
-
-	public String getTypeScenario() {
-		return typeScenario;
-	}
-
-
-	public void setTypeScenario(String typeScenario) {
-		this.typeScenario = typeScenario;
-	}
-	
-	
 }
