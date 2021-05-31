@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Robot;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -311,23 +310,23 @@ public class PanelTerrains extends JLayeredPane {
 	 */
 
 	public int diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
-		Random random = new Random();
-		Soldat s1 = selected.getUnits().get(0);
-		Soldat s2 = ennemi.getUnits().get(0);
-		int max = 0;
-		if(s1.getAttaque() > s2.getDefense())
-		{
-			max = (s1.getAttaque() - s2.getDefense()) - 1;
-		}
-		else if(s2.getDefense() > s1.getAttaque())
-		{
-			max = (s1.getAttaque() - s2.getDefense()) - 1;
-		}
-		int degats = random.nextInt(max);
-		int value = ennemi.getUnits().get(0).getPv() - degats;
-		ennemi.getUnits().get(0).setPv(value);
-		return degats;
-	}
+        Random random = new Random();
+        Soldat s1 = selected.getUnits().get(0);
+        Soldat s2 = ennemi.getUnits().get(0);
+        int max = 0;
+        if(s1.getAttaque() > s2.getDefense())
+        {
+            max = (s1.getAttaque() - s2.getDefense()) - 1;
+        }
+        else if(s2.getDefense() > s1.getAttaque())
+        {
+            max = (s2.getDefense() - s1.getAttaque()) - 1;
+        }
+        int degats = random.nextInt(max);
+        int value = ennemi.getUnits().get(0).getPv() - degats;
+        ennemi.getUnits().get(0).setPv(value);
+        return degats;
+    }
 
 	/*
 	 * Cette fonction permet de retourner l'image "allié" ou "ennemi"
@@ -754,6 +753,22 @@ public class PanelTerrains extends JLayeredPane {
 		List<JProgressBar> chercheProgressBar = new ArrayList<JProgressBar>();
 		chercheProgressBar.addAll(this.progressBarSoldats.stream().filter(x -> Integer.parseInt(x.getName()) == soldat.getId()).collect(Collectors.toList()));
 		return chercheProgressBar.get(0);
+	}
+	
+	public ArrayList<JLabel> recupereHexagoneVisionSoldat(Soldat soldat) {
+		ArrayList<JLabel> labelsHexagonesVisions = new ArrayList<JLabel>();
+
+		for (int i=0; i<this.terrains.size(); i++) {
+			Terrain terrain = terrains.get(i);
+			for (int j=0; j<terrain.getHexagones().size(); j++) {
+				Hexagone hexagone = terrain.getHexagones().get(j);
+				// faire les if pour vérifier que l'hexagone qu'on veut ajouter est bien dans le champ de vision
+				JLabel labelHexagone = getLabel(hexagone.getId());
+				labelsHexagonesVisions.add(labelHexagone);
+			}
+		}
+		
+		return labelsHexagonesVisions;
 	}
 
 	public class MouseLabelSoldat extends MouseAdapter {
