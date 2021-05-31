@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
 
@@ -21,34 +23,37 @@ public class PanelFinBataille extends JPanel {
 	private JButton boutonQuitter;
 	private JButton boutonReJouer;
 	private ArrayList<Joueur> joueurs;
-	private Joueur joueurGagne;
+	private Joueur gagnant;
 	public JLabel labelInfo;
 	private JPanel panelInfo;		
 	private JLabel labelTitre;
 	private JLabel labelScore;
 	private JLabel labelNumJoueur;
 	private JLabel labelNomJoueur;
-
-	public PanelFinBataille(ArrayList<Joueur> joueurs, Joueur joueurGagne) {
-		this.setBounds(155, 98, 544, 440);
+	private PanelMenuInfos panelMenu;
+	
+	public PanelFinBataille(ArrayList<Joueur> joueurs, Joueur gagnant) {
+		this.setBounds(90, 127, 596, 480);
 		this.setBackground(new Color(0,0,0,125));
 		this.setOpaque(true);
 		this.setLayout(null);
 		
 		this.joueurs = joueurs;
-		this.joueurGagne = joueurGagne;
+		this.gagnant = gagnant;
 		
+		
+		panelMenu = new PanelMenuInfos(290, 127, 596, 480);
+		this.add(panelMenu, JLayeredPane.DRAG_LAYER);
 		
 		/** TITRE DU PANEL **/
-		String felicitation = "Félicitations" + joueurGagne;
+		String felicitation = "FÃ©licitations" + " " + gagnant.getNomJoueur();
 		labelTitre = new JLabel(felicitation);
 		labelTitre.setForeground(new Color(200, 173, 10));
 		labelTitre.setFont(new Font("Times new Roman", Font.BOLD, 20));
 		labelTitre.setBounds(168, 10, 209, 41);
-		this.add(labelTitre);
+		panelMenu.add(labelTitre);
 		
-		/** AFFICHAGE DU PANEL QUI CONTIENT LES INFORMATIONS (Numéro du joueur, Nom du Joueur et son score) **/
-		//afficherPanelInfo();
+		/** AFFICHAGE DU PANEL QUI CONTIENT LES INFORMATIONS (NumÃ©ro du joueur, Nom du Joueur et son score) **/
 		afficherLabelInfo();
 		afficherNumJoueur();
 		afficherNomJoueur();
@@ -180,12 +185,12 @@ public class PanelFinBataille extends JPanel {
 		this.joueurs = joueurs;
 	}
 
-	public Joueur getJoueurGagne() {
-		return joueurGagne;
+	public Joueur getGagnant() {
+		return gagnant;
 	}
 
-	public void setJoueurGagne(Joueur joueurGagne) {
-		this.joueurGagne = joueurGagne;
+	public void setGagnant(Joueur gagnant) {
+		this.gagnant = gagnant;
 	}
 	
 	

@@ -4,9 +4,8 @@ import java.util.ArrayList;
 
 public class ScenarioTempsLimite extends ScenarioStandard {
 
-	public ScenarioTempsLimite(String typeScenario, ArrayList<Joueur> joueurs) {
-		super(typeScenario, joueurs);
-
+	public ScenarioTempsLimite(ArrayList<Joueur> joueurs) {
+		super(joueurs);
 	}
 
 }

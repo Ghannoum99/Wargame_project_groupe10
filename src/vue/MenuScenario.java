@@ -86,8 +86,8 @@ public class MenuScenario extends JFrame {
 		boutonScenarioStandard.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				ScenarioStandard scenario = new ScenarioStandard("scenarioStandard", joueurs);
-				PlateauVue plateau = new PlateauVue(joueurs,scenario);
+				//ScenarioStandard scenario = new ScenarioStandard("scenarioStandard", joueurs);
+				PlateauVue plateau = new PlateauVue(joueurs,"scenarioStandard");
 				plateau.show();
 				dispose();
 			}
@@ -107,8 +107,8 @@ public class MenuScenario extends JFrame {
 		boutonScenarioTempsLimite.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				ScenarioTempsLimite scenario = new ScenarioTempsLimite("scenarioStandard", joueurs);
-				PlateauVue plateau = new PlateauVue(joueurs,scenario);
+				//ScenarioTempsLimite scenario = new ScenarioTempsLimite("scenarioStandard", joueurs);
+				PlateauVue plateau = new PlateauVue(joueurs,"scenarioTempsLimite");
 				plateau.show();
 				dispose();
 			}

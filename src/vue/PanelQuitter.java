@@ -10,32 +10,31 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-
 import controleur.JsonController;
 import modele.Joueur;
 
 @SuppressWarnings("serial")
-public class PanelPause extends JPanel {
+public class PanelQuitter extends JPanel {
 	private JLabel labelTitre;
 	public JButton boutonContinuer;
 	public JButton boutonMenuPrincipal;
 	private ArrayList<Joueur> joueurs;
 	public JButton boutonQuitter;
 
-	public PanelPause(ArrayList<Joueur> joueurs) {
-		this.setBounds(155, 98, 544, 440);
+	public PanelQuitter(ArrayList<Joueur> joueurs) {
+		this.setBounds(265, 98, 544, 440);
 		this.setBackground(new Color(16, 22, 33));
 		this.setOpaque(true);
 		this.setLayout(null);
 		this.setVisible(false);
 		
-		//RÃ©cupÃ©ration de la liste des joueurs
+		//Récupération de la liste des joueurs
 		this.joueurs = joueurs;
 		
 		/** TITRE DU PANEL **/
 		labelTitre = new JLabel("Partie en Pause");
 		labelTitre.setForeground(new Color(255, 204, 0));
-		labelTitre.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 20));
+		labelTitre.setFont(new Font("Times new Roman", Font.BOLD, 20));
 		labelTitre.setBounds(200, 10, 209, 41);
 		this.add(labelTitre);
 		
@@ -47,7 +46,7 @@ public class PanelPause extends JPanel {
 	/********************************************************************/
 	/** AFFICHAGE D'UN BOUTON QUI PERMET AUX JOUEURS DE QUITTER LE JEU **/
 	/********************************************************************/		
-	public void afficherBoutonQuitter(PanelPause MenuPause) {
+	public void afficherBoutonQuitter(PanelQuitter MenuPause) {
 		boutonQuitter = new JButton("Quitter");
 		boutonQuitter.setBorder(UIManager.getBorder("Button.border"));
 		boutonQuitter.setIcon(new ImageIcon("images/large-button-active.png"));
@@ -56,7 +55,7 @@ public class PanelPause extends JPanel {
 		boutonQuitter.setBounds (100, 100, 172, 44);
 		boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
 		
-		boutonQuitter.setBounds(190, 370, 172, 48);
+		boutonQuitter.setBounds(190, 340, 172, 48);
 		this.add(boutonQuitter);
 	}		
 	
@@ -72,14 +71,14 @@ public class PanelPause extends JPanel {
 		boutonMenuPrincipal. setForeground (Color.white);
 		boutonMenuPrincipal.setBounds (100, 100, 172, 44);
 		boutonMenuPrincipal.setHorizontalTextPosition(JButton.CENTER);
-		boutonMenuPrincipal.setBounds(190, 320, 172, 48);
+		boutonMenuPrincipal.setBounds(190, 270, 172, 48);
 		this.add(boutonMenuPrincipal);
 	}
 	
 	/*************************************************************************/
 	/** AFFICHAGE D'UN BOUTON QUI PERMET AUX JOUEURS DE CONTINUER LA PARTIE **/
 	/*************************************************************************/		
-	public void AfficherBoutonContinuer(PanelPause MenuPause) {
+	public void AfficherBoutonContinuer(PanelQuitter MenuPause) {
 		boutonContinuer = new JButton("Continuer");
 		boutonContinuer.setBorder(UIManager.getBorder("Button.border"));
 		boutonContinuer.setIcon(new ImageIcon("images/large-button-active.png"));
@@ -87,7 +86,7 @@ public class PanelPause extends JPanel {
 		boutonContinuer. setForeground (Color.white);
 		boutonContinuer.setBounds (100, 100, 172, 44);
 		boutonContinuer.setHorizontalTextPosition(JButton.CENTER);
-		boutonContinuer.setBounds(190, 270, 172, 48);
+		boutonContinuer.setBounds(190, 200, 172, 48);
 		this.add(boutonContinuer);
 	}
 

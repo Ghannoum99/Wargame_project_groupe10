@@ -10,20 +10,19 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import modele.Joueur;
-import modele.ScenarioStandard;
 import modele.Soldat;
+import vue.PlateauVue;
   
 public class JsonController
 {
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	public void sauvegarde_file_json(ScenarioStandard scenario)
+	public void sauvegarde_file_json(PlateauVue plateau) 
     {
     	try
     	{
             JSONObject jo = new JSONObject();
-            jo.put("typeScenario", scenario.getTypeScenario());
-            
-    		int taille = scenario.getJoueurs().size();
+            jo.put("scenario", plateau.getScenario());
+    		int taille = plateau.getJoueurs().size();
         	if(taille > 0)
         	{
         		ArrayList<Map> listjoueur = new ArrayList<Map>(taille);
@@ -31,30 +30,30 @@ public class JsonController
             	{
             		 // creating JSONObject
             		Map joueurs = new LinkedHashMap(5);
-            		joueurs.put("nomJoueur", scenario.getJoueurs().get(i).getNomJoueur());
-            		int taillesoldats = scenario.getJoueurs().get(i).getNombreSoldat();
+            		joueurs.put("nomJoueur", plateau.getJoueurs().get(i).getNomJoueur());
+            		int taillesoldats = plateau.getJoueurs().get(i).getNombreSoldat();
             		ArrayList<Map> listsoldats = new ArrayList<Map>(taillesoldats);
             		for(int j=0;j<taillesoldats;j++)
                     {
                     	Map m = new LinkedHashMap(10);
-                        m.put("abcisse", scenario.getJoueurs().get(i).getSoldatList().get(j).getAbscisse());
-                        m.put("ordonnee", scenario.getJoueurs().get(i).getSoldatList().get(j).getOrdonnees());
-                        m.put("image", scenario.getJoueurs().get(i).getSoldatList().get(j).getImage());
-                        m.put("typeSoldat", scenario.getJoueurs().get(i).getSoldatList().get(j).getTypeSoldat());
-                        m.put("imagePivotee", scenario.getJoueurs().get(i).getSoldatList().get(j).getImagePivotee());
-                        m.put("attaque", scenario.getJoueurs().get(i).getSoldatList().get(j).getAttaque());
-                        m.put("defense", scenario.getJoueurs().get(i).getSoldatList().get(j).getDefense());
-                        m.put("deplacement", scenario.getJoueurs().get(i).getSoldatList().get(j).getDeplacement());
-                        m.put("vision", scenario.getJoueurs().get(i).getSoldatList().get(j).getVision());
-                        m.put("pv", scenario.getJoueurs().get(i).getSoldatList().get(j).getPv());
-                        m.put("ko", scenario.getJoueurs().get(i).getSoldatList().get(j).isKo());
+                        m.put("abcisse", plateau.getJoueurs().get(i).getSoldatList().get(j).getAbscisse());
+                        m.put("ordonnee", plateau.getJoueurs().get(i).getSoldatList().get(j).getOrdonnees());
+                        m.put("image", plateau.getJoueurs().get(i).getSoldatList().get(j).getImage());
+                        m.put("typeSoldat", plateau.getJoueurs().get(i).getSoldatList().get(j).getTypeSoldat());
+                        m.put("imagePivotee", plateau.getJoueurs().get(i).getSoldatList().get(j).getImagePivotee());
+                        m.put("attaque", plateau.getJoueurs().get(i).getSoldatList().get(j).getAttaque());
+                        m.put("defense", plateau.getJoueurs().get(i).getSoldatList().get(j).getDefense());
+                        m.put("deplacement", plateau.getJoueurs().get(i).getSoldatList().get(j).getDeplacement());
+                        m.put("vision", plateau.getJoueurs().get(i).getSoldatList().get(j).getVision());
+                        m.put("pv", plateau.getJoueurs().get(i).getSoldatList().get(j).getPv());
+                        m.put("ko", plateau.getJoueurs().get(i).getSoldatList().get(j).isKo());
                         listsoldats.add(m);
                     }
                     
             		joueurs.put("soldats", listsoldats);
-            		joueurs.put("score", scenario.getJoueurs().get(i).getScore());
-            		joueurs.put("image", scenario.getJoueurs().get(i).getImage());
-            		joueurs.put("KO", scenario.getJoueurs().get(i).getKO());
+            		joueurs.put("score", plateau.getJoueurs().get(i).getScore());
+            		joueurs.put("image", plateau.getJoueurs().get(i).getImage());
+            		joueurs.put("KO", plateau.getJoueurs().get(i).getKO());
                     
             		listjoueur.add(joueurs);
             	}
@@ -79,14 +78,14 @@ public class JsonController
     	}
     }
     
-    public ScenarioStandard read_file_json()
+    public PlateauVue read_file_json()
     {
     	try
     	{
     		String jsonstring = FileUtils.readFileToString(new File("Sauvegarde/Sauvegarder.json"), StandardCharsets.UTF_8);
     		JSONObject json  = new JSONObject(jsonstring);
-    		ScenarioStandard result = new ScenarioStandard();
-    		result.setTypeScenario(json.getString("typeScenario"));
+    		
+    		
     		System.out.println(json.getJSONArray("joueurs").length());
     		
     		JSONArray joueurs = json.getJSONArray("joueurs");
@@ -122,7 +121,9 @@ public class JsonController
                     listdata.add(jo);
                 }
     		}
-    		result.setJoueurs(listdata);
+    		
+    		PlateauVue result = new PlateauVue(listdata,json.getString("scenario"));
+    		
     		return result;
     	}
     	catch(Exception e)
