@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Robot;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -847,7 +848,7 @@ public class PanelTerrains extends JLayeredPane {
 				guide.afficherIndicationsDeplacement2();
 			}
 			remove(labelBonusDef);
-
+			
 			Hexagone hexagone = getHexagone(labelBordure.getX(), labelBordure.getY());
 			if (soldatSelec != null && !hexagone.contientEnnemi(tourJoueur)) {
 				int nbrHexagones, nouveauX, nouveauY, xClic, yClic;
