@@ -153,6 +153,10 @@ public class Joueur {
 	public void setKO(int[] kO) {
 		KO = kO;
 	}
+	
+	public boolean allSoldatsBloques() {
+		return this.soldats.stream().allMatch(x -> x.isBloque());
+	}
 
 	//faut ajouter la liste des adversaires
 	@Override

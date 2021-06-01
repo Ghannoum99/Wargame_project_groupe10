@@ -220,6 +220,9 @@ public class PlateauVue extends JFrame {
 					setTourJoueur(nouveauJoueur, ind);
 					nombreTours++;
 				}
+				else {
+					
+				}
 			}
 		});
 

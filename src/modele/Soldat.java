@@ -10,6 +10,7 @@ public class Soldat extends Piece {
 	private int vision;
 	private int pv;
 	private boolean ko;
+	private boolean bloque;
 	
 	public Soldat(int abscisse, int ordonnees, String image, String typeSoldat, String imagePivotee, int attaque, int defense,
 			int deplacement, int vision, int pv, boolean ko) {
@@ -23,6 +24,7 @@ public class Soldat extends Piece {
 		this.pv = pv;
 		this.ko = ko;
 		this.deplacementRealises = 0;
+		this.bloque = true;
 	}
 	
 	public String getTypeSoldat() {
@@ -83,20 +85,32 @@ public class Soldat extends Piece {
 	}
 	
 	public void deplacementPossible (int abscisseMin, int abscisseMax, int ordonneesMin, int ordonneesMax, int x, int y, int nbrHexagonesAparcourir, int bonusDeplacement) {
-		if (x >= abscisseMin && x <= abscisseMax && y >= ordonneesMin && y <= ordonneesMax && nbrHexagonesAparcourir <= (this.deplacement + bonusDeplacement) && nbrHexagonesAparcourir <= this.vision && this.deplacementRealises <= (this.deplacement + bonusDeplacement)) {
+		if (this.deplacementRealises > (this.deplacement + bonusDeplacement)) {
+			this.bloque = true;
+		}
+		else this.bloque = false;
+		
+		if (x >= abscisseMin && x <= abscisseMax && y >= ordonneesMin && y <= ordonneesMax && nbrHexagonesAparcourir <= (this.deplacement + bonusDeplacement) && nbrHexagonesAparcourir <= this.vision) {
 			super.setAbscisse(x);
 			super.setOrdonnees(y);
 			this.deplacementRealises+=nbrHexagonesAparcourir;
 		}
 	}
 
-	
 	public int getDeplacementRealises() {
 		return deplacementRealises;
 	}
 
 	public void setDeplacementRealises(int deplacementRealises) {
 		this.deplacementRealises = deplacementRealises;
+	}
+	
+	public boolean isBloque() {
+		return bloque;
+	}
+
+	public void setBloque(boolean bloque) {
+		this.bloque = bloque;
 	}
 
 	@Override
