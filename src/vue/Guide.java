@@ -214,7 +214,7 @@ public class Guide extends JPanel {
 			labelIcon.setVisible(true);
 			labelIcon.setBounds(this.getWidth()-224, 30, 200, 200);
 
-			labelIndications2.setText("<html>Information supplémentaire : la petite carte en haut à droite vous permet d'avoir une vue d'ensemble sur le plateau et sur les différents terrains.</html>");
+			labelIndications2.setText("<html>Information supplémentaire : la petite carte en haut à droite vous permet d'avoir une vue d'ensemble sur le plateau et sur les différents terrains. Vous pouvez explorer le plateau en bougeant son cadre.</html>");
 
 			labelIndications.setText("<html>Vous êtes arrivé à la fin de ce tutoriel.</html>");
 
