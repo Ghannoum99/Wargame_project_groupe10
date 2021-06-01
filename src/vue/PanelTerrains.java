@@ -247,7 +247,7 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	/*
-	 * Fonction permet d'afficher un feu pour le soldat ennemi
+	 * Fonction permet d'attaquer le soldat ennemi avec l'animation
 	 * Tuer un soldat
 	 */
 	public void tuersoldat(Hexagone hexagone, int degats) {
