@@ -584,7 +584,6 @@ public class PanelTerrains extends JLayeredPane {
 
 		if (this.tourJoueur.getClass().getName().equals("modele.Ordinateur")) {	
 			try {
-
 				Robot robot = new Robot();
 				Ordinateur ordinateur = new Ordinateur(this.tourJoueur.getNomJoueur(), this.tourJoueur.getSoldatList(), this.tourJoueur.getScore(), this.tourJoueur.getImage(), this.tourJoueur.getAdversaires());
 
