@@ -68,8 +68,9 @@ public class PanelTerrains extends JLayeredPane {
 	private int indTourJoueur;
 	private Hexagone hexagoneSelected;
 	private ArrayList<JLabel> labelsHexagonesBrouillard;
+	private MiniMap minimap;
 
-	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, PanelInfosJoueur panelInfosJoueur, Guide guide, int widthPlateau, int heightPlateau) {
+	public PanelTerrains(Joueur tourJoueur, SoldatVue soldatVue, PanelInfosSoldat panelInfosSoldat, PanelInfosJoueur panelInfosJoueur, Guide guide, MiniMap minimap, int widthPlateau, int heightPlateau) {
 		// Définition des données du panel
 		this.setLayout(null);
 		this.setVisible(true);
@@ -155,6 +156,9 @@ public class PanelTerrains extends JLayeredPane {
 		// Récupération du panel permettant d'afficher les informations du joueur
 		this.panelInfosJoueur = panelInfosJoueur;
 
+		//Récupération de minimap
+		this.minimap = minimap;
+
 		// Ajout des labels soldat au panel
 		for (int i = 0; i<this.labelsSoldats.size(); i++) {
 			JLabel labelSoldat = this.labelsSoldats.get(i);
@@ -185,7 +189,10 @@ public class PanelTerrains extends JLayeredPane {
 		// Création d'une caméra
 		this.camera = new Camera(0,0);
 
-		setTourJoueur(this.tourJoueur);
+		// Centrer la caméra sur la position actuelle sur le joueur
+		modifierCameraJoueur();
+		// Mettre à jour l'image des hexagones sous chaque label des soldats
+		mettreAjourHexagonesSoldats();
 
 		creerLabelsBrouillard();
 	}
@@ -298,7 +305,7 @@ public class PanelTerrains extends JLayeredPane {
 						tourJoueur.ajouterSoldatTue(tue);
 						//incrementer le score
 						tourJoueur.setScore(tourJoueur.getScore()+10);
-						panelInfosJoueur.score.setText(String.valueOf((Integer)tourJoueur.getScore()));
+						panelInfosJoueur.getScore().setText(String.valueOf((Integer)tourJoueur.getScore()));
 					}
 					else {
 						labelSoldatEnnemi.setIcon(new ImageIcon(imageAafficher(tue)));
@@ -369,7 +376,10 @@ public class PanelTerrains extends JLayeredPane {
 			label.setIcon(bordure);
 			this.ancienSoldatSelec = null;
 		}
+
 		afficherImageSelec(false, this.soldatSelec.getAbscisse(), this.soldatSelec.getOrdonnees());
+		this.minimap.setSoldatSelec(this.soldatSelec);
+		this.minimap.rafraichirMiniSoldats();
 	}
 
 	/*
@@ -432,6 +442,7 @@ public class PanelTerrains extends JLayeredPane {
 			labelAncienneBordure.setIcon(ancienneBordure);
 		}
 		afficherImageSelec(true, this.soldatSelec.getAbscisse(), this.soldatSelec.getOrdonnees());
+		this.minimap.rafraichirMiniSoldats();
 	}
 
 	/*
@@ -558,6 +569,10 @@ public class PanelTerrains extends JLayeredPane {
 		Soldat soldat = this.tourJoueur.getSoldatList().get(ind);
 		this.camera.update(soldat.getAbscisse(), soldat.getOrdonnees(), this.scrollPane);
 		modifierCoordonneesCamera();
+		try {
+			minimap.rafraichirCadreCamera();
+		}catch(Exception e) {
+		}
 	}
 
 	/*
@@ -566,6 +581,8 @@ public class PanelTerrains extends JLayeredPane {
 
 	public void setTourJoueur(Joueur tourJoueur) {
 		this.tourJoueur = tourJoueur;
+		this.minimap.setTourJoueur(tourJoueur);
+		this.minimap.rafraichirMiniSoldats();
 		// Centrer la caméra sur la position actuelle sur le joueur
 		modifierCameraJoueur();
 		// Mettre à jour l'image des hexagones sous chaque label des soldats
@@ -573,17 +590,17 @@ public class PanelTerrains extends JLayeredPane {
 		// Initialisation des soldats sélectionnés
 		this.soldatSelec = null;
 		this.labelSoldatSelec = null;
-		this.panelInfosJoueur.NomJoueur.setText(this.tourJoueur.getNomJoueur());
-		this.panelInfosJoueur.score.setText(String.valueOf((Integer)this.tourJoueur.getScore()));
-		this.panelInfosJoueur.nombreSoldat.setText(String.valueOf((Integer)this.tourJoueur.getNombreSoldat()));
+		this.panelInfosJoueur.getNomJoueur().setText(this.tourJoueur.getNomJoueur());
+		this.panelInfosJoueur.getScore().setText(String.valueOf((Integer)this.tourJoueur.getScore()));
+		this.panelInfosJoueur.getNombreSoldat().setText(String.valueOf((Integer)this.tourJoueur.getNombreSoldat()));
 
 		for (Soldat s : this.tourJoueur.getSoldatList()) {
 			s.setDeplacementRealises(0);
+			s.setBloque(false);
 		}
 
 		if (this.tourJoueur.getClass().getName().equals("modele.Ordinateur")) {	
 			try {
-
 				Robot robot = new Robot();
 				Ordinateur ordinateur = new Ordinateur(this.tourJoueur.getNomJoueur(), this.tourJoueur.getSoldatList(), this.tourJoueur.getScore(), this.tourJoueur.getImage(), this.tourJoueur.getAdversaires());
 
@@ -760,7 +777,7 @@ public class PanelTerrains extends JLayeredPane {
 		List<Terrain> terrainsNom = this.terrains.stream().filter(x -> x.getTypeTerrain().equals(nomTerrain)).collect(Collectors.toList());
 		return terrainsNom.get(0).getBonusDefense();
 	}
-	
+
 	/*
 	 * Cette fonction permet supprimer le brouillard des hexagones qui appartient de zone de vision des soldats
 	 */
@@ -1133,7 +1150,7 @@ public class PanelTerrains extends JLayeredPane {
 			}
 		}
 	}
-	
+
 	public Joueur getTourJoueur() {
 		return tourJoueur;
 	}
@@ -1194,4 +1211,11 @@ public class PanelTerrains extends JLayeredPane {
 		this.indTourJoueur = indTourJoueur;
 	}
 
+	public MiniMap getMinimap() {
+		return minimap;
+	}
+
+	public void setMinimap(MiniMap minimap) {
+		this.minimap = minimap;
+	}
 }
