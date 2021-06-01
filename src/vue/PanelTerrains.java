@@ -579,6 +579,7 @@ public class PanelTerrains extends JLayeredPane {
 
 		for (Soldat s : this.tourJoueur.getSoldatList()) {
 			s.setDeplacementRealises(0);
+			s.setBloque(false);
 		}
 
 		if (this.tourJoueur.getClass().getName().equals("modele.Ordinateur")) {	

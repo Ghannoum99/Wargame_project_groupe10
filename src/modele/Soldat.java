@@ -88,13 +88,15 @@ public class Soldat extends Piece {
 		if (this.deplacementRealises > (this.deplacement + bonusDeplacement)) {
 			this.bloque = true;
 		}
-		else this.bloque = false;
 		
-		if (x >= abscisseMin && x <= abscisseMax && y >= ordonneesMin && y <= ordonneesMax && nbrHexagonesAparcourir <= (this.deplacement + bonusDeplacement) && nbrHexagonesAparcourir <= this.vision) {
-			super.setAbscisse(x);
-			super.setOrdonnees(y);
-			this.deplacementRealises+=nbrHexagonesAparcourir;
+		else {
+			if (x >= abscisseMin && x <= abscisseMax && y >= ordonneesMin && y <= ordonneesMax && nbrHexagonesAparcourir <= (this.deplacement + bonusDeplacement) && nbrHexagonesAparcourir <= this.vision) {
+				super.setAbscisse(x);
+				super.setOrdonnees(y);
+				this.deplacementRealises+=nbrHexagonesAparcourir;
+			}
 		}
+
 	}
 
 	public int getDeplacementRealises() {
