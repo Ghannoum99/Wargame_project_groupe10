@@ -24,7 +24,7 @@ public class Ordinateur  extends Joueur{
 		return super.getSoldatList().get(numsoldat) ;
 	}
 	
-	public JLabel choisirHexagone(ArrayList<JLabel> labelsHexagonesVisions,Soldat soldat)
+	public JLabel choisirHexagone(ArrayList<JLabel> labelsHexagonesVisions)
     {
         int nbhexagonesPossibles=labelsHexagonesVisions.size();
         int min=0;

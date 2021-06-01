@@ -208,17 +208,18 @@ public class PlateauVue extends JFrame {
 		boutonFinirTour.setHorizontalTextPosition(JButton.CENTER);
 		boutonFinirTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int ind = 0;
-				Joueur ancienJoueur, nouveauJoueur;
-				ancienJoueur = panelTerrains.getTourJoueur();
-				nouveauJoueur = ancienJoueur;
-				while (nouveauJoueur == ancienJoueur) {
-					ind = (int) (Math.random() * (joueurs.size() - 0));
-					nouveauJoueur = joueurs.get(ind);
+				if (!verifGagnant(xCompteur, yCompteur)) {
+					int ind = 0;
+					Joueur ancienJoueur, nouveauJoueur;
+					ancienJoueur = panelTerrains.getTourJoueur();
+					nouveauJoueur = ancienJoueur;
+					while (nouveauJoueur == ancienJoueur) {
+						ind = (int) (Math.random() * (joueurs.size() - 0));
+						nouveauJoueur = joueurs.get(ind);
+					}
+					setTourJoueur(nouveauJoueur, ind);
+					nombreTours++;
 				}
-				setTourJoueur(nouveauJoueur, ind);
-				verifGagnant(xCompteur, yCompteur);
-				nombreTours++;
 			}
 		});
 
@@ -229,7 +230,7 @@ public class PlateauVue extends JFrame {
 		SwingUtilities.updateComponentTreeUI(this.plateau);
 	}
 
-	public void verifGagnant(int xCompteur, int yCompteur) {
+	public boolean verifGagnant(int xCompteur, int yCompteur) {
 		switch(this.scenario) {
 		case "scenarioStandard" :
 			ScenarioStandard scenarioStandard = new ScenarioStandard(joueurs);
@@ -273,6 +274,7 @@ public class PlateauVue extends JFrame {
 			panelTerrains.retirerMouseListenerHexagones(); 
 		}
 
+		return termine;
 	}
 	
 	/********************************************************************/
