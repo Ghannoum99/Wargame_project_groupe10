@@ -14,14 +14,17 @@ public class ScenarioStandard {
 		Joueur gagnant = null;
 		
 		if(appliquerScenario1() != null) {
+			System.out.println("scenario1");
 			gagnant = appliquerScenario1();
 		}
 		
 		else if(appliquerScenario2() != null) {
+			System.out.println("scenario2");
 			gagnant = appliquerScenario2();
 		}
 		
 		else if(appliquerScenario3(joueur) != null) {
+			System.out.println("scenario3");
 			gagnant = appliquerScenario3(joueur);
 		}
 			
@@ -44,7 +47,6 @@ public class ScenarioStandard {
 		if(joueurs_copie.size() == 1) {
 			gagnant = joueurs_copie.get(0);
 		}
-
 		return gagnant;
 	}
 	
@@ -57,21 +59,29 @@ public class ScenarioStandard {
             	if (joueur.nombreSoldatsTuesType(joueurA, "infanterieLourde") == 2) {
                 	atueToutesLesInfanteries++;
                 }   
+            } 
+        	if (joueur.getAdversaires().size() > 1) {
+	            if(atueToutesLesInfanteries == joueur.getAdversaires().size()*2) {
+	            	gagnant = joueur;
+	            	break;
+            	}
             }
-        	
-            if(atueToutesLesInfanteries == joueur.getAdversaires().size()) {
-            	gagnant = joueur;
-            	break;
-            }
+        	else {
+        		if(atueToutesLesInfanteries == joueur.getAdversaires().size()) {
+	            	gagnant = joueur;
+	            	break;
+            	}
+        	}
         }
-           
         return gagnant;
     }
 	
 	public Joueur appliquerScenario3(Joueur joueur) {
 		Joueur gagnant = null;
 		if(aTueCinqSoldats(joueur)) {
+			//System.out.println(joueur.getNomJoueur());
 			gagnant = joueur;
+			//System.out.println(gagnant.getNomJoueur());
 		}
 		
 		return gagnant;
@@ -80,6 +90,7 @@ public class ScenarioStandard {
 	
 	public boolean aTueCinqSoldats(Joueur joueur) {
 		int cmpt = 0;
+		int c = 0;
 		boolean gagne = false;
 		
 		for(int i = 0; i < joueurs.size(); i++)
@@ -94,16 +105,14 @@ public class ScenarioStandard {
 						if(joueur.aTueUnSoldat(soldat)) {
 							cmpt++;
 						}
+						c += cmpt;
+						if(c >= 5) {
+							gagne = true;
+							break;
+						}
 					}				
 				}
-				if(cmpt >= 5) {
-					gagne = true;
-					break;
-				}
 			}		
-			else {
-				cmpt = 0;
-			}	
 		}	
 		return gagne;
 	}

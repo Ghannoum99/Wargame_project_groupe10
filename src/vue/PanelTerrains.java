@@ -660,7 +660,7 @@ public class PanelTerrains extends JLayeredPane {
 
 						nbrHexagones++;
 
-						if (nbrHexagones < (soldat.getDeplacement() + terrain.getPointDeplacement()) && nbrHexagones <= soldat.getVision()) {
+						if (nbrHexagones!= 0 && nbrHexagones <= (soldat.getDeplacement() + terrain.getPointDeplacement()) && nbrHexagones <= soldat.getVision()) {
 							labelsHexagonesVisions.add(labelHexagone);
 						}
 					}
