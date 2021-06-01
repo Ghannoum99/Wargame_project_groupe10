@@ -127,8 +127,7 @@ public class PlateauVue extends JFrame {
 		this.soldatVue = new SoldatVue();
 		this.soldatVue.creerSoldats(this.joueurs);
 
-		// Choix alÃ©atoire d'un joueur pour commencer le tour
-		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
+		// Choix du joueur pour commencer le tour
 		this.tourJoueur = this.joueurs.get(0);
 
 		// Tutoriel du jeu
