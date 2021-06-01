@@ -573,6 +573,10 @@ public class PanelTerrains extends JLayeredPane {
 		this.panelInfosJoueur.score.setText(String.valueOf((Integer)this.tourJoueur.getScore()));
 		this.panelInfosJoueur.nombreSoldat.setText(String.valueOf((Integer)this.tourJoueur.getNombreSoldat()));
 
+		for (Soldat s : this.tourJoueur.getSoldatList()) {
+			s.setDeplacementRealises(0);
+		}
+		
 		if (this.tourJoueur.getClass().getName().equals("modele.Ordinateur")) {	
 			try {
 				Ordinateur ordinateur = new Ordinateur(this.tourJoueur.getNomJoueur(), this.tourJoueur.getSoldatList(), this.tourJoueur.getScore(), this.tourJoueur.getImage(), this.tourJoueur.getAdversaires());

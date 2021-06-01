@@ -87,8 +87,16 @@ public class Soldat extends Piece {
 			super.setAbscisse(x);
 			super.setOrdonnees(y);
 			this.deplacementRealises+=nbrHexagonesAparcourir;
-			System.out.println(this.deplacementRealises);
 		}
+	}
+
+	
+	public int getDeplacementRealises() {
+		return deplacementRealises;
+	}
+
+	public void setDeplacementRealises(int deplacementRealises) {
+		this.deplacementRealises = deplacementRealises;
 	}
 
 	@Override
