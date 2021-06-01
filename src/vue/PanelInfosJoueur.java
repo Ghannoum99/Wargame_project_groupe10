@@ -17,11 +17,11 @@ import modele.Joueur;
 @SuppressWarnings("serial")
 public class PanelInfosJoueur extends JPanel {
 	private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
-	public JLabel NomJoueur;
-	public JLabel score;
-	public JLabel nombreSoldat;
-	public JLabel profile;
-	public BufferedImage master;
+	private JLabel NomJoueur;
+	private JLabel score;
+	private JLabel nombreSoldat;
+	private JLabel profile;
+	private BufferedImage master;
 	
 	
 	public PanelInfosJoueur(ArrayList<Joueur> joueurs, int xBounds) {
@@ -126,4 +126,36 @@ public class PanelInfosJoueur extends JPanel {
 	public void setJoueurs(ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
 	}
+	public JLabel getNomJoueur() {
+		return NomJoueur;
+	}
+	public void setNomJoueur(JLabel nomJoueur) {
+		NomJoueur = nomJoueur;
+	}
+	public JLabel getScore() {
+		return score;
+	}
+	public void setScore(JLabel score) {
+		this.score = score;
+	}
+	public JLabel getNombreSoldat() {
+		return nombreSoldat;
+	}
+	public void setNombreSoldat(JLabel nombreSoldat) {
+		this.nombreSoldat = nombreSoldat;
+	}
+	public JLabel getProfile() {
+		return profile;
+	}
+	public void setProfile(JLabel profile) {
+		this.profile = profile;
+	}
+	public BufferedImage getMaster() {
+		return master;
+	}
+	public void setMaster(BufferedImage master) {
+		this.master = master;
+	}
+	
+	
 }
