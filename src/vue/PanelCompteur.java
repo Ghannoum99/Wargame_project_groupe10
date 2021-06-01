@@ -35,9 +35,9 @@ public class PanelCompteur extends JPanel {
 		this.setLayout(null);
 		
 		afficherLabelCompteur();
-		labelCompteur.setText("00:20");
-		seconde = 20;
-		minute = 0;
+		labelCompteur.setText("02:00");
+		seconde = 0;
+		minute = 2;
 		
 		countdownTimer();
 		compteur.start();
