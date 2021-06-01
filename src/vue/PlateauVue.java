@@ -56,7 +56,7 @@ public class PlateauVue extends JFrame {
 	private JLabel labelNomJoueur;
 	private PanelMenuInfos panelMenu;
 	private ArrayList<Joueur> joueursCopie = new ArrayList<Joueur>(); 
-	
+
 
 	public PlateauVue(ArrayList<Joueur> joueurs, String scenario) { 
 		// DÃ©finition des donnÃ©es de la fenÃªtre principale
@@ -78,7 +78,7 @@ public class PlateauVue extends JFrame {
 		// Image de fond
 		JLabel backgroundimage = new JLabel("");
 		this.add(backgroundimage);
-		
+
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		if (device.isFullScreenSupported() && size.getHeight() <= 720) {
@@ -117,7 +117,7 @@ public class PlateauVue extends JFrame {
 
 		// CrÃ©ation des joueurs 
 		this.joueurs = joueurs;
-		
+
 		/** Copier la liste des joueurs **/
 		copierListeJoueur();
 
@@ -131,18 +131,19 @@ public class PlateauVue extends JFrame {
 		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
 		this.tourJoueur = this.joueurs.get(0);
 
-		// CrÃ©ation de minimap
-		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this, xPanelsInfos);
-		this.plateau.add(this.minimap, JLayeredPane.DEFAULT_LAYER);
-
 		// Tutoriel du jeu
 		this.guide = new Guide(yGuide, widthGuide);
 		this.plateau.add(this.guide, JLayeredPane.DRAG_LAYER);
 		this.guide.afficherQuestion();
 
 		// CrÃ©ation du panel permettant d'afficher les terrains et de positionner les soldats
-		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.panelInfosJoueur, this.guide, widthPlateau, heightPlateau);
+		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.panelInfosJoueur, this.guide, this.minimap, widthPlateau, heightPlateau);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
+
+		// Cr�ation de minimap
+		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this,xPanelsInfos, this.panelTerrains);
+		this.plateau.add(this.minimap, JLayeredPane.DEFAULT_LAYER);
+		this.panelTerrains.setMinimap(minimap);
 
 		/** Panel Pause **/
 		PanelQuitter MenuPause = new PanelQuitter(this.joueurs);
@@ -220,7 +221,7 @@ public class PlateauVue extends JFrame {
 			cmpt = new PanelCompteur(xCompteur, yCompteur);
 			this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
 		}
-		
+
 		// Finir le tour
 		JButton boutonFinirTour = new JButton("Finir tour");
 		boutonFinirTour.setBorder(UIManager.getBorder("Button.border"));
@@ -241,20 +242,20 @@ public class PlateauVue extends JFrame {
 					}
 					setTourJoueur(nouveauJoueur, ind);
 					nombreTours++;
-					 
+
 				}
 				else {
-						
-						afficherPanelFinBataille();
-						panelTerrains.retirerMouseListenerHexagones();	
-					
+
+					afficherPanelFinBataille();
+					panelTerrains.retirerMouseListenerHexagones();	
+
 				}
 			}
 		});
 
 		boutonFinirTour.setBounds(xPanelsInfos, yBoutonFinirTour, 140, heightBoutonFinirTour);
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
-		
+
 		SwingUtilities.updateComponentTreeUI(this.plateau);
 	}
 
@@ -268,21 +269,21 @@ public class PlateauVue extends JFrame {
 				termine = true;
 			}
 			break;
-		
+
 		case "scenarioTempsLimite":
 			ScenarioTempsLimite scenarioTempsLimite = new ScenarioTempsLimite(joueurs);
-			 if(cmpt.getMinute() == 0 && cmpt.getSeconde() == 0) {
+			if(cmpt.getMinute() == 0 && cmpt.getSeconde() == 0) {
 				gagnant = scenarioTempsLimite.chercherScoreMax(getTourJoueur());
 				termine = true;
 				cliquerBoutonFinirTour();
 			}
-			 break;
+			break;
 		}
-			
+
 		return termine;
 	}
-	
-	
+
+
 	public void cliquerBoutonFinirTour() {
 		Robot robot;
 		try {
@@ -293,7 +294,7 @@ public class PlateauVue extends JFrame {
 		} catch (AWTException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 	/********************************************************************/
 	/** AFFICHAGE D'UN BOUTON QUI PERMET AUX JOUEURS DE QUITTER LE JEU **/
@@ -312,7 +313,7 @@ public class PlateauVue extends JFrame {
 		boutonQuitter.setBounds(296, 380, 172, 48);
 		panelMenu.add(boutonQuitter);
 	}		
-	
+
 	/*************************************************************************************************/
 	/** AFFICHAGE D'UN BOUTON, QUI RE-AFFICHE LE MenuPrincipal POUR RE-COMMENCER UNE AUTRE BATAILLE **/
 	/*************************************************************************************************/
@@ -333,7 +334,7 @@ public class PlateauVue extends JFrame {
 		boutonReJouer.setBounds(96, 380, 172, 48);
 		panelMenu.add(boutonReJouer);
 	}	
-	
+
 	/****************************************************************************************/
 	/** AFFICHAGE D'UN PANEL, QUI CONTIENT LES INFORMATIONS (NOM DES JOUEURS, LEUR SCORES) **/
 	/****************************************************************************************/		
@@ -344,7 +345,7 @@ public class PlateauVue extends JFrame {
 		this.add(panelInfo);
 		panelInfo.setLayout(null);
 	}
-	
+
 	/******************************************************************/
 	/** AFFICHAGE DE 3 LABELS, CHAQUE LABEL CORRESPOND A UNE COLONEE **/
 	/******************************************************************/
@@ -358,11 +359,11 @@ public class PlateauVue extends JFrame {
 			labelInfo.setForeground(Color.GRAY);
 			labelInfo.setBounds(x, 165, 70, 41);
 			panelMenu.add(labelInfo);
-			
+
 			x += 190;
 		}
 	}
-	
+
 	public void afficherScore() {
 		int y = 214;
 		for(int i = 0; i < joueursCopie.size(); i++) {
@@ -373,11 +374,11 @@ public class PlateauVue extends JFrame {
 			labelScore.setFont(new Font("Times new Roman", Font.PLAIN, 15));
 			labelScore.setBounds(468, y, 77, 41);
 			panelMenu.add(labelScore);
-			
+
 			y += 33;
 		}
 	}
-	
+
 	public void afficherNumJoueur() {
 		int y = 214;
 		for(int i = 0; i < joueursCopie.size(); i++) {
@@ -388,11 +389,11 @@ public class PlateauVue extends JFrame {
 			labelNumJoueur.setFont(new Font("Times new Roman", Font.PLAIN, 15));
 			labelNumJoueur.setBounds(88, y, 77, 41);
 			panelMenu.add(labelNumJoueur);
-			
+
 			y += 33;
 		}
 	}
-	
+
 	public void afficherNomJoueur() {
 		int y = 214;
 		for(int i = 0; i < joueursCopie.size(); i++) {
@@ -402,16 +403,16 @@ public class PlateauVue extends JFrame {
 			labelNomJoueur.setFont(new Font("Times new Roman", Font.PLAIN, 16));
 			labelNomJoueur.setBounds(259, y, 77, 41);
 			panelMenu.add(labelNomJoueur);
-			
+
 			y += 33;
 		}
 	}
-	
-	
+
+
 	public void afficherPanelFinBataille() {
 		panelMenu = new PanelMenuInfos(290, 80, 596, 480);
 		this.plateau.add(panelMenu, JLayeredPane.DRAG_LAYER);
-		
+
 		/** TITRE DU PANEL **/
 		String felicitation = "Félicitations" + " " + gagnant.getNomJoueur();
 		labelTitre = new JLabel(felicitation);
@@ -419,7 +420,7 @@ public class PlateauVue extends JFrame {
 		labelTitre.setFont(new Font("Times new Roman", Font.BOLD, 20));
 		labelTitre.setBounds(215, 120, 209, 41);
 		panelMenu.add(labelTitre);
-		
+
 		/** AFFICHAGE DU PANEL QUI CONTIENT LES INFORMATIONS (NumÃ©ro du joueur, Nom du Joueur et son score) **/
 		//afficherPanelInfo();
 		afficherLabelInfo();
