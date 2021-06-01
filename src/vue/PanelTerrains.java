@@ -177,12 +177,12 @@ public class PanelTerrains extends JLayeredPane {
 		this.scrollPane.setPreferredSize(this.getPreferredSize());
 		this.scrollPane.getHorizontalScrollBar().setValue(1);
 		this.scrollPane.getVerticalScrollBar().setValue(1);
-		
+
 		// Création d'une caméra
 		this.camera = new Camera(0,0);
 
 		setTourJoueur(this.tourJoueur);
-		
+
 		//afficherBrouillard();
 	}
 
@@ -274,7 +274,7 @@ public class PanelTerrains extends JLayeredPane {
 			if (tue.getPv() <= 30) {
 				progressBarSoldatEnnemi.setForeground(Color.red);
 			}
-		
+
 			TimerTask task = new TimerTask() {
 				public void run() {
 					if(tue.getPv() <= 0)
@@ -474,14 +474,14 @@ public class PanelTerrains extends JLayeredPane {
 				// On ajoute un tooltip à l'hexagone
 				ImageIcon imageToolTip = new ImageIcon("images/button.png");
 				Border matteborder = BorderFactory.createMatteBorder(1, 1, 3, 1, imageToolTip);
-				String titre = "Type terrain : " + terrain.getTypeTerrain() + "\n Bonus défense : " + terrain.getBonusDefense() + "\n Point déplacement : " + terrain.getPointDeplacement();
+				String titre = "Type terrain : " + labelBordure.getX() + " " + labelBordure.getY() + terrain.getTypeTerrain() + "\n Bonus défense : " + terrain.getBonusDefense() + "\n Point déplacement : " + terrain.getPointDeplacement();
 				UIManager.put("ToolTip.background", Color.decode("#0B2161"));
 				UIManager.put("ToolTip.border", new BorderUIResource(matteborder));
 				UIManager.put("ToolTip.foreground", Color.decode("#B18904"));
 				labelBordure.setToolTipText(titre);
 
 				labelBordure.addMouseListener(new MouseHexagone(labelBordure));
-				
+
 				this.add(labelBordure, JLayeredPane.PALETTE_LAYER);
 
 				labelsHexagones.put(hexagone.getId(), labelBordure);
@@ -577,45 +577,46 @@ public class PanelTerrains extends JLayeredPane {
 			try {
 				Ordinateur ordinateur = new Ordinateur(this.tourJoueur.getNomJoueur(), this.tourJoueur.getSoldatList(), this.tourJoueur.getScore(), this.tourJoueur.getImage(), this.tourJoueur.getAdversaires());
 				Soldat soldat = ordinateur.choisirSoldat();
-				
+
 				Hexagone hexagone = getHexagone(soldat);
-				
+
 				JLabel label = getLabel(hexagone.getId());
-			
+
 				Point p;
 				int x, y;
 				p = label.getLocationOnScreen();
 				x = p.x;
 				y = p.y;
-			
-				System.out.println(p);
-				
+
 				Robot robot = new Robot();
-				robot.setAutoDelay(250);
 				robot.mouseMove(x, y);
 				robot.setAutoDelay(500);
 				robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
 				robot.setAutoDelay(500);
 				robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-				
+
 				ArrayList<JLabel> labelsHexagonesPossibles = recupereHexagoneVisionSoldat(soldat);
-			
+
 				JLabel labelHexDestination = ordinateur.choisirHexagone(labelsHexagonesPossibles, soldat);
-				
-				System.out.println(labelHexDestination);
+
 				p = labelHexDestination.getLocationOnScreen();
-				System.out.println(p);
 				
 				x = p.x;
 				y = p.y;
-			
-				robot.setAutoDelay(500);
+
 				robot.mouseMove(x, y);
 				robot.setAutoDelay(500);
 				robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
 				robot.setAutoDelay(500);
 				robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+				robot.setAutoDelay(500);
 				
+				/*robot.mouseMove(1150, 670);
+				robot.setAutoDelay(500);
+				robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+				robot.setAutoDelay(500);
+				robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);*/
+
 			} catch (AWTException ex) {
 				ex.printStackTrace();
 			}
@@ -623,67 +624,55 @@ public class PanelTerrains extends JLayeredPane {
 	}
 
 	public ArrayList<JLabel> recupereHexagoneVisionSoldat(Soldat soldat) {
-        ArrayList<JLabel> labelsHexagonesVisions = new ArrayList<JLabel>();
-        for (int i=0; i<this.terrains.size(); i++) {
-            Terrain terrain = terrains.get(i);
-            for (int j=0; j<terrain.getHexagones().size(); j++) {
-                Hexagone hexagone = terrain.getHexagones().get(j);
-                
-                if (hexagone.getUnits().isEmpty()) {
-                	 JLabel labelHexagone = getLabel(hexagone.getId());
-                     
-                	 Point p = labelHexagone.getLocationOnScreen();
-                	 if (p.x >= 0 && p.y >= 0) {
-                		 int calcul1, calcul2, calcul3, calcul4;
-                         
-                         calcul1 = (labelHexagone.getX()-soldat.getAbscisse())/labelHexagone.getWidth();
-                         calcul2 = (soldat.getAbscisse()-labelHexagone.getX())/labelHexagone.getWidth();
-                         calcul3 = (soldat.getOrdonnees()-labelHexagone.getY())/labelHexagone.getHeight();
-                         calcul4 = (labelHexagone.getY()-soldat.getOrdonnees())/labelHexagone.getHeight();
-                         
-                         System.out.println("test " + Integer.toString(soldat.getVision()));
-                         System.out.println("test " + Integer.toString(soldat.getDeplacement() + terrain.getPointDeplacement()));
-                         
-                         if(calcul1<=Math.abs(soldat.getVision()) && calcul1 <= (soldat.getDeplacement() + terrain.getPointDeplacement())){	
-                         	
-                         	System.out.println(calcul1);
-                         	System.out.println(labelHexagone);
-                         	labelsHexagonesVisions.add(labelHexagone); 
-                             
-                         }	
-                         else if(calcul2<=Math.abs(soldat.getVision()) && calcul2 <= (soldat.getDeplacement() + terrain.getPointDeplacement()))
-                         {
-                         	System.out.println(calcul2);
-                         	System.out.println(labelHexagone);
-                         	
-                             labelsHexagonesVisions.add(labelHexagone);
-                         }
-                         else if(calcul3<=Math.abs(soldat.getVision()) && calcul3 <= (soldat.getDeplacement() + terrain.getPointDeplacement()))
-                         {
-                         	System.out.println(calcul3);
-                         	System.out.println(labelHexagone);
-                         	
-                             labelsHexagonesVisions.add(labelHexagone);
-                         }
-                         else if(calcul4<=Math.abs(soldat.getVision()) && calcul4 <= (soldat.getDeplacement() + terrain.getPointDeplacement()))
-                         {
-                         	System.out.println(calcul4);
-                         	System.out.println(labelHexagone);
-                         	
-                         	labelsHexagonesVisions.add(labelHexagone);
-                         }
-                      //   JLabel labelHexagone = getLabel(hexagone.getId());
-                      //   labelsHexagonesVisions.add(labelHexagone);
-                	 }
-                     
-                }
-               
-            }
-        }
+		ArrayList<JLabel> labelsHexagonesVisions = new ArrayList<JLabel>();
+		for (int i=0; i<this.terrains.size(); i++) {
+			Terrain terrain = terrains.get(i);
+			for (int j=0; j<terrain.getHexagones().size(); j++) {
+				Hexagone hexagone = terrain.getHexagones().get(j);
 
-        return labelsHexagonesVisions;
-    }
-	            
+				if (hexagone.getUnits().isEmpty()) {
+					JLabel labelHexagone = getLabel(hexagone.getId());
+
+					Point p = labelHexagone.getLocationOnScreen();
+					if (p.x >= 0 && p.y >= 0 && p.x <= this.scrollPane.getWidth() && p.x >= 70 && p.y <= this.scrollPane.getHeight() && p.y >= 60) {
+						int nbrHexagones = soldat.getVision()+1;
+						int xClic = labelHexagone.getX();
+						int yClic = labelHexagone.getY();
+
+						if (xClic  > soldat.getAbscisse() && yClic > soldat.getOrdonnees()) {
+							nbrHexagones = (xClic-soldat.getAbscisse()) / labelHexagone.getWidth();
+						}
+						else if (xClic  < soldat.getAbscisse() && yClic > soldat.getOrdonnees()) {
+							nbrHexagones = (soldat.getAbscisse()-xClic) / labelHexagone.getWidth();
+						}
+						else if (xClic  > soldat.getAbscisse() && yClic < soldat.getOrdonnees()) {
+							nbrHexagones = (xClic-soldat.getAbscisse()) / labelHexagone.getWidth();
+						}
+						else if (xClic  < soldat.getAbscisse() && yClic < soldat.getOrdonnees()) {
+							nbrHexagones = (soldat.getAbscisse()-xClic) / labelHexagone.getWidth();
+						}
+						else if (yClic < soldat.getOrdonnees()) {
+							nbrHexagones = (soldat.getOrdonnees()-yClic) / labelHexagone.getHeight();
+						}
+						else if (yClic > soldat.getOrdonnees()) {
+							nbrHexagones = (yClic-soldat.getOrdonnees()) / labelHexagone.getHeight();
+						}
+
+						nbrHexagones++;
+
+						if (nbrHexagones < (soldat.getDeplacement() + terrain.getPointDeplacement()) && nbrHexagones <= soldat.getVision()) {
+							labelsHexagonesVisions.add(labelHexagone);
+						}
+					}
+
+				}
+
+			}
+		}
+
+		return labelsHexagonesVisions;
+	}
+
 
 	/*
 	 * Récupérer les points de déplacement d'un terrain à partir de son nom 
@@ -778,7 +767,7 @@ public class PanelTerrains extends JLayeredPane {
 
 
 	}
-	
+
 	/*
 	 * Cette fonction permet d'afficher le brouillard des hexagones qui appartient de zone de vision des soldats
 	 */
@@ -1100,7 +1089,7 @@ public class PanelTerrains extends JLayeredPane {
 				modifierCoordonneesCamera();
 				updateSoldatHexagone();
 				hexagoneSelected = hexagoneClique;
-					
+
 			}
 		}
 	}
