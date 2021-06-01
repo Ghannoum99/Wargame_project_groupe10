@@ -105,8 +105,8 @@ public class PlateauVue extends JFrame {
 		yGuide = backgroundimage.getHeight()-210;
 		widthGuide = backgroundimage.getWidth()-173;
 		xCompteur = backgroundimage.getWidth()/2 - 150;
-		yCompteur = backgroundimage.getHeight()-780;
-
+		yCompteur = 20;
+		
 		// CrÃ©ation du panel permettant d'afficher les infos du soldat
 		this.panelInfosSoldat = new PanelInfosSoldat(xPanelsInfos);
 		this.plateau.add(this.panelInfosSoldat, JLayeredPane.DEFAULT_LAYER);
