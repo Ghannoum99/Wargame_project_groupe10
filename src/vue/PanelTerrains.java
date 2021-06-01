@@ -267,7 +267,14 @@ public class PanelTerrains extends JLayeredPane {
 
 			JProgressBar progressBarSoldatEnnemi = chercherProgressBar(tue);
 			progressBarSoldatEnnemi.setValue(tue.getPv());
+			if (tue.getPv() <= 50 && tue.getPv() > 30) {
+				progressBarSoldatEnnemi.setForeground(Color.orange);
+			}
 
+			if (tue.getPv() <= 30) {
+				progressBarSoldatEnnemi.setForeground(Color.red);
+			}
+		
 			TimerTask task = new TimerTask() {
 				public void run() {
 					if(tue.getPv() <= 0)
