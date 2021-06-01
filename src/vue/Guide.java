@@ -168,7 +168,7 @@ public class Guide extends JPanel {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							labelIndications.setText("<html>En fonction des points d'attaque du soldat avec lequel vous êtes actuellement "
-									+ "en train de jouer, et en fonction des points de défense du soldat que vous comptez attaquer, la victime perdra ou non des points de vies.</html>");
+									+ "en train de jouer, en fonction des points de défense de la victime et en fonction du bonus de défense du terrain sur lequel se trouve le soldat que vous comptez attaquer, la victime perdra ou non des points de vies.</html>");
 
 							for (ActionListener actionL : boutonValider.getActionListeners()) {
 								boutonValider.removeActionListener(actionL);

@@ -9,10 +9,13 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import javax.swing.*;
+
+import controleur.JsonController;
 import modele.ScenarioStandard;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
+
 
 
 
@@ -23,7 +26,6 @@ public class MenuPrincipal extends JFrame{
 	private JButton boutonContinuer;
 	private JButton boutonMultiJoueurs;
 	private JButton boutonSolo;
-	private controleur.JsonController json;
 	private JLabel backgroundimage;
 	private PanelMenuInfos panelMenu;
 	
@@ -135,9 +137,12 @@ public class MenuPrincipal extends JFrame{
 		boutonContinuer.setText("Continuer");
 		boutonContinuer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				//faut recuperer la liste des joueurs avec le scenario choisi avant
 				playAudio("c:\\Windows\\media\\ding.wav");
-				PlateauVue plateau = json.read_file_json();				
+				JsonController js = new JsonController();
+				PlateauVue plateau = js.read_file_json();
+				System.out.println(plateau.getJoueurs());
 				//PlateauVue plateau = new PlateauVue(scenario.getJoueurs(), scenario);
 				plateau.show();
 				dispose();

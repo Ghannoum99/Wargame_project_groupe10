@@ -1,10 +1,10 @@
 {
-	"typeScenario": "scenarioStandard",
+	"scenario": "scenarioStandard",
 	"joueurs": [
 		{
 			"score": 0,
 			"image": "images/profile/image2_copie.png",
-			"nomJoueur": "Pseudo1",
+			"nomJoueur": "Jihad",
 			"KO": [
 				0,
 				0,
