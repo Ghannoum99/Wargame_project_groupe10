@@ -108,7 +108,7 @@ public class MenuScenario extends JFrame {
 	
 	public void afficherBoutonScenarioTempsLimite() {
 		boutonScenarioTempsLimite = new JButton();
-		boutonScenarioTempsLimite.setText("Match de 4 Mins");
+		boutonScenarioTempsLimite.setText("Match de 2 Mins");
 		boutonScenarioTempsLimite.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
