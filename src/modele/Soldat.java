@@ -6,6 +6,7 @@ public class Soldat extends Piece {
 	private int attaque;
 	private int defense;
 	private int deplacement;
+	private int deplacementRealises;
 	private int vision;
 	private int pv;
 	private boolean ko;
@@ -21,6 +22,7 @@ public class Soldat extends Piece {
 		this.vision = vision;
 		this.pv = pv;
 		this.ko = ko;
+		this.deplacementRealises = 0;
 	}
 	
 	public String getTypeSoldat() {
@@ -81,10 +83,20 @@ public class Soldat extends Piece {
 	}
 	
 	public void deplacementPossible (int abscisseMin, int abscisseMax, int ordonneesMin, int ordonneesMax, int x, int y, int nbrHexagonesAparcourir, int bonusDeplacement) {
-		if (x >= abscisseMin && x <= abscisseMax && y >= ordonneesMin && y <= ordonneesMax && nbrHexagonesAparcourir <= this.deplacement + bonusDeplacement) {
+		if (x >= abscisseMin && x <= abscisseMax && y >= ordonneesMin && y <= ordonneesMax && nbrHexagonesAparcourir <= (this.deplacement + bonusDeplacement) && nbrHexagonesAparcourir <= this.vision && this.deplacementRealises <= (this.deplacement + bonusDeplacement)) {
 			super.setAbscisse(x);
 			super.setOrdonnees(y);
+			this.deplacementRealises+=nbrHexagonesAparcourir;
 		}
+	}
+
+	
+	public int getDeplacementRealises() {
+		return deplacementRealises;
+	}
+
+	public void setDeplacementRealises(int deplacementRealises) {
+		this.deplacementRealises = deplacementRealises;
 	}
 
 	@Override

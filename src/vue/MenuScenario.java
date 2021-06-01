@@ -27,6 +27,7 @@ public class MenuScenario extends JFrame {
 	private JLabel backgroundimage;
 	private JButton boutonScenarioTempsLimite;
 	private JButton boutonScenarioStandard;
+	private JButton boutonScenarioTourLimite;
 	private boolean choix;
 	private ArrayList<Joueur> joueurs;
 
@@ -58,17 +59,23 @@ public class MenuScenario extends JFrame {
 		
 		
 		/** PANEL QUI CONTIENT TOUS LES BOUTONS, ET LE LOGO DU JEU **/
-		panelMenu = new PanelMenuInfos(490, 167, 292, 486);
+		panelMenu = new PanelMenuInfos(490, 137, 292, 486);
 		panelPrincipal.add(panelMenu);
-		//panelMenu.setBackground(new Color(0,0,0,125));
 		
 		
 		afficherBoutonScenarioStandard();
 		afficherBoutonScenarioTempsLimite();
-		
+		afficherBoutonScenarioTourLimite();
 		
 		/** BOUTON RETOUR **/
-		
+		PanelBoutonRetour panelBouton = new PanelBoutonRetour();
+		panelBouton.setBounds(34, 412, 52, 29);
+		panelMenu.add(panelBouton);
+		panelBouton.boutonRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				retourner();
+			}
+		});
 		
 		/** BACKGROUND **/
 		backgroundimage = new JLabel("");
@@ -86,28 +93,25 @@ public class MenuScenario extends JFrame {
 		boutonScenarioStandard.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				//ScenarioStandard scenario = new ScenarioStandard("scenarioStandard", joueurs);
 				PlateauVue plateau = new PlateauVue(joueurs,"scenarioStandard");
 				plateau.show();
 				dispose();
 			}
 		});
 		boutonScenarioStandard.setIcon(new ImageIcon("images/large-button-active.png"));
-		boutonScenarioStandard.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		boutonScenarioStandard.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		boutonScenarioStandard.setForeground(Color.white);
 		boutonScenarioStandard.setHorizontalTextPosition(JButton.CENTER);
-		boutonScenarioStandard.setBounds(60, 183, 172, 48);
+		boutonScenarioStandard.setBounds(60, 168, 172, 48);
 		panelMenu.add(boutonScenarioStandard);
 	}
 	
-
 	public void afficherBoutonScenarioTempsLimite() {
 		boutonScenarioTempsLimite = new JButton();
 		boutonScenarioTempsLimite.setText("Match de 4 Mins");
 		boutonScenarioTempsLimite.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				//ScenarioTempsLimite scenario = new ScenarioTempsLimite("scenarioStandard", joueurs);
 				PlateauVue plateau = new PlateauVue(joueurs,"scenarioTempsLimite");
 				plateau.show();
 				dispose();
@@ -115,20 +119,31 @@ public class MenuScenario extends JFrame {
 		});
 		boutonScenarioTempsLimite.setBorder(UIManager.getBorder("Button.border"));
 		boutonScenarioTempsLimite.setIcon(new ImageIcon("images/large-button-active.png"));
-		boutonScenarioTempsLimite.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		boutonScenarioTempsLimite.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		boutonScenarioTempsLimite.setForeground(Color.white);
 		boutonScenarioTempsLimite.setHorizontalTextPosition(JButton.CENTER);
-		panelMenu.setLayout(null);
-		boutonScenarioTempsLimite.setBounds(60, 290, 172, 48);
+		boutonScenarioTempsLimite.setBounds(60, 240 , 172, 48);
 		panelMenu.add(boutonScenarioTempsLimite);
-		PanelBoutonRetour panelBouton = new PanelBoutonRetour();
-		panelBouton.setBounds(34, 412, 52, 29);
-		panelMenu.add(panelBouton);
-		panelBouton.boutonRetour.addActionListener(new ActionListener() {
+	}
+	
+	public void afficherBoutonScenarioTourLimite() {
+		boutonScenarioTourLimite = new JButton();
+		boutonScenarioTourLimite.setText("Match de 30 Tours");
+		boutonScenarioTourLimite.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				retourner();
+				PlateauVue plateau = new PlateauVue(joueurs,"scenarioTourLimite");
+				plateau.show();
+				dispose();
 			}
 		});
+		boutonScenarioTourLimite.setBorder(UIManager.getBorder("Button.border"));
+		boutonScenarioTourLimite.setIcon(new ImageIcon("images/large-button-active.png"));
+		boutonScenarioTourLimite.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		boutonScenarioTourLimite.setForeground(Color.white);
+		boutonScenarioTourLimite.setHorizontalTextPosition(JButton.CENTER);
+		boutonScenarioTourLimite.setBounds(60, 312, 172, 48);
+		panelMenu.add(boutonScenarioTourLimite);
 	}
 	
 	/*====================================== BOUTONS POUR RETOURNER ====================================== */

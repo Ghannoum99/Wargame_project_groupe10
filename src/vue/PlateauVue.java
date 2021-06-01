@@ -114,7 +114,7 @@ public class PlateauVue extends JFrame {
 
 		// Choix aléatoire d'un joueur pour commencer le tour
 		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
-		this.tourJoueur = this.joueurs.get(ind);
+		this.tourJoueur = this.joueurs.get(0);
 
 		// Création de minimap
 		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this, xPanelsInfos);
@@ -208,28 +208,29 @@ public class PlateauVue extends JFrame {
 		boutonFinirTour.setHorizontalTextPosition(JButton.CENTER);
 		boutonFinirTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int ind = 0;
-				Joueur ancienJoueur, nouveauJoueur;
-				ancienJoueur = panelTerrains.getTourJoueur();
-				nouveauJoueur = ancienJoueur;
-				while (nouveauJoueur == ancienJoueur) {
-					ind = (int) (Math.random() * (joueurs.size() - 0));
-					nouveauJoueur = joueurs.get(ind);
+				if (!verifGagnant(xCompteur, yCompteur)) {
+					int ind = 0;
+					Joueur ancienJoueur, nouveauJoueur;
+					ancienJoueur = panelTerrains.getTourJoueur();
+					nouveauJoueur = ancienJoueur;
+					while (nouveauJoueur == ancienJoueur) {
+						ind = (int) (Math.random() * (joueurs.size() - 0));
+						nouveauJoueur = joueurs.get(ind);
+					}
+					setTourJoueur(nouveauJoueur, ind);
+					nombreTours++;
 				}
-				setTourJoueur(nouveauJoueur, ind);
-				verifGagnant(xCompteur, yCompteur);
-				nombreTours++;
 			}
 		});
 
 		boutonFinirTour.setBounds(xPanelsInfos, yBoutonFinirTour, 140, heightBoutonFinirTour);
 
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
-
+	
 		SwingUtilities.updateComponentTreeUI(this.plateau);
 	}
 
-	public void verifGagnant(int xCompteur, int yCompteur) {
+	public boolean verifGagnant(int xCompteur, int yCompteur) {
 		switch(this.scenario) {
 		case "scenarioStandard" :
 			ScenarioStandard scenarioStandard = new ScenarioStandard(joueurs);
@@ -273,6 +274,7 @@ public class PlateauVue extends JFrame {
 			panelTerrains.retirerMouseListenerHexagones(); 
 		}
 
+		return termine;
 	}
 	
 	/********************************************************************/

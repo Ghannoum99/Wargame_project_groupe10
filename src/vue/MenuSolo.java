@@ -39,18 +39,17 @@ public class MenuSolo extends MenuMultiJoueurs {
 		afficherChampTextPseudo();
 		afficherLabelNumJoueur();
 		afficherCombobox();
-		afficherCheckBox();
 		effacerSpinner();
 		effacerBoutonNombreJoueur();
 		recupererPseudo();
 		
-		
 		afficherBoutonValider();
 		
-		
-		/** METTANT UN NOMBRE POUR L'ORDINATEUR **/
-		listeChampText.get(1).setText("ORDINATEUR");
+		/** METTANT UN NOM POUR L'ORDINATEUR **/
+		listeChampText.get(1).setText("IA");
 		listeChampText.get(1).setEditable(false);
+		listeCombobox.get(1).setEnabled(false);
+		
 	}
 	
 	/************************************/
@@ -90,8 +89,8 @@ public class MenuSolo extends MenuMultiJoueurs {
 				
 				String photoProfile = "images/profile/" + images.get(0) +"_copie.png";
 				
-				Joueur humain = new Humain(pseudos.get(0), new ArrayList<Soldat>(),0, photoProfile, adversaires);
-				Joueur IA = new Ordinateur(pseudos.get(1), new ArrayList<Soldat>(), 0, "images/profile/image8_copie.png", adversaires);
+				Humain humain = new Humain(pseudos.get(0), new ArrayList<Soldat>(),0, photoProfile, adversaires);
+				Ordinateur IA = new Ordinateur(pseudos.get(1), new ArrayList<Soldat>(), 0, "images/profile/image8_copie.png", adversaires);
 				
 				adversaires_humain.add(IA);
 				adversaires_ordinateur.add(humain);
