@@ -11,13 +11,13 @@ import java.text.*;
 public class PanelCompteur extends JPanel {
 	
 	private JLabel labelCompteur;
-	public Timer compteur;
+	private Timer compteur;
 	private int seconde;
 	private int minute;
 	private String ddSecond;
 	private String ddMinute;
 	private DecimalFormat dFormat = new DecimalFormat("00");
-	public boolean termine = false;
+	private boolean termine = false;
 	private int xBounds;
 	private int yBounds;
 
@@ -35,9 +35,9 @@ public class PanelCompteur extends JPanel {
 		this.setLayout(null);
 		
 		afficherLabelCompteur();
-		labelCompteur.setText("02:00");
-		seconde = 0;
-		minute = 2;
+		labelCompteur.setText("00:20");
+		seconde = 20;
+		minute = 0;
 		
 		countdownTimer();
 		compteur.start();
@@ -55,7 +55,6 @@ public class PanelCompteur extends JPanel {
 	}
 	
 	public void countdownTimer() {
-		System.out.println(termine);
 		compteur = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -96,6 +95,38 @@ public class PanelCompteur extends JPanel {
 
 	public void setyBounds(int yBounds) {
 		this.yBounds = yBounds;
+	}
+
+	public Timer getCompteur() {
+		return compteur;
+	}
+
+	public void setCompteur(Timer compteur) {
+		this.compteur = compteur;
+	}
+
+	public int getSeconde() {
+		return seconde;
+	}
+
+	public void setSeconde(int seconde) {
+		this.seconde = seconde;
+	}
+
+	public int getMinute() {
+		return minute;
+	}
+
+	public void setMinute(int minute) {
+		this.minute = minute;
+	}
+
+	public boolean isTermine() {
+		return termine;
+	}
+
+	public void setTermine(boolean termine) {
+		this.termine = termine;
 	}
 	
 }

@@ -29,6 +29,7 @@ public class PlateauVue extends JFrame {
 	private int nombreTours = 0;
 	private controleur.JsonController json;
 	private MiniMap minimap;
+	private PanelCompteur cmpt;
 	private Joueur tourJoueur;
 	private ArrayList<Joueur> joueurs;
 	private Guide guide;
@@ -42,6 +43,7 @@ public class PlateauVue extends JFrame {
 	private JLabel labelNumJoueur;
 	private JLabel labelNomJoueur;
 	private PanelMenuInfos panelMenu;
+	private ArrayList<Joueur> joueursCopie = new ArrayList<Joueur>(); 
 	
 
 	public PlateauVue(ArrayList<Joueur> joueurs, String scenario) { 
@@ -105,6 +107,9 @@ public class PlateauVue extends JFrame {
 
 		// Création des joueurs 
 		this.joueurs = joueurs;
+		
+		/** Copier la liste des joueurs **/
+		copierListeJoueur();
 
 		this.scenario = scenario;
 
@@ -199,6 +204,11 @@ public class PlateauVue extends JFrame {
 		boutonQuitter.setBounds(boutonAide.getX()+40, yMiniBoutons, 30, 30);
 		this.plateau.add(boutonQuitter,  JLayeredPane.DEFAULT_LAYER);
 
+		if(this.scenario.equals("scenarioTempsLimite")) {
+			cmpt = new PanelCompteur(xCompteur, yCompteur);
+			this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
+		}
+		
 		// Finir le tour
 		JButton boutonFinirTour = new JButton("Finir tour");
 		boutonFinirTour.setBorder(UIManager.getBorder("Button.border"));
@@ -208,7 +218,7 @@ public class PlateauVue extends JFrame {
 		boutonFinirTour.setHorizontalTextPosition(JButton.CENTER);
 		boutonFinirTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!verifGagnant(xCompteur, yCompteur)) {
+				if (!verifGagnant()) {
 					int ind = 0;
 					Joueur ancienJoueur, nouveauJoueur;
 					ancienJoueur = panelTerrains.getTourJoueur();
@@ -219,21 +229,24 @@ public class PlateauVue extends JFrame {
 					}
 					setTourJoueur(nouveauJoueur, ind);
 					nombreTours++;
+					 
 				}
 				else {
+						
+						afficherPanelFinBataille();
+						panelTerrains.retirerMouseListenerHexagones();	
 					
 				}
 			}
 		});
 
 		boutonFinirTour.setBounds(xPanelsInfos, yBoutonFinirTour, 140, heightBoutonFinirTour);
-
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
-	
+		
 		SwingUtilities.updateComponentTreeUI(this.plateau);
 	}
 
-	public boolean verifGagnant(int xCompteur, int yCompteur) {
+	public boolean verifGagnant() {
 		switch(this.scenario) {
 		case "scenarioStandard" :
 			ScenarioStandard scenarioStandard = new ScenarioStandard(joueurs);
@@ -243,40 +256,25 @@ public class PlateauVue extends JFrame {
 				termine = true;
 			}
 			break;
-
-		case "scenarioTempsLimite" :
+		
+		case "scenarioTempsLimite":
 			ScenarioTempsLimite scenarioTempsLimite = new ScenarioTempsLimite(joueurs);
-			PanelCompteur cmpt = new PanelCompteur(xCompteur, yCompteur);
-			this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
-			/*if (cmpt.minute != 0 && cmpt.seconde != 0) {
-
-					if(!clicked) {
-						cmpt.compteur.stop();
-					}
-					else {
-						cmpt.compteur.start();
-					}
-				}
-				else {
+			if(cmpt.getMinute() != 0 && cmpt.getSeconde() != 0) {
+				if(scenarioTempsLimite.appliquerScenario(getTourJoueur()) != null)
+				{
+					gagnant = scenarioTempsLimite.appliquerScenario(getTourJoueur());
+					System.out.println(gagnant);
 					termine = true;
+					break;
+					
 				}
-			}*/
-			break;
-
-		case "scenarioTourLimite" :
-			ScenarioTourLimite scenarioTourLimite = new ScenarioTourLimite(joueurs);
-			if(scenarioTourLimite.appliquerScenarioTourLimite(getTourJoueur(), nombreTours, gagnant))
-			{
+			}
+			else if(cmpt.getMinute() == 0 && cmpt.getSeconde() == 0) {
+				gagnant = scenarioTempsLimite.chercherScoreMax(getTourJoueur());
 				termine = true;
-			}			
-			break;	
+			}
 		}
-
-		if (termine) {
-			afficherPanelFinBataille();
-			panelTerrains.retirerMouseListenerHexagones(); 
-		}
-
+			
 		return termine;
 	}
 	
@@ -350,7 +348,7 @@ public class PlateauVue extends JFrame {
 	
 	public void afficherScore() {
 		int y = 214;
-		for(int i = 0; i < joueurs.size(); i++) {
+		for(int i = 0; i < joueursCopie.size(); i++) {
 			String score = String.valueOf((Integer) joueurs.get(i).getScore());
 			labelScore = new JLabel();
 			labelScore.setText(score);
@@ -365,7 +363,7 @@ public class PlateauVue extends JFrame {
 	
 	public void afficherNumJoueur() {
 		int y = 214;
-		for(int i = 0; i < joueurs.size(); i++) {
+		for(int i = 0; i < joueursCopie.size(); i++) {
 			String numJoueur = String.valueOf((Integer) i);
 			labelNumJoueur = new JLabel();
 			labelNumJoueur.setText(numJoueur);
@@ -380,7 +378,7 @@ public class PlateauVue extends JFrame {
 	
 	public void afficherNomJoueur() {
 		int y = 214;
-		for(int i = 0; i < joueurs.size(); i++) {
+		for(int i = 0; i < joueursCopie.size(); i++) {
 			labelNomJoueur = new JLabel();
 			labelNomJoueur.setText(joueurs.get(i).getNomJoueur());
 			labelNomJoueur.setForeground(new Color(200, 173, 10));
@@ -413,6 +411,12 @@ public class PlateauVue extends JFrame {
 		afficherScore();
 		afficherBoutonRejouer();
 		afficherBoutonQuitter();
+	}
+	/** COPIER LA LISTE DES JOUEURS **/
+	public void copierListeJoueur() {
+		for(Joueur joueur : this.joueurs) {
+			joueursCopie.add(joueur);
+		}
 	}
 
 	public Joueur getTourJoueur() {
