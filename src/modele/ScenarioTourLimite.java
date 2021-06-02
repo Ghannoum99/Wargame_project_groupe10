@@ -8,14 +8,13 @@ public class ScenarioTourLimite extends ScenarioStandard {
 		super(joueurs);
 	}
 	
-	public boolean appliquerScenarioTourLimite(Joueur joueur, int nombreTours, Joueur gagnant) {
-		boolean termine = false;
+	public Joueur appliquerScenarioTourLimite(Joueur joueur, int nombreTours) {
+		Joueur gagnant = null;
 		//Joueur gagnant = new Joueur(" ", new ArrayList<Soldat>(), 0, " ", new ArrayList<Joueur>());
 		if (nombreTours == 30) {
 			gagnant = chercherScoreMax(joueur);
-			termine = true;
 		}
-		return termine;
+		return gagnant;
 	}
 	
 	public Joueur chercherScoreMax (Joueur joueur) {
@@ -26,6 +25,7 @@ public class ScenarioTourLimite extends ScenarioStandard {
 				scoreMax = joueurs.get(i).getScore();
 				gagnant = joueurs.get(i);
 			}
+
 		}
 		return gagnant;
 	}
