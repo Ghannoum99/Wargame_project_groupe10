@@ -414,7 +414,7 @@ public class PlateauVue extends JFrame {
 	public void afficherNumJoueur() {
 		int y = 214;
 		for(int i = 0; i < joueursCopie.size(); i++) {
-			String numJoueur = String.valueOf((Integer) i);
+			String numJoueur = String.valueOf((Integer) i+1);
 			labelNumJoueur = new JLabel();
 			labelNumJoueur.setText(numJoueur);
 			labelNumJoueur.setForeground(new Color(200, 173, 10));
