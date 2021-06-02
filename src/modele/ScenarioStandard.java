@@ -15,18 +15,15 @@ public class ScenarioStandard {
 		
 		if(appliquerScenario1() != null) {
 			//gagnant = null;
-			System.out.println("scenario1");
 			gagnant = appliquerScenario1();
 		}
 		else if(appliquerScenario2(joueur) != null) {
 			gagnant = null;
-			System.out.println("scenario2");
 			gagnant = appliquerScenario2(joueur);
 		}
 		
 		else if(appliquerScenario3(joueur) != null) {
 			gagnant = null;
-			System.out.println("scenario3");
 			gagnant = appliquerScenario3(joueur);
 		}
 			
@@ -44,12 +41,10 @@ public class ScenarioStandard {
             if(joueur.getNombreSoldat() == 0)
             {
                 joueurs_copie.remove(joueur);
-                System.out.println(joueur);
             }
             
             if(joueurs_copie.size() == 1) {
                 gagnant = joueurs_copie.get(0);
-                System.out.println(gagnant);
             }
         }
         
@@ -82,9 +77,7 @@ public class ScenarioStandard {
 	public Joueur appliquerScenario3(Joueur joueur) {
 		Joueur gagnant = null;
 		if(aTueCinqSoldats(joueur)) {
-			System.out.println(joueur.getNomJoueur());
 			gagnant = joueur;
-			//System.out.println(gagnant.getNomJoueur());
 		}
 		
 		return gagnant;

@@ -336,7 +336,6 @@ public class PanelTerrains extends JLayeredPane {
 	 */
 
 	public int diminuerpointdeviesoldat(Hexagone selected, Hexagone ennemi) {
-		System.out.println(ennemi);
 		Random random = new Random();
 		Soldat s1 = selected.getUnits().get(0);
 		Soldat s2 = ennemi.getUnits().get(0);
@@ -1013,12 +1012,9 @@ public class PanelTerrains extends JLayeredPane {
 					guide.afficherFinTuto();
 				}
 				boolean attaque = possibiliteAttaque(hexagoneSelected, hexagone);
-				//System.out.println(attaque);
 				if(attaque)  {
-					//System.out.println("hex deb : " + hexagone);
 					int degats = diminuerpointdeviesoldat(hexagoneSelected, hexagone);
 					tuersoldat(hexagone, degats);
-					//System.out.println("hex fin : " + hexagone);
 				}
 			}
 		}

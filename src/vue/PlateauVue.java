@@ -271,7 +271,6 @@ public class PlateauVue extends JFrame {
 						nouveauJoueur = joueurs.get(ind);
 					}
 					setTourJoueur(nouveauJoueur, ind);
-					System.out.println(nombreTours);
 					nombreTours++;
 
 				}
@@ -298,8 +297,8 @@ public class PlateauVue extends JFrame {
 			{
 				gagnant = scenarioStandard.appliquerScenario(getTourJoueur());
 				termine = true;
-				break;
 			}
+			break;
 					
 		case "scenarioTempsLimite":
 			if(cmpt.getMinute() == 0 && cmpt.getSeconde() == 0) {
@@ -307,9 +306,8 @@ public class PlateauVue extends JFrame {
 				gagnant = scenario.chercherScoreMax(getTourJoueur());
 				controlerAffichageVictoire();
 				termine = true;
-				break;
 			}
-			
+			break;
 			 
 		case "scenarioTourLimite":
 			ScenarioTourLimite scenarioTourLimite = new ScenarioTourLimite(joueurs);
@@ -318,8 +316,8 @@ public class PlateauVue extends JFrame {
 				gagnant = scenarioTourLimite.appliquerScenarioTourLimite(getTourJoueur(), nombreTours);
 				controlerAffichageVictoire();
 				termine = true;
-				break;
 			}
+			break;
 			
 		}
 		
