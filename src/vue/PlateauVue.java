@@ -4,16 +4,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import controleur.JsonController;
 
 import java.util.*;
 import modele.*;
 
 /*
- * La classe PlateauVue permet dâ€™afficher les diffÃ©rents Ã©lÃ©ments du plateau 
+ * La classe PlateauVue permet dÃ¢â‚¬â„¢afficher les diffÃƒÂ©rents ÃƒÂ©lÃƒÂ©ments du plateau 
  * : les terrains, les soldats des joueurs de la partie et le cadre du plateau.
  */
 
@@ -28,7 +33,6 @@ public class PlateauVue extends JFrame {
 	private boolean termine = false;
 	public Joueur gagnant = null;
 	private int nombreTours = 0;
-	private controleur.JsonController json;
 	private MiniMap minimap;
 	private PanelCompteur cmpt;
 	private Joueur tourJoueur;
@@ -47,19 +51,19 @@ public class PlateauVue extends JFrame {
 	private int yMiniBoutons;
 	private int heightBoutonFinirTour;
 	private int yBoutonFinirTour;
-
 	public JLabel labelInfo;
 	private JPanel panelInfo;		
-	private JLabel labelTitre;
+	private JLabel labelTitre = new JLabel();;
 	private JLabel labelScore;
 	private JLabel labelNumJoueur;
 	private JLabel labelNomJoueur;
 	private PanelMenuInfos panelMenu;
+	private PlateauVue plateauCopie = this;
 	private ArrayList<Joueur> joueursCopie = new ArrayList<Joueur>(); 
 
 
 	public PlateauVue(ArrayList<Joueur> joueurs, String scenario) { 
-		// DÃ©finition des donnÃ©es de la fenÃªtre principale
+		// DÃƒÂ©finition des donnÃƒÂ©es de la fenÃƒÂªtre principale
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setBounds(0,0, 1310, 820);
 		this.getContentPane().setBackground(Color.white);	
@@ -74,7 +78,8 @@ public class PlateauVue extends JFrame {
 		this.plateau.setVisible(true);
 		this.plateau.setOpaque(false);
 		this.add(this.plateau);
-
+		
+		
 		// Image de fond
 		JLabel backgroundimage = new JLabel("");
 		this.add(backgroundimage);
@@ -105,17 +110,17 @@ public class PlateauVue extends JFrame {
 		yGuide = backgroundimage.getHeight()-210;
 		widthGuide = backgroundimage.getWidth()-173;
 		xCompteur = backgroundimage.getWidth()/2 - 150;
-		yCompteur = 20;
+		yCompteur = 1;
 		
-		// CrÃ©ation du panel permettant d'afficher les infos du soldat
+		// CrÃƒÂ©ation du panel permettant d'afficher les infos du soldat
 		this.panelInfosSoldat = new PanelInfosSoldat(xPanelsInfos);
 		this.plateau.add(this.panelInfosSoldat, JLayeredPane.DEFAULT_LAYER);
 
-		// CrÃ©ation du panel permettant d'afficher les infos du joueur
+		// CrÃƒÂ©ation du panel permettant d'afficher les infos du joueur
 		this.panelInfosJoueur = new PanelInfosJoueur(joueurs, xPanelsInfos);
 		this.plateau.add(this.panelInfosJoueur, JLayeredPane.DEFAULT_LAYER);
 
-		// CrÃ©ation des joueurs 
+		// CrÃƒÂ©ation des joueurs 
 		this.joueurs = joueurs;
 
 		/** Copier la liste des joueurs **/
@@ -123,11 +128,12 @@ public class PlateauVue extends JFrame {
 
 		this.scenario = scenario;
 
-		// CrÃ©ation des labels reprÃ©sentant les soldats
+		// CrÃƒÂ©ation des labels reprÃƒÂ©sentant les soldats
 		this.soldatVue = new SoldatVue();
 		this.soldatVue.creerSoldats(this.joueurs);
 
-		// Choix du joueur pour commencer le tour
+		// Choix alÃƒÂ©atoire d'un joueur pour commencer le tour
+		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
 		this.tourJoueur = this.joueurs.get(0);
 
 		// Tutoriel du jeu
@@ -135,11 +141,11 @@ public class PlateauVue extends JFrame {
 		this.plateau.add(this.guide, JLayeredPane.DRAG_LAYER);
 		this.guide.afficherQuestion();
 
-		// CrÃ©ation du panel permettant d'afficher les terrains et de positionner les soldats
+		// CrÃƒÂ©ation du panel permettant d'afficher les terrains et de positionner les soldats
 		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.panelInfosJoueur, this.guide, this.minimap, widthPlateau, heightPlateau);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 
-		// Cr�ation de minimap
+		// Création de minimap
 		this.minimap = new MiniMap(this.joueurs, this.tourJoueur,this.soldatVue, this,xPanelsInfos, this.panelTerrains);
 		this.plateau.add(this.minimap, JLayeredPane.DEFAULT_LAYER);
 		this.panelTerrains.setMinimap(minimap);
@@ -148,6 +154,16 @@ public class PlateauVue extends JFrame {
 		PanelQuitter MenuPause = new PanelQuitter(this.joueurs);
 		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
 
+		MenuPause.boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
+		MenuPause.boutonQuitter.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				JsonController js = new JsonController();
+				js.sauvegarde_file_json(plateauCopie);
+				System.exit(0);
+			}
+		});		
+		
 		MenuPause.boutonMenuPrincipal.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
@@ -240,6 +256,7 @@ public class PlateauVue extends JFrame {
 						nouveauJoueur = joueurs.get(ind);
 					}
 					setTourJoueur(nouveauJoueur, ind);
+					System.out.println(nombreTours);
 					nombreTours++;
 
 				}
@@ -251,7 +268,7 @@ public class PlateauVue extends JFrame {
 				}
 			}
 		});
-		
+
 		boutonFinirTour.setBounds(xPanelsInfos, yBoutonFinirTour, 140, heightBoutonFinirTour);
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
 
@@ -266,35 +283,50 @@ public class PlateauVue extends JFrame {
 			{
 				gagnant = scenarioStandard.appliquerScenario(getTourJoueur());
 				termine = true;
+				break;
 			}
-			break;
-
+					
 		case "scenarioTempsLimite":
-			ScenarioTempsLimite scenarioTempsLimite = new ScenarioTempsLimite(joueurs);
 			if(cmpt.getMinute() == 0 && cmpt.getSeconde() == 0) {
-				gagnant = scenarioTempsLimite.chercherScoreMax(getTourJoueur());
+				ScenarioTempsLimite scenario = new ScenarioTempsLimite(joueurs);
+				gagnant = scenario.chercherScoreMax(getTourJoueur());
+				controlerAffichageVictoire();
 				termine = true;
-				cliquerBoutonFinirTour();
+				break;
 			}
-			break;
+			
+			 
+		case "scenarioTourLimite":
+			ScenarioTourLimite scenarioTourLimite = new ScenarioTourLimite(joueurs);
+			if (scenarioTourLimite.appliquerScenarioTourLimite(getTourJoueur(), nombreTours) != null)
+			{
+				gagnant = scenarioTourLimite.appliquerScenarioTourLimite(getTourJoueur(), nombreTours);
+				controlerAffichageVictoire();
+				termine = true;
+				break;
+			}
+			
 		}
-
+		
 		return termine;
 	}
-
-
-	public void cliquerBoutonFinirTour() {
-		Robot robot;
-		try {
-			robot = new Robot();
-			robot.mouseMove(xPanelsInfos+10, yBoutonFinirTour);
-			robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-			robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-		} catch (AWTException e) {
-			e.printStackTrace();
+	
+	/**
+	 * CONTROLER L'AFFICHAGE DU VICTOIRE SELON LE RESULTAT
+	 */
+	
+	public void controlerAffichageVictoire() {
+		if(gagnant.getNomJoueur() != getTourJoueur().getNomJoueur()) {
+			labelTitre.setText("Game Over");
+			labelTitre.setBounds(260, 123, 209, 41);
 		}
-
+		else {
+			String felicitation = "Félicitations" + " " + gagnant.getNomJoueur();
+			labelTitre.setText(felicitation);
+			labelTitre.setBounds(215, 123, 209, 41);
+		}
 	}
+	
 	/********************************************************************/
 	/** AFFICHAGE D'UN BOUTON QUI PERMET AUX JOUEURS DE QUITTER LE JEU **/
 	/********************************************************************/		
@@ -325,6 +357,7 @@ public class PlateauVue extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				MenuPrincipal menuPrincipal = new MenuPrincipal();
 				menuPrincipal.show();
+				dispose();
 			}
 		});
 		boutonReJouer.setFont(new Font("Times New Roman", Font.PLAIN, 18));
@@ -413,14 +446,11 @@ public class PlateauVue extends JFrame {
 		this.plateau.add(panelMenu, JLayeredPane.DRAG_LAYER);
 
 		/** TITRE DU PANEL **/
-		String felicitation = "Félicitations" + " " + gagnant.getNomJoueur();
-		labelTitre = new JLabel(felicitation);
 		labelTitre.setForeground(new Color(200, 173, 10));
 		labelTitre.setFont(new Font("Times new Roman", Font.BOLD, 20));
-		labelTitre.setBounds(215, 120, 209, 41);
 		panelMenu.add(labelTitre);
 
-		/** AFFICHAGE DU PANEL QUI CONTIENT LES INFORMATIONS (NumÃ©ro du joueur, Nom du Joueur et son score) **/
+		/** AFFICHAGE DU PANEL QUI CONTIENT LES INFORMATIONS (NumÃƒÂ©ro du joueur, Nom du Joueur et son score) **/
 		//afficherPanelInfo();
 		afficherLabelInfo();
 		afficherNumJoueur();
