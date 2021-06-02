@@ -11,7 +11,7 @@ import java.text.*;
 public class PanelCompteur extends JPanel {
 	
 	private JLabel labelCompteur;
-	private Timer compteur;
+	public Timer compteur;
 	private int seconde;
 	private int minute;
 	private String ddSecond;
@@ -46,7 +46,7 @@ public class PanelCompteur extends JPanel {
 	
 	public void afficherLabelCompteur() {
 		labelCompteur = new JLabel();
-		labelCompteur.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 17));
+		labelCompteur.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 14));
 		labelCompteur.setForeground(Color.RED);
 		labelCompteur.setBounds(27, 0, 64, 17);
 		this.add(labelCompteur);
