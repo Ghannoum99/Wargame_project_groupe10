@@ -142,7 +142,7 @@ public class PlateauVue extends JFrame {
 		this.guide.afficherQuestion();
 
 		// CrÃƒÂ©ation du panel permettant d'afficher les terrains et de positionner les soldats
-		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.panelInfosJoueur, this.guide, this.minimap, widthPlateau, heightPlateau, xPanelsInfos, yBoutonFinirTour);
+		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.panelInfosJoueur, this.guide, this.minimap, widthPlateau, heightPlateau);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 
 		// Création de minimap
@@ -153,6 +153,11 @@ public class PlateauVue extends JFrame {
 		/** Panel Pause **/
 		PanelQuitter MenuPause = new PanelQuitter(this.joueurs);
 		this.plateau.add(MenuPause, JLayeredPane.DRAG_LAYER);
+		
+		if(this.scenario.equals("scenarioTempsLimite")) {
+			cmpt = new PanelCompteur(xCompteur, yCompteur);
+			this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
+		}
 
 		MenuPause.boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
 		MenuPause.boutonQuitter.addActionListener(new ActionListener() {
@@ -176,6 +181,10 @@ public class PlateauVue extends JFrame {
 		MenuPause.boutonContinuer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MenuPause.setVisible(false);
+				if(scenario.equals("scenarioTempsLimite")) {
+					cmpt.compteur.start();
+				}
+				
 			}
 		});
 
@@ -190,6 +199,9 @@ public class PlateauVue extends JFrame {
 					ImageIcon imageIconPause = new ImageIcon("images/ornate_play_30-active.png");
 					boutonPause.setIcon(imageIconPause);
 					panelTerrains.retirerMouseListenerHexagones();
+					if(scenario.equals("scenarioTempsLimite")) {
+						cmpt.compteur.stop();
+					}
 					clicked = true;
 				}
 
@@ -197,6 +209,9 @@ public class PlateauVue extends JFrame {
 					ImageIcon imageIconPause = new ImageIcon("images/ornate_pause_30-active.png");
 					boutonPause.setIcon(imageIconPause);
 					panelTerrains.ajouterMouseListenerHexagones();
+					if(scenario.equals("scenarioTempsLimite")) {
+						cmpt.compteur.start();
+					}
 					clicked = false;
 				}
 			}
@@ -224,6 +239,9 @@ public class PlateauVue extends JFrame {
 		boutonQuitter.setBackground(new Color(16, 22, 33));
 		boutonQuitter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(scenario.equals("scenarioTempsLimite")) {
+					cmpt.compteur.stop();
+				}
 				MenuPause.setVisible(true);
 				panelTerrains.ajouterMouseListenerHexagones();
 			}
@@ -232,10 +250,7 @@ public class PlateauVue extends JFrame {
 		boutonQuitter.setBounds(boutonAide.getX()+40, yMiniBoutons, 30, 30);
 		this.plateau.add(boutonQuitter,  JLayeredPane.DEFAULT_LAYER);
 
-		if(this.scenario.equals("scenarioTempsLimite")) {
-			cmpt = new PanelCompteur(xCompteur, yCompteur);
-			this.plateau.add(cmpt,JLayeredPane.DRAG_LAYER );
-		}
+		
 
 		// Finir le tour
 		JButton boutonFinirTour = new JButton("Finir tour");
