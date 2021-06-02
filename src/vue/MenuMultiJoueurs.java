@@ -149,7 +149,7 @@ public class MenuMultiJoueurs extends JFrame {
 					
 					for(int i=0; i<nombreJoueur; i++) {
 						//adversaires = new ArrayList<Joueur>();
-						String photoProfile = "images/profile/" + images.get(i) +"_copie.png";
+						String photoProfile = "images/profile/" + images.get(i) +".png";
 						Humain humain = new Humain(pseudos.get(i), new ArrayList<Soldat>(),0, photoProfile, adversaires);
 						joueurs.add(humain);
 					}
@@ -159,7 +159,7 @@ public class MenuMultiJoueurs extends JFrame {
 						recupererAdversaires(joueurs.get(i));
 					}
 					
-					// faut ajouter des conditions si le check box est selectionné, donc c'est un ordinateur
+					// faut ajouter des conditions si le check box est selectionnÃ©, donc c'est un ordinateur
 					
 					MenuScenario frame = new MenuScenario(choix, joueurs);
 					frame.show();
@@ -243,8 +243,8 @@ public class MenuMultiJoueurs extends JFrame {
 		
 		for(i=0; i<nombreJoueur; i++) {
 			imageJoueur = new JComboBox<String>();
-			imageJoueur.setBounds(402, y, 68, 22);
-			imageJoueur.setModel(new DefaultComboBoxModel<String>(new String[] {"image2", "image3", "image4", "image5", "image6", "image7"}));
+			imageJoueur.setBounds(402, y, 75, 22);
+			imageJoueur.setModel(new DefaultComboBoxModel<String>(new String[] {"Alistar", "Camille", "Diana", "Galio"}));
 			panelMenu.add(imageJoueur);
 			
 			listeCombobox.add(imageJoueur);
