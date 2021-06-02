@@ -3,17 +3,10 @@ package vue;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-
 import controleur.JsonController;
-
 import java.util.*;
 import modele.*;
 
@@ -133,7 +126,6 @@ public class PlateauVue extends JFrame {
 		this.soldatVue.creerSoldats(this.joueurs);
 
 		// Choix alÃƒÂ©atoire d'un joueur pour commencer le tour
-		int ind =(int) (Math.random() * (this.joueurs.size() - 0));
 		this.tourJoueur = this.joueurs.get(0);
 
 		// Tutoriel du jeu
@@ -161,7 +153,6 @@ public class PlateauVue extends JFrame {
 
 		MenuPause.boutonQuitter.setHorizontalTextPosition(JButton.CENTER);
 		MenuPause.boutonQuitter.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				JsonController js = new JsonController();
 				js.sauvegarde_file_json(plateauCopie);

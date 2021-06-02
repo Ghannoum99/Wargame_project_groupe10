@@ -16,8 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import modele.Joueur;
-import modele.ScenarioStandard;
-import modele.ScenarioTempsLimite;
 
 @SuppressWarnings("serial")
 public class MenuScenario extends JFrame {

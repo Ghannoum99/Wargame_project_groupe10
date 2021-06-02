@@ -2,7 +2,6 @@ package vue;
 
 import java.awt.Container;
 import java.awt.Point;
-import java.awt.ScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
-
 import modele.Camera;
 import modele.Joueur;
 import modele.Soldat;

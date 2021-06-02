@@ -2,15 +2,12 @@ package vue;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import controleur.JsonController;
 import modele.Joueur;
 
 @SuppressWarnings("serial")
@@ -93,5 +90,11 @@ public class PanelQuitter extends JPanel {
 
 	public void setJoueurs(ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
-	}		
+	}
+
+	public ArrayList<Joueur> getJoueurs() {
+		return joueurs;
+	}	
+	
+	
 }	

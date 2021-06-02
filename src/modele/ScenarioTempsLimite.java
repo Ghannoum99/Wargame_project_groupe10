@@ -10,14 +10,10 @@ public class ScenarioTempsLimite extends ScenarioStandard {
 	}
 	
 	public Joueur appliquerScenarioTempsLimite(Joueur joueur) {
-		boolean termine = false;
 		Joueur gagnant = null;
-		//do
-		//{
-			gagnant = chercherScoreMax(joueur);
-			termine = true;
-		// tant que le temps n'est pas achevé
-		//while(1==1)}
+		
+		gagnant = chercherScoreMax(joueur);
+	
 		
 		return gagnant;
 	}

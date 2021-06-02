@@ -9,9 +9,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import javax.swing.*;
-
 import controleur.JsonController;
-import modele.ScenarioStandard;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
