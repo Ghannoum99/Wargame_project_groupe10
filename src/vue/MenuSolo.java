@@ -87,10 +87,10 @@ public class MenuSolo extends MenuMultiJoueurs {
 				recupererPseudo();
 				recupererImage();
 				
-				String photoProfile = "images/profile/" + images.get(0) +"_copie.png";
+				String photoProfile = "images/profile/" + images.get(0) +".png";
 				
 				Humain humain = new Humain(pseudos.get(0), new ArrayList<Soldat>(),0, photoProfile, adversaires);
-				Ordinateur IA = new Ordinateur(pseudos.get(1), new ArrayList<Soldat>(), 0, "images/profile/image8_copie.png", adversaires);
+				Ordinateur IA = new Ordinateur(pseudos.get(1), new ArrayList<Soldat>(), 0, "images/profile/Gario.png", adversaires);
 				
 				adversaires_humain.add(IA);
 				adversaires_ordinateur.add(humain);
