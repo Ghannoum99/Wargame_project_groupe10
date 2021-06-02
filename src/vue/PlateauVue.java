@@ -142,7 +142,7 @@ public class PlateauVue extends JFrame {
 		this.guide.afficherQuestion();
 
 		// CrÃƒÂ©ation du panel permettant d'afficher les terrains et de positionner les soldats
-		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.panelInfosJoueur, this.guide, this.minimap, widthPlateau, heightPlateau);
+		this.panelTerrains = new PanelTerrains(this.tourJoueur, this.soldatVue, this.panelInfosSoldat, this.panelInfosJoueur, this.guide, this.minimap, widthPlateau, heightPlateau, xPanelsInfos, yBoutonFinirTour);
 		this.plateau.add(this.panelTerrains.getScrollPane(), JLayeredPane.DEFAULT_LAYER);
 
 		// Création de minimap
