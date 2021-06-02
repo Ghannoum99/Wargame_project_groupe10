@@ -643,9 +643,13 @@ public class PanelTerrains extends JLayeredPane {
 						robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 						robot.setAutoDelay(500);
 
-						// Attaque robot
+						// Attaque robot si possible
 
-
+						// Finir tour
+						robot.mouseMove(1150, 680);
+						robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+						robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+						
 					}
 				};
 				Timer timer = new Timer("Timer");

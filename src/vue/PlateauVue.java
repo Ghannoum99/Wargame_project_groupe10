@@ -251,7 +251,7 @@ public class PlateauVue extends JFrame {
 				}
 			}
 		});
-
+		
 		boutonFinirTour.setBounds(xPanelsInfos, yBoutonFinirTour, 140, heightBoutonFinirTour);
 		this.plateau.add(boutonFinirTour, JLayeredPane.DEFAULT_LAYER);
 
